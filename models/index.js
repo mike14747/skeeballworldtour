@@ -6,6 +6,7 @@ module.exports = {
     Season: require('./season'),
     Standings: require('./standings'),
     Store: require('./store'),
+    StoreText: require('./store_text'),
     Team: require('./team'),
     User: require('./user')
 };
