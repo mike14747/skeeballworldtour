@@ -10,9 +10,25 @@ class Standings extends Component {
         uniqueSD: ["121", "123", "143", "164", "173", "112", "114"]
     };
 
+    groupStandingsArray(standings) {
+        let standingsArray = [];
+        let curStoreDivision = 0;
+        let index = -1;
+        standings.forEach(standing => {
+            if (index === -1 || curStoreDivision !== standing.store_division) {
+                standingsArray.push([]);
+                index++;
+                curStoreDivision = standing.store_division;
+                console.log("Index: " + index + ", Store_Division: " + curStoreDivision);
+            }
+            standingsArray[index].push(standing);
+        });
+        this.setState({ standingsArray: standingsArray })
+    }
+
     getStandingsById = (id) => {
         api.getStandingsById(id)
-            .then(res => this.setState({ standingsArray: res }))
+            .then(res => this.groupStandingsArray(res))
             .catch(err => console.log(err));
     }
 
@@ -25,9 +41,10 @@ class Standings extends Component {
     render() {
         return (
             <div>
-                <table className="table table-bordered mb-5 table1 text-center">
+                {this.state.standingsArray.map((storeDiv, i) => (
+                    <table key={i} className="table table-bordered mb-5 table1 text-center">
                     <thead>
-                        <tr className="bg-table-header">
+                        <tr className="bg-light">
                             <th className="text-left">TEAM</th>
                             <th>W</th>
                             <th>L</th>
@@ -36,7 +53,7 @@ class Standings extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.standingsArray.map((standing) => (
+                        {this.state.standingsArray[i].map((standing) => (
                             <tr key={standing.standings_id}>
                                 <td className="text-left"><Link to={"./teams/" + standing.team_id}>{standing.team_name}</Link></td>
                                 <td>{standing.wins}</td>
@@ -47,6 +64,7 @@ class Standings extends Component {
                         ))}
                     </tbody>
                 </table>
+                ))}
             </div >
         )
     }
