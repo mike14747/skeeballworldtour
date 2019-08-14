@@ -31,4 +31,16 @@ router.get("/standings/:id", (req, res) => {
     });
 });
 
+router.get("/search/players/:criteria", (req, res) => {
+    db.Player.searchPlayers(req.params.criteria, (data) => {
+        res.json(data);
+    });
+});
+
+router.get("/search/teams/:criteria", (req, res) => {
+    db.Team.searchTeams(req.params.criteria, (data) => {
+        res.json(data);
+    });
+});
+
 module.exports = router;

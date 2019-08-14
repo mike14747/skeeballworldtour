@@ -45,5 +45,14 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
+    },
+    getSearchResults: (criteria) => {
+        return axios.all([
+            axios.get('/api/search/players/' + criteria),
+            axios.get('/api/search/teams/' + criteria)
+        ])
+            .then(axios.spread((players, teams) => {
+                return { players: players.data, teams: teams.data };
+            }));
     }
 }

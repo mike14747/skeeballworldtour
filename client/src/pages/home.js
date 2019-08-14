@@ -29,7 +29,7 @@ class Home extends Component {
                     <div key={news.page_id}>
                         {i > 0 && <hr className="mt-4 mb-4" />}
                         <h5 className="text-danger mt-1 mb-0">{news.content_heading}</h5>
-                        <p><span class="small">{news.text_date1}</span></p>
+                        <p><span className="small">{news.text_date1}</span></p>
                         {ReactHtmlParser(news.page_content)}
                     </div>
                 ))}
