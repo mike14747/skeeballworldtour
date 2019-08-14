@@ -20,7 +20,7 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div>
+            <div className="mb-4">
                 <form className="form-inline justify-content-center mt-2" onSubmit={this.handleSubmit}>
                     <label className="m-1">Find a player or team: </label>
                     <input type="text" maxLength="20" className="form-control m-1" value={this.state.searchInput} onChange={this.handleChange} />
