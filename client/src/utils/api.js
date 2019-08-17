@@ -54,5 +54,14 @@ export default {
             .then(axios.spread((players, teams) => {
                 return { players: players.data, teams: teams.data };
             }));
+    },
+    getCurrentList: (cur_season) => {
+        return axios.get('/api/cur_store_division/' + cur_season)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }

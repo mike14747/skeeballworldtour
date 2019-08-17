@@ -43,4 +43,10 @@ router.get("/search/teams/:criteria", (req, res) => {
     });
 });
 
+router.get("/cur_store_division/:cur_season", (req, res) => {
+    db.Schedule.getCurrentStoreDivision(req.params.cur_season, (data) => {
+        res.json(data);
+    });
+});
+
 module.exports = router;

@@ -6,8 +6,7 @@ class Standings extends Component {
     state = {
         standingsArray: [],
         currentSeason: 0,
-        selectedSeason: 0,
-        uniqueSD: ["121", "123", "143", "164", "173", "112", "114"]
+        selectedSeason: 0
     };
 
     groupStandingsArray(standings) {
