@@ -1,12 +1,25 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import api from '../utils/api';
 import ReactHtmlParser from 'react-html-parser';
 
 class Home extends Component {
+    static defaultProps = {
+        show_reg_button: 0,
+        reg_button_url: '',
+        reg_button_text: '',
+    }
+
+    static propTypes = {
+        show_reg_button: PropTypes.number,
+        reg_button_url: PropTypes.string,
+        reg_button_text: PropTypes.string,
+    }
+
     state = {
-        newsArray: []
-    };
+        newsArray: [],
+    }
 
     componentDidMount() {
         api.getHomepageNews()
@@ -34,7 +47,7 @@ class Home extends Component {
                     </div>
                 ))}
             </div>
-        )
+        );
     }
 }
 

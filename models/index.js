@@ -8,5 +8,5 @@ module.exports = {
     Store: require('./store'),
     StoreText: require('./store_text'),
     Team: require('./team'),
-    User: require('./user')
+    User: require('./user'),
 };

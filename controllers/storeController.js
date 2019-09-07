@@ -1,13 +1,13 @@
-const router = require("express").Router();
-const db = require("../models/index");
+const router = require('express').Router();
+const db = require('../models/index');
 
-router.get("/stores", (req, res) => {
+router.get('/stores', (req, res) => {
     db.Store.selectAllActive((data) => {
         res.json(data);
     });
 });
 
-router.get("/store/:id", (req, res) => {
+router.get('/store/:id', (req, res) => {
     db.Store.selectOneActive(req.params.id, (data) => {
         res.json(data);
     });

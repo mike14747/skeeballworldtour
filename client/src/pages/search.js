@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import api from '../utils/api';
 
 class Search extends Component {
@@ -7,8 +8,14 @@ class Search extends Component {
         this.state = {
             searchCriteria: this.props.location.state,
             playerArray: [],
-            teamArray: []
+            teamArray: [],
         };
+    }
+
+    static propTypes = {
+        location: PropTypes.shape({
+            state: PropTypes.array.isRequired,
+        }),
     }
 
     componentDidMount() {
@@ -36,18 +43,18 @@ class Search extends Component {
                     <div className="col-6">
                         <p className="text-success"><b>Player Matches:</b> {this.state.playerArray.length}</p>
                         {this.state.playerArray.map(player => (
-                            <p key={player.player_id}><a href={"player/" + player.player_id}>{player.full_name}</a></p>
+                            <p key={player.player_id}><a href={'player/' + player.player_id}>{player.full_name}</a></p>
                         ))}
                     </div>
                     <div className="col-6">
                         <p className="text-success"><b>Team Matches:</b> {this.state.teamArray.length}</p>
                         {this.state.teamArray.map(team => (
-                            <p key={team.team_id}><a href={"/team/" + team.team_id}>{team.team_name}</a></p>
+                            <p key={team.team_id}><a href={'/team/' + team.team_id}>{team.team_name}</a></p>
                         ))}
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

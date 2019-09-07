@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class SearchBar extends Component {
     state = {
-        searchInput: "",
-        submitted: false
+        searchInput: '',
+        submitted: false,
     };
 
     handleChange = event => {
@@ -14,7 +14,7 @@ class SearchBar extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({ submitted: true }, () => {
-            this.setState({ searchInput: "", submitted: false });
+            this.setState({ searchInput: '', submitted: false });
         });
     }
 
@@ -29,11 +29,11 @@ class SearchBar extends Component {
                 {(this.state.submitted && this.state.searchInput.length > 0) &&
                     <Redirect to={{
                         pathname: '/search',
-                        state: this.state.searchInput
+                        state: this.state.searchInput,
                     }} />
                 }
             </div>
-        )
+        );
     }
 }
 

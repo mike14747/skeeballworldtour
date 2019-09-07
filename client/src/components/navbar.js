@@ -5,11 +5,12 @@ import api from '../utils/api';
 class NavBar extends Component {
     state = {
         current_season: this.props.current_season,
+        display_schedule: this.props.display_schedule,
         store_division_array: []
     };
 
     componentDidMount() {
-        api.getCurrentList(this.state.current_season)
+        api.getCurrentStores(this.state.current_season)
             .then(res => this.setState({ store_division_array: res }))
             .catch(err => console.log(err));
     }
