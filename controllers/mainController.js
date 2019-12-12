@@ -1,6 +1,19 @@
 const router = require('express').Router();
 const db = require('../models/index');
 
+router.get('/standings/:id', async (req, res) => {
+    try {
+        const data = await db.Standings.getStandingsBySeasonId(Number(req.params.id));
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+    db.Standings.getStandingsBySeasonId(req.params.id, (data) => {
+        res.json(data);
+    });
+});
+
 router.get('/settings', (req, res) => {
     db.Setting.selectSettings((data) => {
         res.json(data);
@@ -21,12 +34,6 @@ router.get('/homepage_news', (req, res) => {
 
 router.get('/rules', (req, res) => {
     db.StoreText.selectRules((data) => {
-        res.json(data);
-    });
-});
-
-router.get('/standings/:id', (req, res) => {
-    db.Standings.selectStandingsBySeason(req.params.id, (data) => {
         res.json(data);
     });
 });
