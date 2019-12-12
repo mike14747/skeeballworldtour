@@ -1,10 +1,10 @@
 module.exports = {
     Player: require('./player'),
-    Results: require('./results'),
+    Result: require('./result'),
     Schedule: require('./schedule'),
     Setting: require('./setting'),
     Season: require('./season'),
-    Standings: require('./standings'),
+    Standing: require('./standing'),
     Store: require('./store'),
     StoreText: require('./store_text'),
     Team: require('./team'),

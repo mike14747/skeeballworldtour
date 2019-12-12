@@ -3,27 +3,32 @@ const db = require('../models/index');
 
 router.get('/standings/:id', async (req, res) => {
     try {
-        const data = await db.Standings.getStandingsBySeasonId(Number(req.params.id));
+        const data = await db.Standing.getStandingsBySeasonId(Number(req.params.id));
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
         res.status(500).send('Request failed... please check your request and try again!');
     }
-    db.Standings.getStandingsBySeasonId(req.params.id, (data) => {
-        res.json(data);
-    });
 });
 
-router.get('/settings', (req, res) => {
-    db.Setting.selectSettings((data) => {
+router.get('/settings', async (req, res) => {
+    try {
+        const data = await db.Setting.getAllSettings();
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
-router.get('/cur_season', (req, res) => {
-    db.Setting.selectSeason((data) => {
+router.get('/settings/current-season', async (req, res) => {
+    try {
+        const data = await db.Setting.getCurrentSeasonId();
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
 router.get('/homepage_news', (req, res) => {

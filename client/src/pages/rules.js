@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import api from '../utils/api';
 import ReactHtmlParser from 'react-html-parser';
 
 class Rules extends Component {
@@ -7,11 +6,11 @@ class Rules extends Component {
         rules: {},
     }
 
-    componentDidMount() {
-        api.getRules()
-            .then(res => this.setState({ rules: res[0] }))
-            .catch(err => console.log(err));
-    }
+    // componentDidMount() {
+    //     api.getRules()
+    //         .then(res => this.setState({ rules: res[0] }))
+    //         .catch(err => console.log(err));
+    // }
 
     render() {
         return (

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import api from '../utils/api';
 
 class Search extends Component {
     constructor(props) {
@@ -18,21 +17,21 @@ class Search extends Component {
         }),
     }
 
-    componentDidMount() {
-        api.getSearchResults(this.state.searchCriteria)
-            .then(res => this.setState({ playerArray: res.players, teamArray: res.teams }))
-            .catch(err => console.log(err));
-    }
+    // componentDidMount() {
+    //     api.getSearchResults(this.state.searchCriteria)
+    //         .then(res => this.setState({ playerArray: res.players, teamArray: res.teams }))
+    //         .catch(err => console.log(err));
+    // }
 
-    componentDidUpdate() {
-        if (this.props.location.state !== this.state.searchCriteria) {
-            this.setState({ searchCriteria: this.props.location.state }, () => {
-                api.getSearchResults(this.state.searchCriteria)
-                    .then(res => this.setState({ playerArray: res.players, teamArray: res.teams }))
-                    .catch(err => console.log(err));
-            });
-        }
-    }
+    // componentDidUpdate() {
+    //     if (this.props.location.state !== this.state.searchCriteria) {
+    //         this.setState({ searchCriteria: this.props.location.state }, () => {
+    //             api.getSearchResults(this.state.searchCriteria)
+    //                 .then(res => this.setState({ playerArray: res.players, teamArray: res.teams }))
+    //                 .catch(err => console.log(err));
+    //         });
+    //     }
+    // }
 
     render() {
         return (

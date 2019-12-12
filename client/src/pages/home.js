@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import api from '../utils/api';
 import ReactHtmlParser from 'react-html-parser';
 
 class Home extends Component {
@@ -21,11 +20,11 @@ class Home extends Component {
         newsArray: [],
     }
 
-    componentDidMount() {
-        api.getHomepageNews()
-            .then(res => this.setState({ newsArray: res }))
-            .catch(err => console.log(err));
-    }
+    // componentDidMount() {
+    //     api.getHomepageNews()
+    //         .then(res => this.setState({ newsArray: res }))
+    //         .catch(err => console.log(err));
+    // }
 
     render() {
         return (

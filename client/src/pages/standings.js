@@ -1,20 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import api from '../utils/api';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-class Standings extends Component {
-    state = {
-        standingsArray: [],
-        currentSeason: 0,
-        selectedSeason: 0,
-    };
+export default function Standings() {
+    const [currentSeasonId, setCurrentSeasonId] = useState(0);
+    const [standingsArr, setStandingsArr] = useState([]);
 
-    static propTypes = {
-        current_season: PropTypes.number.isRequired,
-    }
-
-    groupStandingsArray(standings) {
+    function groupStandings(standings) {
         const standingsArray = [];
         let curStoreDivision = 0;
         let index = -1;
@@ -23,30 +15,41 @@ class Standings extends Component {
                 standingsArray.push([]);
                 index++;
                 curStoreDivision = standing.store_division;
-                console.log('Index: ' + index + ', Store_Division: ' + curStoreDivision);
+                // console.log('Index: ' + index + ', Store_Division: ' + curStoreDivision);
             }
             standingsArray[index].push(standing);
         });
-        this.setState({ standingsArray: standingsArray })
+        setStandingsArr(standingsArray);
+        console.log(standingsArray);
     }
 
-    getStandingsById = (id) => {
-        api.getStandingsById(id)
-            .then(res => this.groupStandingsArray(res))
-            .catch(err => console.log(err));
-    }
+    useEffect(() => {
+        axios.get('/api/settings/current-season')
+            .then((response) => {
+                setCurrentSeasonId(response.data[0].current_season);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
-    componentDidMount() {
-        this.setState({ currentSeason: this.props.current_season }, () => {
-            this.getStandingsById(this.state.currentSeason);
-        })
-    }
+    useEffect(() => {
+        axios.get('/api/standings/' + currentSeasonId)
+            .then((response) => {
+                // console.log(response);
+                groupStandings(response.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [currentSeasonId]);
 
-    render() {
-        return (
-            <div>
-                {this.state.standingsArray.map((storeDiv, i) => (
-                    <table key={i} className="table table-bordered mb-5 text-center">
+    return (
+        <div>
+            {standingsArr.map((storeDiv, i) => (
+                <div key={i}>
+                    <h5>{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
+                    <table className="table table-bordered mb-5 text-center">
                         <thead>
                             <tr className="bg-light">
                                 <th className="text-left">TEAM</th>
@@ -57,7 +60,7 @@ class Standings extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.standingsArray[i].map((standing) => (
+                            {standingsArr[i].map((standing) => (
                                 <tr key={standing.standings_id}>
                                     <td className="text-left"><Link to={'./teams/' + standing.team_id}>{standing.team_name}</Link></td>
                                     <td>{standing.wins}</td>
@@ -68,10 +71,8 @@ class Standings extends Component {
                             ))}
                         </tbody>
                     </table>
-                ))}
-            </div >
-        );
-    }
+                </div>
+            ))}
+        </div >
+    );
 }
-
-export default Standings;
