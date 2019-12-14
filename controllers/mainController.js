@@ -21,6 +21,16 @@ router.get('/settings', async (req, res) => {
     }
 });
 
+router.get('/schedule/navbar/:id', async (req, res) => {
+    try {
+        const data = await db.Schedule.getCurrentStoresDivisions(req.params.id);
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
 router.get('/settings/current-season', async (req, res) => {
     try {
         const data = await db.Setting.getCurrentSeasonId();
@@ -31,16 +41,24 @@ router.get('/settings/current-season', async (req, res) => {
     }
 });
 
-router.get('/homepage_news', (req, res) => {
-    db.StoreText.selectHomepageNews((data) => {
+router.get('/rules', async (req, res) => {
+    try {
+        const data = await db.StoreText.getRules();
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
-router.get('/rules', (req, res) => {
-    db.StoreText.selectRules((data) => {
+router.get('/homepage-news', async (req, res) => {
+    try {
+        const data = await db.StoreText.getHomepageNews();
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
 router.get('/search/players/:criteria', (req, res) => {

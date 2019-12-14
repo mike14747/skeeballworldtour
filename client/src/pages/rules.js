@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
+import axios from 'axios';
 
-class Rules extends Component {
-    state = {
-        rules: {},
-    }
+function Rules() {
+    const [rules, setRules] = useState({});
+    useEffect(() => {
+        axios.get('/api/rules')
+            .then((response) => {
+                setRules(response.data[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
-    // componentDidMount() {
-    //     api.getRules()
-    //         .then(res => this.setState({ rules: res[0] }))
-    //         .catch(err => console.log(err));
-    // }
-
-    render() {
-        return (
-            <div>
-                <h2 className="text-center">{this.state.rules.content_heading}</h2>
-                <div>{ReactHtmlParser(this.state.rules.page_content)}</div>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h2 className="text-center">{rules.content_heading}</h2>
+            <div>{ReactHtmlParser(rules.page_content)}</div>
+        </div>
+    );
 }
 
 export default Rules;

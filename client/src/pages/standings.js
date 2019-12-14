@@ -5,17 +5,17 @@ import axios from 'axios';
 import SettingsContext from '../components/settingsContext';
 
 export default function Standings() {
-    const curSeasonId = useContext(SettingsContext);
+    const { currentSeasonId } = useContext(SettingsContext);
     useEffect(() => {
-        setSeasonId(curSeasonId);
-    }, [curSeasonId]);
+        setSeasonId(currentSeasonId);
+    }, [currentSeasonId]);
 
     const { id } = useParams();
     useEffect(() => {
-        setSeasonId(curSeasonId);
+        setSeasonId(currentSeasonId);
     }, []);
 
-    const [seasonId, setSeasonId] = useState(curSeasonId);
+    const [seasonId, setSeasonId] = useState(currentSeasonId);
     const [standingsArr, setStandingsArr] = useState([]);
 
     const queryId = id || seasonId;
@@ -47,8 +47,7 @@ export default function Standings() {
 
     return (
         <div>
-            id param: {id}<br />
-            seasonId: {seasonId}
+            <h2 className="text-center">Standings</h2>
             {standingsArr.map((storeDiv, i) => (
                 <div key={i}>
                     <h5>{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>

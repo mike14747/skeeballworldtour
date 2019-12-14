@@ -14,10 +14,18 @@ import axios from 'axios';
 
 export default function App() {
     const [currentSeasonId, setCurrentSeasonId] = useState(0);
+    const [displaySchedule, setDisplaySchedule] = useState(0);
+    const [showRegButton, setShowRegButton] = useState(0);
+    const [regButtonUrl, setRegButtonUrl] = useState(0);
+    const [regButtonText, setRegButtonText] = useState(0);
 
     axios.get('/api/settings')
         .then((response) => {
             setCurrentSeasonId(response.data[0].current_season);
+            setDisplaySchedule(response.data[0].display_schedule);
+            setShowRegButton(response.data[0].show_reg_button);
+            setRegButtonUrl(response.data[0].reg_button_url);
+            setRegButtonText(response.data[0].reg_button_text);
         })
         .catch((err) => {
             console.log(err);
@@ -25,13 +33,19 @@ export default function App() {
     return (
         <Router>
             <div className="container border bg-white">
-                <SettingsContext.Provider value={currentSeasonId}>
+                <SettingsContext.Provider value={{
+                    currentSeasonId: currentSeasonId,
+                    displaySchedule: displaySchedule,
+                    showRegButton: showRegButton,
+                    setRegButtonUrl: setRegButtonUrl,
+                    setRegButtonText: setRegButtonText,
+                }}>
                     <Header />
                     <NavBar />
                     <SearchBar />
                     <Switch>
                         <Route exact path="/"><Home /></Route>
-                        <Route exact path="/rules"><Rules /></Route>
+                        <Route exact path="/rules" component={Rules} />
                         <Route path="/standings/:id?" component={Standings} />
                         <Route path="/teams/:id?" component={Teams} />
                         <Route exact path="/search"><Search /></Route>
