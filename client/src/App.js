@@ -4,7 +4,7 @@ import Home from './pages/home';
 import Rules from './pages/rules';
 import Standings from './pages/standings';
 import Search from './pages/search';
-import Team from './pages/team';
+import Teams from './pages/teams';
 import Header from './components/header';
 import NavBar from './components/navbar';
 import SearchBar from './components/searchbar';
@@ -32,9 +32,8 @@ export default function App() {
                     <Switch>
                         <Route exact path="/"><Home /></Route>
                         <Route exact path="/rules"><Rules /></Route>
-                        <Route exact path="/standings"><Standings /></Route>
-                        {/* <Route path="/standings/:id?" component={Standings} /> */}
-                        <Route path="/team/:id" component={Team} />
+                        <Route path="/standings/:id?" component={Standings} />
+                        <Route path="/teams/:id?" component={Teams} />
                         <Route exact path="/search"><Search /></Route>
                     </Switch>
                     <Footer />
