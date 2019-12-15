@@ -1,13 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
-import SettingsContext from '../components/settingsContext';
 
 function Home() {
-    const { showRegButton } = useContext(SettingsContext);
+    const [showRegButton, setShowRegButton] = useState(0);
+    const [regButtonUrl, setregButtonUrl] = useState('');
+    const [regButtonText, setregButtonText] = useState('');
     const [newsArr, setNewsArr] = useState([]);
 
     useEffect(() => {
+        axios.get('/api/settings/homepage')
+            .then((response) => {
+                setShowRegButton(response.data[0].show_reg_button);
+                setregButtonUrl(response.data[0].reg_button_url);
+                setregButtonText(response.data[0].reg_button_text);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         axios.get('/api/homepage-news')
             .then((response) => {
                 setNewsArr(response.data);
@@ -22,8 +32,8 @@ function Home() {
             {showRegButton === 1 &&
                 <div>
                     <p className="text-center">
-                        <a href={this.props.reg_button_url}><img src="/images/register_now.jpg" alt="REGISTER NOW!" /></a>
-                        {ReactHtmlParser(this.props.reg_button_text)}
+                        <a href={regButtonUrl}><img src="/images/register_now.jpg" alt="REGISTER NOW!" /></a>
+                        {ReactHtmlParser(regButtonText)}
                     </p>
                 </div>
             }

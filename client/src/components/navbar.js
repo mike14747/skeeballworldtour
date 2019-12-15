@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
-import SettingsContext from './settingsContext';
+import React, { useState, useEffect } from 'react';
 import './css/navbar.css';
 import axios from 'axios';
 
 function NavBar() {
-    const { currentSeasonId, displaySchedule } = useContext(SettingsContext);
+    const [displaySchedule, setDisplaySchedule] = useState(0);
     const [storeDivisionArr, setStoreDivisionArr] = useState([]);
-
     useEffect(() => {
-        axios.get('/api/schedule/navbar/' + currentSeasonId)
-            .then((response) => {
-                console.log(response.data);
-                setStoreDivisionArr(response.data);
-            })
-            .catch((err) => {
+        (async () => {
+            try {
+                const response1 = await axios.get('/api/settings/navbar');
+                const currentSeasonId = (response1.data[0].current_season_id);
+                setDisplaySchedule(response1.data[0].display_schedule);
+                const response2 = await axios.get('/api/schedule/navbar/' + currentSeasonId);
+                setStoreDivisionArr(response2.data);
+            } catch (err) {
                 console.log(err);
-            });
-    }, [currentSeasonId]);
+            }
+        })();
+    }, []);
 
     return (
         <div className="row">

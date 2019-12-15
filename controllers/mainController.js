@@ -21,6 +21,26 @@ router.get('/settings', async (req, res) => {
     }
 });
 
+router.get('/settings/navbar', async (req, res) => {
+    try {
+        const data = await db.Setting.getNavbarSettings();
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
+router.get('/settings/homepage', async (req, res) => {
+    try {
+        const data = await db.Setting.getHomepageSettings();
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
 router.get('/schedule/navbar/:id', async (req, res) => {
     try {
         const data = await db.Schedule.getCurrentStoresDivisions(req.params.id);
@@ -61,16 +81,34 @@ router.get('/homepage-news', async (req, res) => {
     }
 });
 
-router.get('/search/players/:criteria', (req, res) => {
-    db.Player.searchPlayers(req.params.criteria, (data) => {
+router.get('/teams/:teamid/seasons/:seasonid', async (req, res) => {
+    try {
+        const data = await db.Team.getCurrentStoresDivisions(req.params.id);
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
-router.get('/search/teams/:criteria', (req, res) => {
-    db.Team.searchTeams(req.params.criteria, (data) => {
+router.get('/search/players/:criteria', async (req, res) => {
+    try {
+        const data = await db.Player.searchPlayers(req.params.criteria);
         res.json(data);
-    });
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
+router.get('/search/teams/:criteria', async (req, res) => {
+    try {
+        const data = await db.Team.searchTeams(req.params.criteria);
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
 });
 
 router.get('/cur_store_division/:cur_season', (req, res) => {

@@ -1,40 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
-class SearchBar extends Component {
-    state = {
-        searchInput: '',
-        submitted: false,
+function SearchBar() {
+    const [searchInput, setSearchInput] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+    useEffect(() => {
+        if (submitted) {
+            setSearchInput('');
+            setSubmitted(false);
+        }
+    }, [submitted]);
+
+    const handleSubmit = () => {
+        searchInput.length > 0 && setSubmitted(true);
     };
 
-    handleChange = event => {
-        this.setState({ searchInput: event.target.value, submitted: false });
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-        this.setState({ submitted: true }, () => {
-            this.setState({ searchInput: '', submitted: false });
-        });
-    }
-
-    render() {
-        return (
-            <div className="mb-4">
-                <form className="form-inline justify-content-center mt-2" onSubmit={this.handleSubmit}>
-                    <label className="m-1">Find a player or team: </label>
-                    <input type="text" maxLength="20" className="form-control m-1" value={this.state.searchInput} onChange={this.handleChange} />
-                    <button type="submit" className="form-control m-1">Submit</button>
-                </form>
-                {(this.state.submitted && this.state.searchInput.length > 0) &&
-                    <Redirect to={{
-                        pathname: '/search',
-                        state: this.state.searchInput,
-                    }} />
-                }
-            </div>
-        );
-    }
+    return (
+        <div className="mb-4">
+            <form className="form-inline justify-content-center mt-2" onSubmit={handleSubmit}>
+                <label className="m-1">Find a player or team: </label>
+                <input type="text" maxLength="20" className="form-control m-1" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
+                <button type="submit" className="form-control m-1">Submit</button>
+            </form>
+            {submitted && <Redirect to={'/search/' + searchInput} />}
+        </div>
+    );
 }
 
 export default SearchBar;

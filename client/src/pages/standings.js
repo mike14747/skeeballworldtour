@@ -1,24 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axios from 'axios';
-import SettingsContext from '../components/settingsContext';
 
 export default function Standings() {
-    const { currentSeasonId } = useContext(SettingsContext);
+    const [currentSeasonId, setCurrentSeasonId] = useState(0);
     useEffect(() => {
-        setSeasonId(currentSeasonId);
-    }, [currentSeasonId]);
-
-    const { id } = useParams();
-    useEffect(() => {
-        setSeasonId(currentSeasonId);
+        axios.get('/api/settings/current-season')
+            .then((response) => {
+                setCurrentSeasonId(response.data[0].current_season_id);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, []);
-
-    const [seasonId, setSeasonId] = useState(currentSeasonId);
-    const [standingsArr, setStandingsArr] = useState([]);
-
-    const queryId = id || seasonId;
+    const { seasonid } = useParams();
+    const querySeasonId = seasonid || currentSeasonId;
 
     function groupStandings(standings) {
         const standingsArray = [];
@@ -35,15 +31,16 @@ export default function Standings() {
         setStandingsArr(standingsArray);
     }
 
+    const [standingsArr, setStandingsArr] = useState([]);
     useEffect(() => {
-        axios.get('/api/standings/' + queryId)
+        axios.get('/api/standings/' + querySeasonId)
             .then((response) => {
                 groupStandings(response.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [seasonId]);
+    }, [querySeasonId]);
 
     return (
         <div>
@@ -64,7 +61,8 @@ export default function Standings() {
                         <tbody>
                             {standingsArr[i].map((standing) => (
                                 <tr key={standing.standings_id}>
-                                    <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td>
+                                    <td className="text-left"><a href={'teams/' + standing.team_id}>{standing.team_name}</a></td>
+                                    {/* <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td> */}
                                     <td>{standing.wins}</td>
                                     <td>{standing.losses}</td>
                                     <td>{standing.ties}</td>
@@ -75,6 +73,6 @@ export default function Standings() {
                     </table>
                 </div>
             ))}
-        </div >
+        </div>
     );
 }
