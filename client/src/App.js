@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/home';
 import Rules from './pages/rules';
@@ -9,8 +9,20 @@ import Header from './components/header';
 import NavBar from './components/navbar';
 import SearchBar from './components/searchbar';
 import Footer from './components/footer';
+import CurrentSeasonContext from './components/currentSeasonContext';
+import axios from 'axios';
 
 export default function App() {
+    const [currentSeasonId, setCurrentSeasonId] = useState(0);
+    useEffect(() => {
+        axios.get('/api/settings/current-season')
+            .then((response) => {
+                setCurrentSeasonId(response.data[0].current_season_id);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
     return (
         <Router>
             <div className="container border bg-white">
@@ -18,11 +30,13 @@ export default function App() {
                 <NavBar />
                 <SearchBar />
                 <Switch>
-                    <Route exact path="/"><Home /></Route>
-                    <Route exact path="/rules" component={Rules} />
-                    <Route path="/standings/:seasonid?" component={Standings} />
-                    <Route path="/teams/:teamid/:seasonid?" component={Teams} />
-                    <Route path="/search/:searchstring" component={Search} />
+                    <CurrentSeasonContext.Provider value={currentSeasonId}>
+                        <Route exact path="/"><Home /></Route>
+                        <Route exact path="/rules" component={Rules} />
+                        <Route path="/standings/:seasonid?" component={Standings} />
+                        <Route path="/teams/:teamid/:seasonid?" component={Teams} />
+                        <Route path="/search/:searchstring" component={Search} />
+                    </CurrentSeasonContext.Provider>
                 </Switch>
                 <Footer />
             </div>

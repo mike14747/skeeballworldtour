@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import CurrentSeasonContext from '../components/currentSeasonContext';
 
 export default function Team() {
-    const [currentSeasonId, setCurrentSeasonId] = useState(0);
-    useEffect(() => {
-        axios.get('/api/settings/current-season')
-            .then((response) => {
-                setCurrentSeasonId(response.data[0].current_season_id);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    const currentSeasonId = useContext(CurrentSeasonContext);
     const { seasonid } = useParams();
     const querySeasonId = seasonid || currentSeasonId;
 
     const { teamid } = useParams();
     const queryTeamId = teamid || 0;
+
+    const [teamStats, setTeamStats] = useState({});
     useEffect(() => {
-        axios.get('/api/teams/' + queryTeamId + 'seasons/' + querySeasonId)
+        axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
             .then((response) => {
-                console.log(response);
+                setTeamStats(response.data[2][0]);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [queryTeamId, querySeasonId]);
+    }, [querySeasonId]);
+
     return (
         <div>
             Season ID: {currentSeasonId}<br />
-            Team ID: {teamid}
+            Team ID: {teamid}<br />
+            {teamStats &&
+                <div>
+                    Wins: {teamStats.wins}<br />
+                    Losses: {teamStats.losses}<br />
+                    Ties: {teamStats.ties}<br />
+                </div>
+            }
         </div>
     );
 }

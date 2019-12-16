@@ -1,18 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import CurrentSeasonContext from '../components/currentSeasonContext';
 
 export default function Standings() {
-    const [currentSeasonId, setCurrentSeasonId] = useState(0);
-    useEffect(() => {
-        axios.get('/api/settings/current-season')
-            .then((response) => {
-                setCurrentSeasonId(response.data[0].current_season_id);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    const currentSeasonId = useContext(CurrentSeasonContext);
     const { seasonid } = useParams();
     const querySeasonId = seasonid || currentSeasonId;
 
@@ -61,7 +53,7 @@ export default function Standings() {
                         <tbody>
                             {standingsArr[i].map((standing) => (
                                 <tr key={standing.standings_id}>
-                                    <td className="text-left"><a href={'teams/' + standing.team_id}>{standing.team_name}</a></td>
+                                    <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
                                     {/* <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td> */}
                                     <td>{standing.wins}</td>
                                     <td>{standing.losses}</td>

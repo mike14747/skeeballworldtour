@@ -31,10 +31,10 @@ function Home() {
         <div>
             {showRegButton === 1 &&
                 <div>
-                    <p className="text-center">
+                    <div className="text-center">
                         <a href={regButtonUrl}><img src="/images/register_now.jpg" alt="REGISTER NOW!" /></a>
                         {ReactHtmlParser(regButtonText)}
-                    </p>
+                    </div>
                 </div>
             }
             {newsArr.map((news, i) => (

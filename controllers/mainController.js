@@ -82,8 +82,12 @@ router.get('/homepage-news', async (req, res) => {
 });
 
 router.get('/teams/:teamid/seasons/:seasonid', async (req, res) => {
+    const paramsObj = {
+        team_id: req.params.teamid,
+        season_id: req.params.seasonid,
+    };
     try {
-        const data = await db.Team.getCurrentStoresDivisions(req.params.id);
+        const data = await db.Team.getTeamStatsByTeamSeasonId(paramsObj);
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
