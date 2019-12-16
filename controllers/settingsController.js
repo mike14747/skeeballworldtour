@@ -31,4 +31,14 @@ router.get('/settings/homepage', async (req, res) => {
     }
 });
 
+router.get('/settings/current-season', async (req, res) => {
+    try {
+        const data = await Setting.getCurrentSeasonId();
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
 module.exports = router;
