@@ -11,36 +11,6 @@ router.get('/standings/:id', async (req, res) => {
     }
 });
 
-router.get('/settings', async (req, res) => {
-    try {
-        const data = await db.Setting.getAllSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
-    }
-});
-
-router.get('/settings/navbar', async (req, res) => {
-    try {
-        const data = await db.Setting.getNavbarSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
-    }
-});
-
-router.get('/settings/homepage', async (req, res) => {
-    try {
-        const data = await db.Setting.getHomepageSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
-    }
-});
-
 router.get('/schedule/navbar/:id', async (req, res) => {
     try {
         const data = await db.Schedule.getCurrentStoresDivisions(req.params.id);

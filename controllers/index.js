@@ -3,7 +3,10 @@ const router = require('express').Router();
 const mainController = require('./mainController');
 router.use('/', mainController);
 
-const storeController = require('./storeController');
-router.use('/', storeController);
+const storesController = require('./storesController');
+router.use('/', storesController);
+
+const settingsController = require('./settingsController');
+router.use('/', settingsController);
 
 module.exports = router;
