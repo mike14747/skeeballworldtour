@@ -7,14 +7,14 @@ export default function Search() {
     const [playerArray, setPlayerArray] = useState([]);
     const [teamArray, setTeamArray] = useState([]);
     useEffect(() => {
-        axios.get('/api/search/players/' + searchstring)
+        axios.get('/api/searches/players/' + searchstring)
             .then((response) => {
                 setPlayerArray(response.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-        axios.get('/api/search/teams/' + searchstring)
+        axios.get('/api/searches/teams/' + searchstring)
             .then((response) => {
                 setTeamArray(response.data);
             })

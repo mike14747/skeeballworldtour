@@ -11,7 +11,7 @@ function NavBar() {
                 const response1 = await axios.get('/api/settings/navbar');
                 const currentSeasonId = (response1.data[0].current_season_id);
                 setDisplaySchedule(response1.data[0].display_schedule);
-                const response2 = await axios.get('/api/schedule/navbar/' + currentSeasonId);
+                const response2 = await axios.get('/api/schedules/navbar/' + currentSeasonId);
                 setStoreDivisionArr(response2.data);
             } catch (err) {
                 console.log(err);

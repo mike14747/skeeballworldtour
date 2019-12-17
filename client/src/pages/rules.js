@@ -5,7 +5,7 @@ import axios from 'axios';
 function Rules() {
     const [rules, setRules] = useState({});
     useEffect(() => {
-        axios.get('/api/rules')
+        axios.get('/api/pages/rules')
             .then((response) => {
                 setRules(response.data[0]);
             })

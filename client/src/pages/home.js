@@ -18,7 +18,7 @@ function Home() {
             .catch((err) => {
                 console.log(err);
             });
-        axios.get('/api/homepage-news')
+        axios.get('/api/pages/homepage-news')
             .then((response) => {
                 setNewsArr(response.data);
             })

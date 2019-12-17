@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Setting = require('../models/setting');
 
-router.get('/settings', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const data = await Setting.getAllSettings();
         res.json(data);
@@ -11,7 +11,7 @@ router.get('/settings', async (req, res) => {
     }
 });
 
-router.get('/settings/navbar', async (req, res) => {
+router.get('/navbar', async (req, res) => {
     try {
         const data = await Setting.getNavbarSettings();
         res.json(data);
@@ -21,7 +21,7 @@ router.get('/settings/navbar', async (req, res) => {
     }
 });
 
-router.get('/settings/homepage', async (req, res) => {
+router.get('/homepage', async (req, res) => {
     try {
         const data = await Setting.getHomepageSettings();
         res.json(data);
@@ -31,7 +31,7 @@ router.get('/settings/homepage', async (req, res) => {
     }
 });
 
-router.get('/settings/current-season', async (req, res) => {
+router.get('/current-season', async (req, res) => {
     try {
         const data = await Setting.getCurrentSeasonId();
         res.json(data);
