@@ -8,6 +8,12 @@ const Player = {
         const [result] = await pool.query(queryString, queryParams);
         return result;
     },
+    getPlayersOnTeamInSeason: async (paramsObj) => {
+        const queryString = 'SELECT p.full_name, r.player_id, COUNT(*)*10 AS games_played, AVG(r.g1+r.g2+r.g3+r.g4+r.g5+r.g6+r.g7+r.g8+r.g9+r.g10)/10 AS avg_score FROM players AS p JOIN results AS r ON (p.player_id=r.player_id) WHERE r.season_id=? && team_id=? && r.player_id!=100 GROUP BY r.player_id ORDER BY avg_score DESC;';
+        const queryParams = [paramsObj.season_id, paramsObj.team_id];
+        const [result] = await pool.query(queryString, queryParams);
+        return result;
+    },
 };
 
 module.exports = Player;
