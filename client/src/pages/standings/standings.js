@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CurrentSeasonContext from '../components/currentSeasonContext';
+import CurrentSeasonContext from '../../components/currentSeasonContext';
 
 export default function Standings() {
     const currentSeasonId = useContext(CurrentSeasonContext);

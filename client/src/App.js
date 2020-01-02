@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/home';
-import Rules from './pages/rules';
-import Standings from './pages/standings';
-import Search from './pages/search';
-import Teams from './pages/teams';
-import Header from './components/header';
-import NavBar from './components/navbar';
-import SearchBar from './components/searchbar';
-import Footer from './components/footer';
+import Home from './pages/home/home';
+import Rules from './pages/rules/rules';
+import Standings from './pages/standings/standings';
+import Search from './pages/search/search';
+import Teams from './pages/teams/teams';
+import Header from './components/header/header';
+import NavBar from './components/navbar/navbar';
+import SearchBar from './components/searchbar/searchbar';
+import Footer from './components/footer/footer';
 import CurrentSeasonContext from './components/currentSeasonContext';
 import axios from 'axios';
 

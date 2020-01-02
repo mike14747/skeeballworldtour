@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CurrentSeasonContext from '../components/currentSeasonContext';
-import './css/dropdown.css';
+import CurrentSeasonContext from '../../components/currentSeasonContext';
+import Dropdown from '../../components/dropdown/dropdown';
+import '../../components/dropdown/css/dropdown.css';
 
 export default function Teams() {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -24,7 +25,14 @@ export default function Teams() {
             });
         axios.get('/api/teams/' + queryTeamId + '/seasons')
             .then((response) => {
-                setTeamSeasons(response.data);
+                const seasonArray = response.data.map((season) => {
+                    return {
+                        id: season.season_id,
+                        text: season.season_name + ' - ' + season.year,
+                        href: '/teams/' + queryTeamId + '/' + season.season_id,
+                    };
+                });
+                setTeamSeasons(seasonArray);
             })
             .catch((err) => {
                 console.log(err);
@@ -68,15 +76,8 @@ export default function Teams() {
                 </div>
             }
             {teamSeasons.length > 0 &&
-                <div className="dropdown">
-                    <button className="dropbtn">View Stats From:</button>
-                    <div className="dropdown-content">
-                        {teamSeasons.map(season => (
-                            <div key={season.season_id}>
-                                <a href={'/teams/' + season.queryTeamId + '/seasons/' + season.season_id}>{season.season_name}-{season.year}</a>
-                            </div>
-                        ))}
-                    </div>
+                <div>
+                    <Dropdown buttonText="View Stats From:" listItems={teamSeasons} />
                 </div>
             }
             Season ID: {currentSeasonId} | Team ID: {teamid}<br />
