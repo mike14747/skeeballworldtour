@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
-import '../../components/dropdown/css/dropdown.css';
 
 export default function Teams() {
     const currentSeasonId = useContext(CurrentSeasonContext);

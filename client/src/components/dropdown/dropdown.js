@@ -1,6 +1,5 @@
 import React from 'react';
 import './css/dropdown.css';
-import DropdownItem from '../dropdownItem/dropdownItem';
 import PropTypes from 'prop-types';
 
 function Dropdown(props) {
@@ -10,7 +9,7 @@ function Dropdown(props) {
             <div className="dropdown-content">
                 {props.listItems.map(item => (
                     <div key={item.id}>
-                        <DropdownItem href={item.href} text={item.text} />
+                        <a href={item.href}>{item.text}</a>
                     </div>
                 ))}
             </div>
