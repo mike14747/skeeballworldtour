@@ -4,6 +4,7 @@ import axios from 'axios';
 import './css/teams.css';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
+import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 
 export default function Teams() {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -17,6 +18,43 @@ export default function Teams() {
     const [teamSchedule, setTeamSchedule] = useState([]);
     const [playersTeam, setPlayersTeam] = useState([]);
     const [teamResults, setTeamResults] = useState([]);
+
+    const temp1 = [
+        {
+            id: 1,
+            week_id: 9,
+            date: 'Mar-11, 2019',
+            away_team: {
+                wins: 1,
+                losses: 9,
+                ties: 0,
+                team_id: 152,
+                team_name: 'Brewskees',
+                game_totals: [1220, 700, 790, 860, 810, 870, 800, 1120, 880, 830],
+                team_total: 8880,
+                players: [
+                    {
+                        player_id: 311,
+                        name: 'Michaiah Rundell',
+                        scores: [370, 180, 180, 130, 180, 200, 190, 190, 270, 530],
+                        total_points: 2420,
+                    },
+                    {
+                        player_id: 289,
+                        name: 'Gun Chao',
+                        scores: [310, 100, 160, 280, 190, 220, 360, 300, 150, 170],
+                        total_points: 2240,
+                    },
+                    {
+                        player_id: 337,
+                        name: 'Tiffany Ruic',
+                        scores: [540, 420, 450, 450, 440, 450, 250, 630, 460, 130],
+                        total_points: 4220,
+                    },
+                ],
+            },
+        },
+    ];
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
@@ -193,85 +231,20 @@ export default function Teams() {
                     </div>
                 </div>
             }
-            {teamResults.length > 0 &&
+            {/* {teamResults.length > 0 &&
                 <div className="d-flex justify-content-center">
                     <div className="min-w-50 mx-auto">
                         <h5 className="text-center">Weekly Results</h5>
-                        {teamResults.map((result) => (
-                            <div key={result.week_id} className="border border-secondary p-2 mb-4">
-                                <table className="table table-hover">
-                                    <thead>
-                                        <tr className="bg-ltgray">
-                                            <th>{result.at}</th>
-                                            <th className="text-center">1</th>
-                                            <th className="text-center">2</th>
-                                            <th className="text-center">3</th>
-                                            <th className="text-center">4</th>
-                                            <th className="text-center">5</th>
-                                            <th className="text-center">6</th>
-                                            <th className="text-center">7</th>
-                                            <th className="text-center">8</th>
-                                            <th className="text-center">9</th>
-                                            <th className="text-center">10</th>
-                                            <th className="text-center">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{result.ap1}</td>
-                                            <td className="text-center">{result.ap1g1}</td>
-                                            <td className="text-center">{result.ap1g2}</td>
-                                            <td className="text-center">{result.ap1g3}</td>
-                                            <td className="text-center">{result.ap1g4}</td>
-                                            <td className="text-center">{result.ap1g5}</td>
-                                            <td className="text-center">{result.ap1g6}</td>
-                                            <td className="text-center">{result.ap1g7}</td>
-                                            <td className="text-center">{result.ap1g8}</td>
-                                            <td className="text-center">{result.ap1g9}</td>
-                                            <td className="text-center">{result.ap1g10}</td>
-                                            <td className="text-center">{Number(result.ap1g1) + Number(result.ap1g2) + Number(result.ap1g3) + Number(result.ap1g4) + Number(result.ap1g5) + Number(result.ap1g6) + Number(result.ap1g7) + Number(result.ap1g8) + Number(result.ap1g9) + Number(result.ap1g10)}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table className="table table-hover">
-                                    <thead>
-                                        <tr className="bg-ltgray">
-                                            <th>{result.ht}</th>
-                                            <th className="text-center">1</th>
-                                            <th className="text-center">2</th>
-                                            <th className="text-center">3</th>
-                                            <th className="text-center">4</th>
-                                            <th className="text-center">5</th>
-                                            <th className="text-center">6</th>
-                                            <th className="text-center">7</th>
-                                            <th className="text-center">8</th>
-                                            <th className="text-center">9</th>
-                                            <th className="text-center">10</th>
-                                            <th className="text-center">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{result.hp1}</td>
-                                            <td className="text-center">{result.hp1g1}</td>
-                                            <td className="text-center">{result.hp1g2}</td>
-                                            <td className="text-center">{result.hp1g3}</td>
-                                            <td className="text-center">{result.hp1g4}</td>
-                                            <td className="text-center">{result.hp1g5}</td>
-                                            <td className="text-center">{result.hp1g6}</td>
-                                            <td className="text-center">{result.hp1g7}</td>
-                                            <td className="text-center">{result.hp1g8}</td>
-                                            <td className="text-center">{result.hp1g9}</td>
-                                            <td className="text-center">{result.hp1g10}</td>
-                                            <td className="text-center">{Number(result.hp1g1) + Number(result.hp1g2) + Number(result.hp1g3) + Number(result.hp1g4) + Number(result.hp1g5) + Number(result.hp1g6) + Number(result.hp1g7) + Number(result.hp1g8) + Number(result.hp1g9) + Number(result.hp1g10)}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        ))}
+                        <ResultsDiv results={teamResults} />
                     </div>
                 </div>
-            }
+            } */}
+            <div className="d-flex justify-content-center">
+                <div className="min-w-50 mx-auto">
+                    <h5 className="text-center">Weekly Results</h5>
+                    <ResultsDiv results={temp1} />
+                </div>
+            </div>
         </div>
     );
 }
@@ -358,21 +331,5 @@ const teamResults = [
         hp3g8: 530,
         hp3g9: 540,
         hp3g10: 280,
-    },
-];
-
-const temp = [
-    {
-        week_id: 9,
-        date: 'Mar-11, 2019',
-        away_team: {
-            away_team_id: 152,
-            away_team_name: 'Brewskees',
-            away_player_1: {
-                player_id: 311,
-                name: 'Michaiah Rundell',
-                scores: [370, 180, 180, 130, 180, 200, 190, 190, 270, 530],
-            },
-        },
     },
 ];
