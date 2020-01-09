@@ -19,7 +19,7 @@ export default function ResultsThead(props) {
                 {gamesArray.map((game, i) => (
                     <th key={i} className="text-center">{game}</th>
                 ))}
-                <th>Total</th>
+                <th className="text-center">Total</th>
             </tr>
         </thead>
     );

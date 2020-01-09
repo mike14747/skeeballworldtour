@@ -231,20 +231,20 @@ export default function Teams() {
                     </div>
                 </div>
             }
-            {/* {teamResults.length > 0 &&
+            {teamResults.length > 0 &&
                 <div className="d-flex justify-content-center">
                     <div className="min-w-50 mx-auto">
                         <h5 className="text-center">Weekly Results</h5>
                         <ResultsDiv results={teamResults} />
                     </div>
                 </div>
-            } */}
-            <div className="d-flex justify-content-center">
+            }
+            {/* <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     <h5 className="text-center">Weekly Results</h5>
                     <ResultsDiv results={temp1} />
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
@@ -331,5 +331,67 @@ const teamResults = [
         hp3g8: 530,
         hp3g9: 540,
         hp3g10: 280,
+    },
+];
+
+function formatResults(results) {
+    const resultsArray = results.map((result, index) => {
+        let tempObj = {};
+        tempObj.id = index;
+        tempObj.week_id = result.week_id;
+        tempObj.date = result.week_date1;
+        tempObj.away_team = {
+            team_id: result.away_team_id,
+            team_name: result.away_team_name,
+            player: [],
+        };
+        tempObj.home_team = {
+            team_id: result.home,
+            team_name: result.home_team_name,
+            player: [],
+        };
+        for (let a = 1; a <= 3; a++) {
+            let player = {};
+        }
+        return tempObj;
+    });
+    return resultsArray;
+}
+
+const temp2 = [
+    {
+        id: 1,
+        week_id: 9,
+        date: 'Mar-11, 2019',
+        away_team: {
+            wins: 1,
+            losses: 9,
+            ties: 0,
+            team_id: 152,
+            team_name: 'Brewskees',
+            game_totals: [1220, 700, 790, 860, 810, 870, 800, 1120, 880, 830],
+            game_results: ['w', 'l', 'l', 'l', 'l', 'l', 'l', 'l', 'l', 'l', 'l'],
+            team_total: 8880,
+            players: [
+                {
+                    player_id: 311,
+                    name: 'Michaiah Rundell',
+                    scores: [370, 180, 180, 130, 180, 200, 190, 190, 270, 530],
+                    total_points: 2420,
+                },
+                {
+                    player_id: 289,
+                    name: 'Gun Chao',
+                    scores: [310, 100, 160, 280, 190, 220, 360, 300, 150, 170],
+                    total_points: 2240,
+                },
+                {
+                    player_id: 337,
+                    name: 'Tiffany Ruic',
+                    scores: [540, 420, 450, 450, 440, 450, 250, 630, 460, 130],
+                    total_points: 4220,
+                },
+            ],
+        },
     },
 ];

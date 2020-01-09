@@ -58,12 +58,10 @@ const Team = {
                     innerString += 'MAX(CASE WHEN t.team_id=s.' + homeAway + '_team_id THEN t.team_name ELSE NULL END) AS ' + hA + 't, ';
                 }
                 if (gameNum === 1) {
-                    innerString += 'MAX(CASE WHEN r.team_id=s.' + homeAway + '_team_id && r.player_num=' + playerNum + ' THEN r.player_id ELSE NULL END) AS ' + hA + 'p' + playerNum + 'id, MAX(CASE WHEN r.team_id=s.' + homeAway + '_team_id && r.player_num=' + playerNum + ' THEN p.full_name ELSE NULL END) AS ' + hA + 'p' + playerNum + ', '
+                    innerString += 'MAX(CASE WHEN r.team_id=s.' + homeAway + '_team_id && r.player_num=' + playerNum + ' THEN r.player_id ELSE NULL END) AS ' + hA + 'p' + playerNum + 'id, MAX(CASE WHEN r.team_id=s.' + homeAway + '_team_id && r.player_num=' + playerNum + ' THEN p.full_name ELSE NULL END) AS ' + hA + 'p' + playerNum + ', ';
                 }
                 innerString += 'MAX(CASE WHEN r.team_id=s.' + homeAway + '_team_id && r.player_num=' + playerNum + ' THEN r.g' + gameNum + ' ELSE NULL END) AS ' + hA + 'p' + playerNum + 'g' + gameNum;
-                if (i === 2 && playerNum === 3 && gameNum === 10) {
-                    innerString += '';
-                } else {
+                if (i !== 2 || playerNum !== 3 || gameNum !== 10) {
                     innerString += ', ';
                 }
                 if (gameNum >= 1 && gameNum < 10) {

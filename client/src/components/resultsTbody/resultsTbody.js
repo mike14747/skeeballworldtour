@@ -14,7 +14,7 @@ export default function ResultsTbody(props) {
                     {player.scores.map((score, i) => (
                         <td key={i} className="text-center">{score}</td>
                     ))}
-                    <td>{player.total_points}</td>
+                    <td className="text-center">{player.total_points}</td>
                 </tr>
             ))}
         </tbody>
