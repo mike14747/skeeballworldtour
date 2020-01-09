@@ -18,6 +18,9 @@ function formatResults(results) {
         tempObj.away_team = {
             team_id: result.away_team_id,
             team_name: result.at,
+            wins: 0,
+            losses: 0,
+            ties: 0,
             game_totals: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             game_results: [],
             team_total: 0,
@@ -26,6 +29,9 @@ function formatResults(results) {
         tempObj.home_team = {
             team_id: result.home_team_id,
             team_name: result.ht,
+            wins: 0,
+            losses: 0,
+            ties: 0,
             game_totals: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             game_results: [],
             team_total: 0,
@@ -59,13 +65,19 @@ function formatResults(results) {
         }
         for (let t = 0; t <= 9; t++) {
             if (tempObj.away_team.game_totals[t] > tempObj.home_team.game_totals[t]) {
+                tempObj.away_team.wins += 1;
                 tempObj.away_team.game_results.push('w');
+                tempObj.home_team.losses += 1;
                 tempObj.home_team.game_results.push('l');
             } else if (tempObj.away_team.game_totals[t] < tempObj.home_team.game_totals[t]) {
+                tempObj.away_team.losses += 1;
                 tempObj.away_team.game_results.push('l');
+                tempObj.home_team.wins += 1;
                 tempObj.home_team.game_results.push('w');
             } else {
+                tempObj.away_team.ties += 1;
                 tempObj.away_team.game_results.push('t');
+                tempObj.home_team.ties += 1;
                 tempObj.home_team.game_results.push('t');
             }
         }
@@ -91,9 +103,7 @@ export default function Results(props) {
                             <ResultsThead teamId={result.away_team.team_id} teamName={result.away_team.team_name} wins={result.away_team.wins} losses={result.away_team.losses} ties={result.away_team.ties} />
                             <ResultsTbody players={result.away_team.players} />
                             <ResultsTfoot gameTotals={result.away_team.game_totals} gameResults={result.away_team.game_results} teamTotal={result.away_team.team_total} />
-                            {/* </table>
-                        <table className="table table-hover mb-0"> */}
-                            <tr className="no-border"><td className="no-border"></td></tr>
+                            <tr><td className="no-border"></td></tr>
                             <ResultsThead teamId={result.home_team.team_id} teamName={result.home_team.team_name} wins={result.home_team.wins} losses={result.home_team.losses} ties={result.home_team.ties} />
                             <ResultsTbody players={result.home_team.players} />
                             <ResultsTfoot gameTotals={result.home_team.game_totals} gameResults={result.home_team.game_results} teamTotal={result.home_team.team_total} />
