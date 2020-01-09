@@ -1,0 +1,41 @@
+.min-w-50 {
+    min-width: 50%;
+}
+
+.bg-ltgray {
+    background-color: #dedede;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th,
+.table td {
+    padding: 0.5rem;
+    border: 1px solid #6c757d;
+}
+
+.table thead th {
+    border-bottom: 1px solid #6c757d;
+}
+
+.table tbody + tbody {
+    border-top: 1px solid #6c757d;
+}
+
+
+.table-hover tbody tr:hover {
+    color: #212529;
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+.no-border {
+    border: 0 !important;
+}

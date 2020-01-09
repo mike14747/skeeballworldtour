@@ -19,43 +19,6 @@ export default function Teams() {
     const [playersTeam, setPlayersTeam] = useState([]);
     const [teamResults, setTeamResults] = useState([]);
 
-    const temp1 = [
-        {
-            id: 1,
-            week_id: 9,
-            date: 'Mar-11, 2019',
-            away_team: {
-                wins: 1,
-                losses: 9,
-                ties: 0,
-                team_id: 152,
-                team_name: 'Brewskees',
-                game_totals: [1220, 700, 790, 860, 810, 870, 800, 1120, 880, 830],
-                team_total: 8880,
-                players: [
-                    {
-                        player_id: 311,
-                        name: 'Michaiah Rundell',
-                        scores: [370, 180, 180, 130, 180, 200, 190, 190, 270, 530],
-                        total_points: 2420,
-                    },
-                    {
-                        player_id: 289,
-                        name: 'Gun Chao',
-                        scores: [310, 100, 160, 280, 190, 220, 360, 300, 150, 170],
-                        total_points: 2240,
-                    },
-                    {
-                        player_id: 337,
-                        name: 'Tiffany Ruic',
-                        scores: [540, 420, 450, 450, 440, 450, 250, 630, 460, 130],
-                        total_points: 4220,
-                    },
-                ],
-            },
-        },
-    ];
-
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
             .then((response) => {
