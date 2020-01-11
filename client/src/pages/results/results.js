@@ -14,8 +14,8 @@ const Results = () => {
 
     useEffect(() => {
         axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
-            .then((response) => setResults(response.data[3]))
-            .catch((err) => console.log(err));
+            .then(response => setResults(response.data[3]))
+            .catch(err => console.log(err));
     }, [storeid, divisionid, querySeasonId]);
 
     return (

@@ -1,11 +1,49 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import axios from 'axios';
 
 const Champions = () => {
+    const [champions, setChampions] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/champions')
+            .then(result => setChampions(result.data))
+            .catch(err => console.log(err));
+    }, []);
+
     return (
-        <PageHeading text="Champions" />
+        <Fragment>
+            <PageHeading text="Champions" />
+            {champions.length > 0 &&
+                <div className="d-flex justify-content-center">
+                    <div className="min-w-50 mx-auto">
+                        <table className="table table-bordered table-hover">
+                            <thead>
+                                <tr className="bg-gray6">
+                                    <th>Season</th>
+                                    <th>Champion</th>
+                                    <th>Store</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {champions.map((champion) => (
+                                    <tr key={champion.season_id}>
+                                        <td>{champion.season_name}-{champion.year}</td>
+                                        <td>{champion.team_name}
+                                            {champion.comments.length > 0 && <span className="small ml-2">*({champion.comments})</span>}
+                                        </td>
+                                        <td>{champion.store_city}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </Fragment>
     );
 };
 
 export default Champions;
+
+// {champion.comments.length > 0 && <span className="small">*{champion.comments}</span>}

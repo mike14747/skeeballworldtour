@@ -15,11 +15,11 @@ export default function ResultsThead(props) {
     return (
         <tbody>
             <tr className="bg-gray6 font-weight-bolder">
-                <th><a href={'/teams/' + props.teamId}>{props.teamName}</a> (<span className={'text-' + (props.wins > props.losses ? 'success' : (props.wins < props.losses ? 'danger' : 'primary'))}>{props.wins}-{props.losses}-{props.ties}</span>)</th>
+                <td><a href={'/teams/' + props.teamId}>{props.teamName}</a> (<span className={'text-' + (props.wins > props.losses ? 'success' : (props.wins < props.losses ? 'danger' : 'primary'))}>{props.wins}-{props.losses}-{props.ties}</span>)</td>
                 {gamesArray.map((game, i) => (
-                    <th key={i} className="text-center">{game}</th>
+                    <td key={i} className="text-center">{game}</td>
                 ))}
-                <th className="text-center">Total</th>
+                <td className="text-center">Total</td>
             </tr>
         </tbody>
     );
