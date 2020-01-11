@@ -9,7 +9,7 @@ export default function ResultsTbody(props) {
     return (
         <tbody>
             {props.players.map((player) => (
-                <tr key={player.player_id}>
+                <tr key={player.player_id} className="bg-white">
                     <td><a href={'/players/' + player.player_id}>{player.name}</a></td>
                     {player.scores.map((score, i) => (
                         <td key={i} className="text-center">{score}</td>

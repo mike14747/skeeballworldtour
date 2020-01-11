@@ -36,33 +36,37 @@ export default function Standings() {
 
     return (
         <div>
-            <h2 className="text-center">Standings</h2>
+            <h2 className="text-center mb-4">Standings</h2>
             {standingsArr.map((storeDiv, i) => (
                 <div key={i}>
-                    <h5>{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
-                    <table className="table table-bordered mb-5 text-center">
-                        <thead>
-                            <tr className="bg-light">
-                                <th className="text-left">TEAM</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>T</th>
-                                <th>TOTAL POINTS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {standingsArr[i].map((standing) => (
-                                <tr key={standing.standings_id}>
-                                    <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
-                                    {/* <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td> */}
-                                    <td>{standing.wins}</td>
-                                    <td>{standing.losses}</td>
-                                    <td>{standing.ties}</td>
-                                    <td>{standing.total_points}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
+                    <div className="d-flex justify-content-center mb-4">
+                        <div className="min-w-50 mx-auto">
+                            <table className="table table-bordered mb-4 text-center">
+                                <thead>
+                                    <tr className="bg-gray6">
+                                        <th className="text-left">TEAM</th>
+                                        <th>W</th>
+                                        <th>L</th>
+                                        <th>T</th>
+                                        <th>TOTAL POINTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {standingsArr[i].map((standing) => (
+                                        <tr key={standing.standings_id}>
+                                            <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
+                                            {/* <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td> */}
+                                            <td>{standing.wins}</td>
+                                            <td>{standing.losses}</td>
+                                            <td>{standing.ties}</td>
+                                            <td>{standing.total_points}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             ))}
         </div>

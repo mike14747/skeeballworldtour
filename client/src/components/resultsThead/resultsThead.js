@@ -14,7 +14,7 @@ export default function ResultsThead(props) {
 
     return (
         <thead>
-            <tr className="bg-ltgray">
+            <tr className="bg-gray6">
                 <th><a href={'/teams/' + props.teamId}>{props.teamName}</a> (<span className={'text-' + (props.wins > props.losses ? 'success' : (props.wins < props.losses ? 'danger' : 'primary'))}>{props.wins}-{props.losses}-{props.ties}</span>)</th>
                 {gamesArray.map((game, i) => (
                     <th key={i} className="text-center">{game}</th>

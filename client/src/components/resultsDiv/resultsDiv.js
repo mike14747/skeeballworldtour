@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './css/resultsDiv.css';
 import ResultsThead from '../resultsThead/resultsThead';
 import ResultsTbody from '../resultsTbody/resultsTbody';
 import ResultsTfoot from '../resultsTfoot/resultsTfoot';
@@ -99,11 +98,11 @@ export default function Results(props) {
                 <Fragment key={result.id}>
                     <h6 className="text-success font-weight-bolder">Week {result.week_id} ({result.date})</h6>
                     <div className="p-1 mb-4 border border-secondary">
-                        <table className="table table-hover mb-0">
+                        <table className="table table-bordered table-hover mb-0">
                             <ResultsThead teamId={result.away_team.team_id} teamName={result.away_team.team_name} wins={result.away_team.wins} losses={result.away_team.losses} ties={result.away_team.ties} />
                             <ResultsTbody players={result.away_team.players} />
                             <ResultsTfoot gameTotals={result.away_team.game_totals} gameResults={result.away_team.game_results} teamTotal={result.away_team.team_total} />
-                            <tr><td className="no-border"></td></tr>
+                            <tr><td colSpan="12" className="border-0"></td></tr>
                             <ResultsThead teamId={result.home_team.team_id} teamName={result.home_team.team_name} wins={result.home_team.wins} losses={result.home_team.losses} ties={result.home_team.ties} />
                             <ResultsTbody players={result.home_team.players} />
                             <ResultsTfoot gameTotals={result.home_team.game_totals} gameResults={result.home_team.game_results} teamTotal={result.home_team.team_total} />

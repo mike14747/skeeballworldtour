@@ -9,7 +9,7 @@ ResultsTfoot.propTypes = {
 
 export default function ResultsTfoot(props) {
     return (
-        <tr className="bg-ltgray font-weight-bolder">
+        <tr className="bg-gray6 font-weight-bolder">
             <td>Total</td>
             {props.gameTotals.map((total, i) => (
                 <td key={i} className="text-center"><span className={'text-' + (props.gameResults[i] === 'w' ? 'success' : (props.gameResults[i] === 'l' ? 'danger' : 'primary'))}>{total}</span></td>

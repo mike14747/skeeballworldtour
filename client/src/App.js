@@ -11,15 +11,8 @@ import SearchBar from './components/searchbar/searchbar';
 import Footer from './components/footer/footer';
 import CurrentSeasonContext from './components/currentSeasonContext';
 import axios from 'axios';
-// import './css/style.css';
-// import './css/bs4_backgrounds.css';
-// import './css/bs4_base.css';
-// import './css/bs4_borders.css';
-// import './css/bs4_flexbox.css';
-// import './css/bs4_grid.css';
-// import './css/bs4_margins_padding.css';
-// import './css/bs4_text.css';
-// import './css/bs4_float_position_overflow.css';
+import './css/style.css';
+import './css/my_style.css';
 
 export default function App() {
     const [currentSeasonId, setCurrentSeasonId] = useState(0);

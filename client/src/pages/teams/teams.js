@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './css/teams.css';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
@@ -95,9 +94,9 @@ export default function Teams() {
                         <div className="d-flex justify-content-center">
                             <div className="min-w-50 mx-auto">
                                 <h5 className="text-center">Players</h5>
-                                <table className="table table-hover">
+                                <table className="table table-bordered table-hover">
                                     <thead>
-                                        <tr className="bg-ltgray">
+                                        <tr className="bg-gray6">
                                             <th>Player</th>
                                             <th className="text-center">Games</th>
                                             <th className="text-center">Average</th>
@@ -122,38 +121,38 @@ export default function Teams() {
                         <div className="d-flex justify-content-center">
                             <div className="min-w-50 mx-auto">
                                 <h5 className="text-center">Team Stats</h5>
-                                <table className="table table-hover">
+                                <table className="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">Record</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">Record:</td>
                                             <td className="text-center px-4">{teamStats.wins}-{teamStats.losses}-{teamStats.ties}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">Total Points</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">Total Points:</td>
                                             <td className="text-center px-4">{teamStats.total_points}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">1-Game Low</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game Low:</td>
                                             <td className="text-center px-4">{teamStats.one_game_low}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">1-Game Avg</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game Avg:</td>
                                             <td className="text-center px-4">{Number(teamStats.one_game_avg).toFixed(1)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">1-Game High</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game High:</td>
                                             <td className="text-center px-4">{teamStats.one_game_high}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">10-Game Low</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game Low:</td>
                                             <td className="text-center px-4">{teamStats.ten_game_low}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">10-Game Avg</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game Avg:</td>
                                             <td className="text-center px-4">{Number(teamStats.ten_game_avg).toFixed(1)}</td>
                                         </tr>
                                         <tr>
-                                            <td className="bg-ltgray font-weight-bolder">10-Game High</td>
+                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game High:</td>
                                             <td className="text-center px-4">{teamStats.ten_game_high}</td>
                                         </tr>
                                     </tbody>
@@ -167,9 +166,9 @@ export default function Teams() {
                 <div className="d-flex justify-content-center mb-4">
                     <div className="min-w-50 mx-auto">
                         <h5 className="text-center">Schedule</h5>
-                        <table className="table table-hover">
+                        <table className="table table-bordered table-hover">
                             <thead>
-                                <tr className="bg-ltgray">
+                                <tr className="bg-gray6">
                                     <th className="text-center">WEEK #</th>
                                     <th>Away Team</th>
                                     <th>Home Team</th>
@@ -180,7 +179,7 @@ export default function Teams() {
                             </thead>
                             <tbody>
                                 {teamSchedule.map((schedule) => (
-                                    <tr key={schedule.week_id}>
+                                    <tr key={schedule.week_id} className="bg-white">
                                         <td className="text-center">{schedule.week_id}</td>
                                         <td><a href={'/teams/' + schedule.away_team_id}>{schedule.away_team_name}</a></td>
                                         <td><a href={'/teams/' + schedule.home_team_id}>{schedule.home_team_name}</a></td>
