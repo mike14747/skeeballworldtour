@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 export default function Teams() {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -74,9 +75,8 @@ export default function Teams() {
     }, [queryTeamId, querySeasonId]);
 
     return (
-        <div>
-            <h2 className="text-center">Team Stats</h2>
-            <hr />
+        <Fragment>
+            <PageHeading text="Team Stats" />
             {teamStoreNames &&
                 <div>
                     {teamStoreNames.store_name} | <b><span className="text-danger">Team: </span>{teamStoreNames.team_name}</b>
@@ -201,6 +201,6 @@ export default function Teams() {
                     </div>
                 </div>
             }
-        </div>
+        </Fragment>
     );
 }

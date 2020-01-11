@@ -4,7 +4,9 @@ import Home from './pages/home/home';
 import Rules from './pages/rules/rules';
 import Standings from './pages/standings/standings';
 import Search from './pages/search/search';
+import Champions from './pages/champions/champions';
 import Teams from './pages/teams/teams';
+import Results from './pages/results/results';
 import Header from './components/header/header';
 import NavBar from './components/navbar/navbar';
 import SearchBar from './components/searchbar/searchbar';
@@ -33,10 +35,12 @@ export default function App() {
                 <SearchBar />
                 <Switch>
                     <CurrentSeasonContext.Provider value={currentSeasonId}>
-                        <Route exact path="/"><Home /></Route>
+                        <Route exact path="/" component={Home} />
                         <Route exact path="/rules" component={Rules} />
                         <Route path="/standings/:seasonid?" component={Standings} />
                         <Route path="/teams/:teamid/:seasonid?" component={Teams} />
+                        <Route path="/results/:storeid/:divisionid/:seasonid?" component={Results} />
+                        <Route path="/champions" component={Champions} />
                         <Route path="/search/:searchstring" component={Search} />
                     </CurrentSeasonContext.Provider>
                 </Switch>

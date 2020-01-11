@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 export default function Standings() {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -35,8 +36,8 @@ export default function Standings() {
     }, [querySeasonId]);
 
     return (
-        <div>
-            <h2 className="text-center mb-4">Standings</h2>
+        <Fragment>
+            <PageHeading text="Standings" />
             {standingsArr.map((storeDiv, i) => (
                 <div key={i}>
                     <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
@@ -69,6 +70,6 @@ export default function Standings() {
                     </div>
                 </div>
             ))}
-        </div>
+        </Fragment>
     );
 }

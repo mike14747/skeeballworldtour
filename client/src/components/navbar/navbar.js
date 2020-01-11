@@ -38,7 +38,7 @@ function NavBar() {
                 }
                 <NavDropdown buttonText="Stores +" urlPrefix="/stores" listItems={storeDivisionArr} />
                 <NavButton buttonText="Rules" url="/rules" />
-                <NavButton buttonText="Champions" url="champions" />
+                <NavButton buttonText="Champions" url="/champions" />
                 <NavButton buttonText="Contact" url="mailto:ktaylor@bellmusicco.com" />
             </div >
         </div >

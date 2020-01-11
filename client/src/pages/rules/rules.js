@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 function Rules() {
     const [rules, setRules] = useState({});
@@ -15,10 +16,10 @@ function Rules() {
     }, []);
 
     return (
-        <div>
-            <h2 className="text-center">{rules.content_heading}</h2>
+        <Fragment>
+            <PageHeading text={rules.content_heading} />
             <div>{ReactHtmlParser(rules.page_content)}</div>
-        </div>
+        </Fragment>
     );
 }
 
