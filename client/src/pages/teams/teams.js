@@ -21,12 +21,8 @@ export default function Teams() {
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
-            .then((response) => {
-                setTeamStoreNames(response.data[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => setTeamStoreNames(response.data[0]))
+            .catch((err) => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/seasons')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
@@ -38,40 +34,22 @@ export default function Teams() {
                 });
                 setTeamSeasons(seasonArray);
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch((err) => console.log(err));
     }, [queryTeamId]);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
-            .then((response) => {
-                setTeamStats(response.data[2][0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => setTeamStats(response.data[2][0]))
+            .catch((err) => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
-            .then((response) => {
-                setTeamSchedule(response.data[2]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => setTeamSchedule(response.data[2]))
+            .catch((err) => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
-            .then((response) => {
-                setPlayersTeam(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => setPlayersTeam(response.data))
+            .catch((err) => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
-            .then((response) => {
-                setTeamResults(response.data[2]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => setTeamResults(response.data[2]))
+            .catch((err) => console.log(err));
     }, [queryTeamId, querySeasonId]);
 
     return (

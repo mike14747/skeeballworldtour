@@ -27,4 +27,7 @@ router.use('/searches', searchesController);
 const championsController = require('./championsController');
 router.use('/champions', championsController);
 
+const resultsController = require('./resultsController');
+router.use('/results', resultsController);
+
 module.exports = router;

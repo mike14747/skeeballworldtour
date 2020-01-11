@@ -27,12 +27,8 @@ export default function Standings() {
     const [standingsArr, setStandingsArr] = useState([]);
     useEffect(() => {
         axios.get('/api/standings/' + querySeasonId)
-            .then((response) => {
-                groupStandings(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            .then((response) => groupStandings(response.data))
+            .catch((err) => console.log(err));
     }, [querySeasonId]);
 
     return (

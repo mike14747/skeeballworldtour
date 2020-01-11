@@ -90,7 +90,7 @@ export default function Results(props) {
 
     useEffect(() => {
         setFormattedResults(formatResults(props.results));
-    }, []);
+    }, [props.results]);
 
     return (
         <Fragment>
@@ -102,7 +102,7 @@ export default function Results(props) {
                             <ResultsThead teamId={result.away_team.team_id} teamName={result.away_team.team_name} wins={result.away_team.wins} losses={result.away_team.losses} ties={result.away_team.ties} />
                             <ResultsTbody players={result.away_team.players} />
                             <ResultsTfoot gameTotals={result.away_team.game_totals} gameResults={result.away_team.game_results} teamTotal={result.away_team.team_total} />
-                            <tr><td colSpan="12" className="border-0"></td></tr>
+                            <tbody><tr><td colSpan="12" className="border-0"></td></tr></tbody>
                             <ResultsThead teamId={result.home_team.team_id} teamName={result.home_team.team_name} wins={result.home_team.wins} losses={result.home_team.losses} ties={result.home_team.ties} />
                             <ResultsTbody players={result.home_team.players} />
                             <ResultsTfoot gameTotals={result.home_team.game_totals} gameResults={result.home_team.game_results} teamTotal={result.home_team.team_total} />
