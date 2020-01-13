@@ -103,28 +103,44 @@ const Players = () => {
                                     <td className="bg-gray6 font-weight-bolder text-right">Total games played:</td>
                                     <td className="text-center px-4">{playerStats.totalGames}</td>
                                 </tr>
+                                {playerStats.games800 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">800+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games800} ({(100 * playerStats.games800 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
+                                {playerStats.games700 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">700+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games700} ({(100 * playerStats.games700 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
+                                {playerStats.games600 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">600+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games600} ({(100 * playerStats.games600 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
+                                {playerStats.games500 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">500+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games500} ({(100 * playerStats.games500 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
+                                {playerStats.games400 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">400+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games400} ({(100 * playerStats.games400 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
+                                {playerStats.games300 > 0 &&
+                                    <tr>
+                                        <td className="bg-gray6 font-weight-bolder text-right">300+ games:</td>
+                                        <td className="text-center px-4">{playerStats.games300} ({(100 * playerStats.games300 / playerStats.totalGames).toFixed(1)}%)</td>
+                                    </tr>
+                                }
                                 <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">800+ games:</td>
-                                    <td className="text-center px-4">{playerStats.games800} ({(100 * playerStats.games800 / playerStats.totalGames).toFixed(1)}%)</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">700+ games:</td>
-                                    <td className="text-center px-4">{playerStats.games700} ({(100 * playerStats.games700 / playerStats.totalGames).toFixed(1)}%)</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">600+ games:</td>
-                                    <td className="text-center px-4">{playerStats.games600} ({(100 * playerStats.games600 / playerStats.totalGames).toFixed(1)}%)</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">500+ games:</td>
-                                    <td className="text-center px-4">{playerStats.games500} ({(100 * playerStats.games500 / playerStats.totalGames).toFixed(1)}%)</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">400+ games:</td>
-                                    <td className="text-center px-4">{playerStats.games400} ({(100 * playerStats.games400 / playerStats.totalGames).toFixed(1)}%)</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">Average score:</td>
+                                    <td className="bg-gray6 font-weight-bolder text-right">Average score per game:</td>
                                     <td className="text-center px-4">{playerStats.averageScore.toFixed(1)}</td>
                                 </tr>
                                 <tr>
