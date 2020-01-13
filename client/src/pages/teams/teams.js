@@ -12,17 +12,17 @@ export default function Teams() {
     const querySeasonId = seasonid || currentSeasonId;
     const { teamid } = useParams();
     const queryTeamId = teamid || 0;
-    const [teamStoreNames, setTeamStoreNames] = useState({});
+    const [teamNameStore, setTeamNameStore] = useState();
     const [teamSeasons, setTeamSeasons] = useState([]);
-    const [teamStats, setTeamStats] = useState({});
+    const [teamStats, setTeamStats] = useState();
     const [teamSchedule, setTeamSchedule] = useState([]);
     const [playersTeam, setPlayersTeam] = useState([]);
     const [teamResults, setTeamResults] = useState([]);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
-            .then((response) => setTeamStoreNames(response.data[0]))
-            .catch((err) => console.log(err));
+            .then(response => setTeamNameStore(response.data[0]))
+            .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/seasons')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
@@ -34,38 +34,37 @@ export default function Teams() {
                 });
                 setTeamSeasons(seasonArray);
             })
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
     }, [queryTeamId]);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
-            .then((response) => setTeamStats(response.data[2][0]))
-            .catch((err) => console.log(err));
+            .then(response => setTeamStats(response.data[2][0]))
+            .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
-            .then((response) => setTeamSchedule(response.data[2]))
-            .catch((err) => console.log(err));
+            .then(response => setTeamSchedule(response.data[2]))
+            .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
-            .then((response) => setPlayersTeam(response.data))
-            .catch((err) => console.log(err));
+            .then(response => setPlayersTeam(response.data))
+            .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
-            .then((response) => setTeamResults(response.data[2]))
-            .catch((err) => console.log(err));
+            .then(response => setTeamResults(response.data[2]))
+            .catch(err => console.log(err));
     }, [queryTeamId, querySeasonId]);
 
     return (
         <Fragment>
             <PageHeading text="Team Stats" />
-            {teamStoreNames &&
-                <div>
-                    {teamStoreNames.store_name} | <b><span className="text-danger">Team: </span>{teamStoreNames.team_name}</b>
+            {teamNameStore &&
+                <div className="mb-4 bigger">
+                    <b>{teamNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Team: </span>{teamNameStore.team_name}</b>
+                    {teamSeasons.length > 0 &&
+                        <Fragment>
+                            <Dropdown buttonText="View Stats From:" listItems={teamSeasons} />
+                        </Fragment>
+                    }
                 </div>
             }
-            {teamSeasons.length > 0 &&
-                <div>
-                    <Dropdown buttonText="View Stats From:" listItems={teamSeasons} />
-                </div>
-            }
-            Season ID: {currentSeasonId} | Team ID: {teamid}<br />
             <div className="row mb-4">
                 <div className="col-sm-6">
                     {playersTeam.length > 0 &&

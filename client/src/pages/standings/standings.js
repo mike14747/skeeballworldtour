@@ -53,7 +53,6 @@ export default function Standings() {
                                     {standingsArr[i].map((standing) => (
                                         <tr key={standing.standings_id}>
                                             <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
-                                            {/* <td className="text-left"><Link to={'/teams/' + standing.team_id}>{standing.team_name}</Link></td> */}
                                             <td>{standing.wins}</td>
                                             <td>{standing.losses}</td>
                                             <td>{standing.ties}</td>

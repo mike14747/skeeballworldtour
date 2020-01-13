@@ -6,7 +6,7 @@ const Champions = () => {
     const [champions, setChampions] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/champions')
+        axios.get('/api/seasons/champions')
             .then(result => setChampions(result.data))
             .catch(err => console.log(err));
     }, []);
@@ -29,9 +29,7 @@ const Champions = () => {
                                 {champions.map((champion) => (
                                     <tr key={champion.season_id}>
                                         <td>{champion.season_name}-{champion.year}</td>
-                                        <td>{champion.team_name}
-                                            {champion.comments.length > 0 && <span className="small ml-2">*({champion.comments})</span>}
-                                        </td>
+                                        <td><a href={'/teams/' + champion.tourny_team_id}>{champion.team_name}</a>{champion.comments.length > 0 && <span className="small ml-2">*({champion.comments})</span>}</td>
                                         <td>{champion.store_city}</td>
                                     </tr>
                                 ))}
@@ -45,5 +43,3 @@ const Champions = () => {
 };
 
 export default Champions;
-
-// {champion.comments.length > 0 && <span className="small">*{champion.comments}</span>}

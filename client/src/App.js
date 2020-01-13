@@ -5,6 +5,7 @@ import Rules from './pages/rules/rules';
 import Standings from './pages/standings/standings';
 import Search from './pages/search/search';
 import Champions from './pages/champions/champions';
+import Players from './pages/players/players';
 import Teams from './pages/teams/teams';
 import Results from './pages/results/results';
 import Header from './components/header/header';
@@ -39,6 +40,7 @@ export default function App() {
                         <Route exact path="/rules" component={Rules} />
                         <Route path="/standings/:seasonid?" component={Standings} />
                         <Route path="/teams/:teamid/:seasonid?" component={Teams} />
+                        <Route path="/players/:playerid/:seasonid?" component={Players} />
                         <Route path="/results/:storeid/:divisionid/:seasonid?" component={Results} />
                         <Route path="/champions" component={Champions} />
                         <Route path="/search/:searchstring" component={Search} />

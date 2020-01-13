@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function Dropdown(props) {
     return (
-        <div className="dropdown">
+        <div className="dropdown ml-4">
             <button className="dropbtn">{props.buttonText}</button>
             <div className="dropdown-content">
                 {props.listItems.map(item => (

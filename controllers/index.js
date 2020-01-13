@@ -24,10 +24,10 @@ router.use('/schedules', schedulesController);
 const searchesController = require('./searchesController');
 router.use('/searches', searchesController);
 
-const championsController = require('./championsController');
-router.use('/champions', championsController);
-
 const resultsController = require('./resultsController');
 router.use('/results', resultsController);
+
+const seasonsController = require('./seasonsController');
+router.use('/seasons', seasonsController);
 
 module.exports = router;

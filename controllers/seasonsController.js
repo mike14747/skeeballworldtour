@@ -1,13 +1,9 @@
 const router = require('express').Router();
-const Player = require('../models/player');
+const Season = require('../models/season');
 
-router.get('/:playerid/results/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        player_id: req.params.playerid,
-        season_id: req.params.seasonid,
-    };
+router.get('/', async (req, res) => {
     try {
-        const data = await Player.getPlayerResultsByPlayerSeasonId(paramsObj);
+        const data = await Season.getAllSeasons();
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
@@ -15,9 +11,9 @@ router.get('/:playerid/results/seasons/:seasonid', async (req, res) => {
     }
 });
 
-router.get('/:playerid/name-store', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const data = await Player.getPlayerNameAndStore(req.params.playerid);
+        const data = await Season.getSeasonById(req.params.id);
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
@@ -25,9 +21,19 @@ router.get('/:playerid/name-store', async (req, res) => {
     }
 });
 
-router.get('/:playerid/seasons', async (req, res) => {
+router.get('/:id/name', async (req, res) => {
     try {
-        const data = await Player.getSeasonsByPlayerId(req.params.playerid);
+        const data = await Season.getSeasonNameYearById(req.params.id);
+        res.json(data);
+    } catch (err) {
+        console.log('An error has occurred! ' + err);
+        res.status(500).send('Request failed... please check your request and try again!');
+    }
+});
+
+router.get('/champions', async (req, res) => {
+    try {
+        const data = await Season.getAllChampions();
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
