@@ -15,7 +15,7 @@ export default function Teams() {
     const queryTeamId = teamid || 0;
     const [teamNameStore, setTeamNameStore] = useState();
     const [teamSeasons, setTeamSeasons] = useState([]);
-    const [teamStats, setTeamStats] = useState();
+    const [teamStats, setTeamStats] = useState([]);
     const [teamSchedule, setTeamSchedule] = useState([]);
     const [playersTeam, setPlayersTeam] = useState([]);
     const [teamResults, setTeamResults] = useState([]);
@@ -40,7 +40,19 @@ export default function Teams() {
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
-            .then(response => setTeamStats(response.data[2][0]))
+            .then((response) => {
+                const tempTeamStats = [];
+                tempTeamStats.push({ text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties });
+                tempTeamStats.push({ text: 'Total Points:', data: response.data[2][0].total_points });
+                tempTeamStats.push({ text: '1-Game Low:', data: response.data[2][0].one_game_low });
+                tempTeamStats.push({ text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) });
+                tempTeamStats.push({ text: '1-Game High:', data: response.data[2][0].one_game_high });
+                tempTeamStats.push({ text: '10-Game Low:', data: response.data[2][0].ten_game_low });
+                tempTeamStats.push({ text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) });
+                tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
+                // response.data[2][0]
+                setTeamStats(tempTeamStats);
+            })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
             .then(response => setTeamSchedule(response.data[2]))
@@ -95,47 +107,11 @@ export default function Teams() {
                     }
                 </div>
                 <div className="col-sm-6">
-                    {teamStats &&
+                    {teamStats.length > 0 &&
                         <div className="d-flex justify-content-center">
                             <div className="min-w-50 mx-auto">
                                 <h5 className="text-center">Team Stats</h5>
                                 <StatsBlock stats={teamStats} />
-                                {/* <table className="table table-bordered table-hover">
-                                    <tbody>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">Record:</td>
-                                            <td className="text-center px-4">{teamStats.wins}-{teamStats.losses}-{teamStats.ties}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">Total Points:</td>
-                                            <td className="text-center px-4">{teamStats.total_points}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game Low:</td>
-                                            <td className="text-center px-4">{teamStats.one_game_low}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game Avg:</td>
-                                            <td className="text-center px-4">{Number(teamStats.one_game_avg).toFixed(1)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">1-Game High:</td>
-                                            <td className="text-center px-4">{teamStats.one_game_high}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game Low:</td>
-                                            <td className="text-center px-4">{teamStats.ten_game_low}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game Avg:</td>
-                                            <td className="text-center px-4">{Number(teamStats.ten_game_avg).toFixed(1)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="bg-gray6 font-weight-bolder text-right">10-Game High:</td>
-                                            <td className="text-center px-4">{teamStats.ten_game_high}</td>
-                                        </tr>
-                                    </tbody>
-                                </table> */}
                             </div>
                         </div>
                     }
