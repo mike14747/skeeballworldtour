@@ -8,6 +8,7 @@ export default function Standings() {
     const currentSeasonId = useContext(CurrentSeasonContext);
     const { seasonid } = useParams();
     const querySeasonId = seasonid || currentSeasonId;
+    const [standingsArr, setStandingsArr] = useState([]);
 
     function groupStandings(standings) {
         const standingsArray = [];
@@ -24,7 +25,6 @@ export default function Standings() {
         setStandingsArr(standingsArray);
     }
 
-    const [standingsArr, setStandingsArr] = useState([]);
     useEffect(() => {
         axios.get('/api/standings/' + querySeasonId)
             .then((response) => groupStandings(response.data))

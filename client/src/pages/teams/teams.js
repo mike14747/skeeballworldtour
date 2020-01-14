@@ -5,6 +5,7 @@ import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import StatsBlock from '../../components/statsBlock/statsBlock';
 
 export default function Teams() {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -98,7 +99,8 @@ export default function Teams() {
                         <div className="d-flex justify-content-center">
                             <div className="min-w-50 mx-auto">
                                 <h5 className="text-center">Team Stats</h5>
-                                <table className="table table-bordered table-hover">
+                                <StatsBlock stats={teamStats} />
+                                {/* <table className="table table-bordered table-hover">
                                     <tbody>
                                         <tr>
                                             <td className="bg-gray6 font-weight-bolder text-right">Record:</td>
@@ -133,7 +135,7 @@ export default function Teams() {
                                             <td className="text-center px-4">{teamStats.ten_game_high}</td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> */}
                             </div>
                         </div>
                     }

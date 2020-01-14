@@ -4,6 +4,7 @@ import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import Dropdown from '../../components/dropdown/dropdown';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import StatsBlock from '../../components/statsBlock/statsBlock';
 
 const Players = () => {
     const currentSeasonId = useContext(CurrentSeasonContext);
@@ -36,7 +37,6 @@ const Players = () => {
     }, [queryPlayerId]);
 
     useEffect(() => {
-        // get the players stats for the selected or currect season
         axios.get('/api/players/' + queryPlayerId + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 const allScores = [];
@@ -57,21 +57,19 @@ const Players = () => {
                 const [averageScore, highGameCount, lowGameCount] = [allScores.reduce((accumulator, currentValue) => accumulator + currentValue) / totalGames, allScores.filter(score => score === highGame).length, allScores.filter(score => score === lowGame).length];
                 const matchesArray = formattedResults.map(match => match.scores.reduce((accumulator, currentValue) => accumulator + currentValue));
                 const bestTenGameSeries = Math.max(...matchesArray);
-                setPlayerStats({
-                    totalGames: totalGames,
-                    games800: games800,
-                    games700: games700,
-                    games600: games600,
-                    games500: games500,
-                    games400: games400,
-                    games300: games300,
-                    averageScore: averageScore,
-                    highGame: highGame,
-                    highGameCount: highGameCount,
-                    lowGame: lowGame,
-                    lowGameCount: lowGameCount,
-                    bestTenGameSeries: bestTenGameSeries,
-                });
+                const tempPlayerStats = [];
+                tempPlayerStats.push({ text: 'Total Games Played:', data: totalGames });
+                games800 > 0 && tempPlayerStats.push({ text: '800+ Games:', data: games800 + ' (' + (100 * games800 / totalGames).toFixed(1) + '%)' });
+                games700 > 0 && tempPlayerStats.push({ text: '700+ Games:', data: games700 + ' (' + (100 * games700 / totalGames).toFixed(1) + '%)' });
+                games600 > 0 && tempPlayerStats.push({ text: '600+ Games:', data: games600 + ' (' + (100 * games600 / totalGames).toFixed(1) + '%)' });
+                games500 > 0 && tempPlayerStats.push({ text: '500+ Games:', data: games500 + ' (' + (100 * games500 / totalGames).toFixed(1) + '%)' });
+                games400 > 0 && tempPlayerStats.push({ text: '400+ Games:', data: games400 + ' (' + (100 * games400 / totalGames).toFixed(1) + '%)' });
+                games300 > 0 && tempPlayerStats.push({ text: '300+ Games:', data: games300 + ' (' + (100 * games300 / totalGames).toFixed(1) + '%)' });
+                tempPlayerStats.push({ text: 'Average Score per Game:', data: averageScore.toFixed(1) });
+                tempPlayerStats.push({ text: 'High Game:', data: highGame + ' (' + highGameCount + ')' });
+                tempPlayerStats.push({ text: 'Low Game:', data: lowGame + ' (' + lowGameCount + ')' });
+                tempPlayerStats.push({ text: 'Best 10-Game Series:', data: bestTenGameSeries });
+                setPlayerStats(tempPlayerStats);
                 setPlayerResults(formattedResults);
             })
             .catch(err => console.log(err));
@@ -97,66 +95,7 @@ const Players = () => {
             {playerStats &&
                 <div className="d-flex justify-content-center mb-4">
                     <div className="mx-auto">
-                        <table className="table table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">Total games played:</td>
-                                    <td className="text-center px-4">{playerStats.totalGames}</td>
-                                </tr>
-                                {playerStats.games800 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">800+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games800} ({(100 * playerStats.games800 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                {playerStats.games700 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">700+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games700} ({(100 * playerStats.games700 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                {playerStats.games600 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">600+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games600} ({(100 * playerStats.games600 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                {playerStats.games500 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">500+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games500} ({(100 * playerStats.games500 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                {playerStats.games400 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">400+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games400} ({(100 * playerStats.games400 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                {playerStats.games300 > 0 &&
-                                    <tr>
-                                        <td className="bg-gray6 font-weight-bolder text-right">300+ games:</td>
-                                        <td className="text-center px-4">{playerStats.games300} ({(100 * playerStats.games300 / playerStats.totalGames).toFixed(1)}%)</td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">Average score per game:</td>
-                                    <td className="text-center px-4">{playerStats.averageScore.toFixed(1)}</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">High game:</td>
-                                    <td className="text-center px-4">{playerStats.highGame} ({playerStats.highGameCount})</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">Low game:</td>
-                                    <td className="text-center px-4">{playerStats.lowGame} ({playerStats.highGameCount})</td>
-                                </tr>
-                                <tr>
-                                    <td className="bg-gray6 font-weight-bolder text-right">Best 10-game series:</td>
-                                    <td className="text-center px-4">{playerStats.bestTenGameSeries}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <StatsBlock stats={playerStats} />
                     </div>
                 </div>
             }
