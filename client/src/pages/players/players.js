@@ -16,6 +16,8 @@ const Players = () => {
     const [playerSeasons, setPlayerSeasons] = useState([]);
     const [playerStats, setPlayerStats] = useState();
     const [playerResults, setPlayerResults] = useState([]);
+    const [arePlayerStatsLoaded, setArePlayerStatsLoaded] = useState(false);
+    const [arePlayerResultsLoaded, setArePlayerResultsLoaded] = useState(false);
     const gamesArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     useEffect(() => {
@@ -70,7 +72,9 @@ const Players = () => {
                 tempPlayerStats.push({ text: 'Low Game:', data: lowGame + ' (' + lowGameCount + ')' });
                 tempPlayerStats.push({ text: 'Best 10-Game Series:', data: bestTenGameSeries });
                 setPlayerStats(tempPlayerStats);
+                setArePlayerStatsLoaded(true);
                 setPlayerResults(formattedResults);
+                setArePlayerResultsLoaded(true);
             })
             .catch(err => console.log(err));
     }, [queryPlayerId, querySeasonId]);
@@ -92,43 +96,50 @@ const Players = () => {
                     }
                 </div>
             }
-            {playerStats &&
-                <div className="d-flex justify-content-center mb-4">
-                    <div className="mx-auto">
-                        <StatsBlock stats={playerStats} />
-                    </div>
+            <div className="d-flex justify-content-center mb-4">
+                <div className="mx-auto">
+                    {!arePlayerStatsLoaded
+                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        : playerStats.length > 0
+                            ? <StatsBlock stats={playerStats} />
+                            : <span className="bigger text-danger">There are no player stats for this season!</span>
+                    }
                 </div>
-            }
-            {
-                playerResults &&
-                <div className="d-flex justify-content-center">
-                    <div className="min-w-50 mx-auto">
-                        <h5 className="text-center">Week by Week Results</h5>
-                        <table className="table table-bordered table-hover mb-0">
-                            <thead>
-                                <tr className="bg-gray6">
-                                    <th>Week # - Team</th>
-                                    {gamesArray.map((game, i) => (
-                                        <th key={i} className="text-center">{game}</th>
-                                    ))}
-                                    <th className="text-center">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {playerResults.map((result) => (
-                                    <tr key={result.id}>
-                                        <td>{result.week_id} - <a href={'/teams/' + result.team_id}>{result.team_name}</a></td>
-                                        {result.scores.map((score, index) => (
-                                            <td key={index} className="text-center">{score}</td>
+            </div>
+            <div className="d-flex justify-content-center mb-4">
+                <div className="mx-auto">
+                    {!arePlayerResultsLoaded
+                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        : playerResults.length > 0
+                            ? <Fragment>
+                                <h5 className="text-center">Week by Week Results</h5>
+                                <table className="table table-bordered table-hover mb-0">
+                                    <thead>
+                                        <tr className="bg-gray6">
+                                            <th>Week # - Team</th>
+                                            {gamesArray.map((game, i) => (
+                                                <th key={i} className="text-center">{game}</th>
+                                            ))}
+                                            <th className="text-center">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {playerResults.map((result) => (
+                                            <tr key={result.id}>
+                                                <td>{result.week_id} - <a href={'/teams/' + result.team_id}>{result.team_name}</a></td>
+                                                {result.scores.map((score, index) => (
+                                                    <td key={index} className="text-center">{score}</td>
+                                                ))}
+                                                <td className="text-center">{result.total}</td>
+                                            </tr>
                                         ))}
-                                        <td className="text-center">{result.total}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                    </tbody>
+                                </table>
+                            </Fragment>
+                            : <span className="bigger text-danger">There are no player results for this season!</span>
+                    }
                 </div>
-            }
+            </div>
         </Fragment >
     );
 };
