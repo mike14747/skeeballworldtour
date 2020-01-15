@@ -19,6 +19,10 @@ export default function Teams() {
     const [teamSchedule, setTeamSchedule] = useState([]);
     const [playersTeam, setPlayersTeam] = useState([]);
     const [teamResults, setTeamResults] = useState([]);
+    const [areTeamStatsLoaded, setAreTeamStatsLoaded] = useState(false);
+    const [isTeamScheduleLoaded, setIsTeamScheduleLoaded] = useState(false);
+    const [areTeamPlayersLoaded, setAreTeamPlayersLoaded] = useState(false);
+    const [areTeamResultsLoaded, setAreTeamResultsLoaded] = useState(false);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
@@ -39,29 +43,44 @@ export default function Teams() {
     }, [queryTeamId]);
 
     useEffect(() => {
+        setAreTeamStatsLoaded(false);
+        setIsTeamScheduleLoaded(false);
+        setAreTeamPlayersLoaded(false);
+        setAreTeamResultsLoaded(false);
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
             .then((response) => {
-                const tempTeamStats = [];
-                tempTeamStats.push({ text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties });
-                tempTeamStats.push({ text: 'Total Points:', data: response.data[2][0].total_points });
-                tempTeamStats.push({ text: '1-Game Low:', data: response.data[2][0].one_game_low });
-                tempTeamStats.push({ text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) });
-                tempTeamStats.push({ text: '1-Game High:', data: response.data[2][0].one_game_high });
-                tempTeamStats.push({ text: '10-Game Low:', data: response.data[2][0].ten_game_low });
-                tempTeamStats.push({ text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) });
-                tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
-                // response.data[2][0]
-                setTeamStats(tempTeamStats);
+                if (response.data[2][0]) {
+                    const tempTeamStats = [];
+                    tempTeamStats.push({ text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties });
+                    tempTeamStats.push({ text: 'Total Points:', data: response.data[2][0].total_points });
+                    tempTeamStats.push({ text: '1-Game Low:', data: response.data[2][0].one_game_low });
+                    tempTeamStats.push({ text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) });
+                    tempTeamStats.push({ text: '1-Game High:', data: response.data[2][0].one_game_high });
+                    tempTeamStats.push({ text: '10-Game Low:', data: response.data[2][0].ten_game_low });
+                    tempTeamStats.push({ text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) });
+                    tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
+                    setTeamStats(tempTeamStats);
+                    setAreTeamStatsLoaded(true);
+                }
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
-            .then(response => setTeamSchedule(response.data[2]))
+            .then((response) => {
+                setTeamSchedule(response.data[2]);
+                setIsTeamScheduleLoaded(true);
+            })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
-            .then(response => setPlayersTeam(response.data))
+            .then((response) => {
+                setPlayersTeam(response.data);
+                setAreTeamPlayersLoaded(false);
+            })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
-            .then(response => setTeamResults(response.data[2]))
+            .then((response) => {
+                setTeamResults(response.data[2]);
+                setAreTeamResultsLoaded(true);
+            })
             .catch(err => console.log(err));
     }, [queryTeamId, querySeasonId]);
 

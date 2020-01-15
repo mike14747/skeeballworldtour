@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-ResultsTbody.propTypes = {
-    players: PropTypes.array,
-};
-
-export default function ResultsTbody(props) {
+const ResultsTbody = ({ players }) => {
     return (
         <tbody>
-            {props.players.map((player, index) => (
+            {players.map((player, index) => (
                 <tr key={index} className="bg-white">
                     <td><a href={'/players/' + player.player_id}>{player.name}</a></td>
                     {player.scores.map((score, i) => (
@@ -19,4 +15,10 @@ export default function ResultsTbody(props) {
             ))}
         </tbody>
     );
-}
+};
+
+ResultsTbody.propTypes = {
+    players: PropTypes.array,
+};
+
+export default ResultsTbody;

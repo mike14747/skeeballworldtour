@@ -4,11 +4,7 @@ import ResultsThead from '../resultsThead/resultsThead';
 import ResultsTbody from '../resultsTbody/resultsTbody';
 import ResultsTfoot from '../resultsTfoot/resultsTfoot';
 
-Results.propTypes = {
-    results: PropTypes.array,
-};
-
-function formatResults(results) {
+const formatResults = (results) => {
     const resultsArray = results.map((result, index) => {
         const tempObj = {};
         tempObj.id = index;
@@ -83,14 +79,14 @@ function formatResults(results) {
         return tempObj;
     });
     return resultsArray;
-}
+};
 
-export default function Results(props) {
+const ResultsDiv = ({ results }) => {
     const [formattedResults, setFormattedResults] = useState([]);
 
     useEffect(() => {
-        setFormattedResults(formatResults(props.results));
-    }, [props.results]);
+        setFormattedResults(formatResults(results));
+    }, [results]);
 
     return (
         <Fragment>
@@ -112,4 +108,10 @@ export default function Results(props) {
             ))}
         </Fragment>
     );
-}
+};
+
+ResultsDiv.propTypes = {
+    results: PropTypes.array,
+};
+
+export default ResultsDiv;
