@@ -27,7 +27,7 @@ const Rules = () => {
                         <PageHeading text={rules.content_heading} />
                         {ReactHtmlParser(rules.page_content)}
                     </Fragment>
-                    : <div className="text-center bigger text-danger">Please check back again soon to see the rules!</div>
+                    : <div className="text-center empty-result">Please check back again soon to see the rules!</div>
 
             }
         </Fragment>
@@ -35,4 +35,3 @@ const Rules = () => {
 };
 
 export default Rules;
-

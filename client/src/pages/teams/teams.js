@@ -125,7 +125,7 @@ export default function Teams() {
                                             </tbody>
                                         </table>
                                     </Fragment>
-                                    : <span className="bigger text-danger">There are no players on this team in the selected season!</span>
+                                    : <span className="empty-result">There are no players on this team in the selected season!</span>
                             }
                         </div>
                     </div>
@@ -137,7 +137,7 @@ export default function Teams() {
                                 ? <img src={'/images/loading.gif'} alt={'Loading'} />
                                 : teamStats.length > 0
                                     ? <StatsBlock stats={teamStats} />
-                                    : <span className="bigger text-danger">There are no team stats for the selected season!</span>
+                                    : <span className="empty-result">There are no team stats for the selected season!</span>
                             }
                         </div>
                     </div>
@@ -175,7 +175,7 @@ export default function Teams() {
                                     </tbody>
                                 </table>
                             </Fragment>
-                            : <span className="bigger text-danger">There is no schedule for this team in the selected season!</span>
+                            : <span className="empty-result">There is no schedule for this team in the selected season!</span>
                     }
                 </div>
             </div>
@@ -188,7 +188,7 @@ export default function Teams() {
                                 <h5 className="text-center">Weekly Results</h5>
                                 <ResultsDiv results={teamResults} />
                             </Fragment>
-                            : <span className="bigger text-danger">There are no results for this team in the selected season!</span>
+                            : <span className="empty-result">There are no results for this team in the selected season!</span>
                     }
                 </div>
             </div>

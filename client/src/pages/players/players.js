@@ -107,7 +107,7 @@ const Players = () => {
                         ? <img src={'/images/loading.gif'} alt={'Loading'} />
                         : playerStats
                             ? <StatsBlock stats={playerStats} />
-                            : <span className="bigger text-danger">There are no player stats for this season!</span>
+                            : <span className="empty-result">There are no player stats for this season!</span>
                     }
                 </div>
             </div>
@@ -141,7 +141,7 @@ const Players = () => {
                                     </tbody>
                                 </table>
                             </Fragment>
-                            : <span className="bigger text-danger">There are no player results for this season!</span>
+                            : <span className="empty-result">There are no player results for this season!</span>
                     }
                 </div>
             </div>

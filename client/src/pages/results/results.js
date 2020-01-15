@@ -13,8 +13,10 @@ const Results = () => {
     const [results, setResults] = useState([]);
     const [season, setSeason] = useState();
     const [store, setStore] = useState();
+    const [areResultsLoaded, setAreResultsLoaded] = useState(false);
 
     useEffect(() => {
+        setAreResultsLoaded(false);
         axios.all([
             axios.get('/api/seasons/' + querySeasonId),
             axios.get('/api/stores/' + storeid + '/divisions/' + divisionid),
@@ -25,7 +27,12 @@ const Results = () => {
             }))
             .catch(err => console.log(err));
         axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
-            .then(response => setResults(response.data[3]))
+            .then((response) => {
+                if (response.data[3]) {
+                    setResults(response.data[3]);
+                }
+                setAreResultsLoaded(true);
+            })
             .catch(err => console.log(err));
     }, [storeid, divisionid, querySeasonId]);
 
@@ -35,13 +42,16 @@ const Results = () => {
             {(store && season) &&
                 <div className="mb-4 bigger font-weight-bolder"><a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}</div>
             }
-            {results.length > 0 &&
-                <div className="d-flex justify-content-center">
-                    <div className="min-w-50 mx-auto">
-                        <ResultsDiv results={results} />
-                    </div>
+            <div className="d-flex justify-content-center">
+                <div className="min-w-50 mx-auto">
+                    {!areResultsLoaded
+                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        : results.length > 0
+                            ? <ResultsDiv results={results} />
+                            : <span className="empty-result">There are no results for this season!</span>
+                    }
                 </div>
-            }
+            </div>
         </Fragment>
     );
 };
