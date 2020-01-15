@@ -43,6 +43,7 @@ const Players = () => {
         setArePlayerResultsLoaded(false);
         axios.get('/api/players/' + queryPlayerId + '/results/seasons/' + querySeasonId)
             .then((response) => {
+                console.log(response.data);
                 if (response.data.length > 0) {
                     const allScores = [];
                     const formattedResults = response.data.map((result, index) => {
@@ -75,10 +76,10 @@ const Players = () => {
                     tempPlayerStats.push({ text: 'Low Game:', data: lowGame + ' (' + lowGameCount + ')' });
                     tempPlayerStats.push({ text: 'Best 10-Game Series:', data: bestTenGameSeries });
                     setPlayerStats(tempPlayerStats);
-                    setArePlayerStatsLoaded(true);
                     setPlayerResults(formattedResults);
-                    setArePlayerResultsLoaded(true);
                 }
+                setArePlayerStatsLoaded(true);
+                setArePlayerResultsLoaded(true);
             })
             .catch(err => console.log(err));
     }, [queryPlayerId, querySeasonId]);
@@ -104,7 +105,7 @@ const Players = () => {
                 <div className="mx-auto">
                     {!arePlayerStatsLoaded
                         ? <img src={'/images/loading.gif'} alt={'Loading'} />
-                        : playerStats.length > 0
+                        : playerStats
                             ? <StatsBlock stats={playerStats} />
                             : <span className="bigger text-danger">There are no player stats for this season!</span>
                     }

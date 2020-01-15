@@ -60,8 +60,8 @@ export default function Teams() {
                     tempTeamStats.push({ text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) });
                     tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
                     setTeamStats(tempTeamStats);
-                    setAreTeamStatsLoaded(true);
                 }
+                setAreTeamStatsLoaded(true);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
@@ -73,7 +73,7 @@ export default function Teams() {
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
             .then((response) => {
                 setPlayersTeam(response.data);
-                setAreTeamPlayersLoaded(false);
+                setAreTeamPlayersLoaded(true);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
@@ -99,82 +99,99 @@ export default function Teams() {
             }
             <div className="row mb-4">
                 <div className="col-sm-6">
-                    {playersTeam.length > 0 &&
-                        <div className="d-flex justify-content-center">
-                            <div className="min-w-50 mx-auto">
-                                <h5 className="text-center">Players</h5>
+                    <div className="d-flex justify-content-center">
+                        <div className="min-w-50 mx-auto">
+                            {!areTeamPlayersLoaded
+                                ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                                : playersTeam.length > 0
+                                    ? <Fragment>
+                                        <h5 className="text-center">Players</h5>
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr className="bg-gray6">
+                                                    <th>Player</th>
+                                                    <th className="text-center">Games</th>
+                                                    <th className="text-center">Average</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {playersTeam.map((player) => (
+                                                    <tr key={player.player_id}>
+                                                        <td><a href={'/players/' + player.player_id}>{player.full_name}</a></td>
+                                                        <td className="text-center">{player.games_played}</td>
+                                                        <td className="text-center">{Number(player.avg_score).toFixed(1)}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </Fragment>
+                                    : <span className="bigger text-danger">There are no players on this team in the selected season!</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="col-sm-6">
+                    <div className="d-flex justify-content-center">
+                        <div className="min-w-50 mx-auto">
+                            {!areTeamStatsLoaded
+                                ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                                : teamStats.length > 0
+                                    ? <StatsBlock stats={teamStats} />
+                                    : <span className="bigger text-danger">There are no team stats for the selected season!</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="d-flex justify-content-center mb-4">
+                <div className="min-w-50 mx-auto">
+                    {!isTeamScheduleLoaded
+                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        : teamSchedule.length > 0
+                            ? <Fragment>
+                                <h5 className="text-center">Schedule</h5>
                                 <table className="table table-bordered table-hover">
                                     <thead>
                                         <tr className="bg-gray6">
-                                            <th>Player</th>
-                                            <th className="text-center">Games</th>
-                                            <th className="text-center">Average</th>
+                                            <th className="text-center">WEEK #</th>
+                                            <th>Away Team</th>
+                                            <th>Home Team</th>
+                                            <th className="text-center">Alley</th>
+                                            <th>Start Time</th>
+                                            <th>Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {playersTeam.map((player) => (
-                                            <tr key={player.player_id}>
-                                                <td><a href={'/players/' + player.player_id}>{player.full_name}</a></td>
-                                                <td className="text-center">{player.games_played}</td>
-                                                <td className="text-center">{Number(player.avg_score).toFixed(1)}</td>
+                                        {teamSchedule.map((schedule) => (
+                                            <tr key={schedule.week_id} className="bg-white">
+                                                <td className="text-center">{schedule.week_id}</td>
+                                                <td><a href={'/teams/' + schedule.away_team_id}>{schedule.away_team_name}</a></td>
+                                                <td><a href={'/teams/' + schedule.home_team_id}>{schedule.home_team_name}</a></td>
+                                                <td className="text-center">{schedule.alley}</td>
+                                                <td>{schedule.start_time}</td>
+                                                <td>{schedule.week_date1}</td>
                                             </tr>
                                         ))}
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div className="col-sm-6">
-                    {teamStats.length > 0 &&
-                        <div className="d-flex justify-content-center">
-                            <div className="min-w-50 mx-auto">
-                                <h5 className="text-center">Team Stats</h5>
-                                <StatsBlock stats={teamStats} />
-                            </div>
-                        </div>
+                            </Fragment>
+                            : <span className="bigger text-danger">There is no schedule for this team in the selected season!</span>
                     }
                 </div>
             </div>
-            {teamSchedule.length > 0 &&
-                <div className="d-flex justify-content-center mb-4">
-                    <div className="min-w-50 mx-auto">
-                        <h5 className="text-center">Schedule</h5>
-                        <table className="table table-bordered table-hover">
-                            <thead>
-                                <tr className="bg-gray6">
-                                    <th className="text-center">WEEK #</th>
-                                    <th>Away Team</th>
-                                    <th>Home Team</th>
-                                    <th className="text-center">Alley</th>
-                                    <th>Start Time</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {teamSchedule.map((schedule) => (
-                                    <tr key={schedule.week_id} className="bg-white">
-                                        <td className="text-center">{schedule.week_id}</td>
-                                        <td><a href={'/teams/' + schedule.away_team_id}>{schedule.away_team_name}</a></td>
-                                        <td><a href={'/teams/' + schedule.home_team_id}>{schedule.home_team_name}</a></td>
-                                        <td className="text-center">{schedule.alley}</td>
-                                        <td>{schedule.start_time}</td>
-                                        <td>{schedule.week_date1}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+            <div className="d-flex justify-content-center">
+                <div className="min-w-50 mx-auto">
+                    {!areTeamResultsLoaded
+                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        : teamResults.length > 0
+                            ? <Fragment>
+                                <h5 className="text-center">Weekly Results</h5>
+                                <ResultsDiv results={teamResults} />
+                            </Fragment>
+                            : <span className="bigger text-danger">There are no results for this team in the selected season!</span>
+                    }
                 </div>
-            }
-            {teamResults.length > 0 &&
-                <div className="d-flex justify-content-center">
-                    <div className="min-w-50 mx-auto">
-                        <h5 className="text-center">Weekly Results</h5>
-                        <ResultsDiv results={teamResults} />
-                    </div>
-                </div>
-            }
-        </Fragment>
+            </div>
+        </Fragment >
     );
 }
