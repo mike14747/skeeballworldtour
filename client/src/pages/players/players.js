@@ -20,9 +20,7 @@ const Players = () => {
     const [arePlayerResultsLoaded, setArePlayerResultsLoaded] = useState(false);
     const gamesArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    const handleSeasonId = season => {
-        setSeasonId(season);
-    };
+    const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
         axios.get('/api/players/' + queryPlayerId + '/name-store')

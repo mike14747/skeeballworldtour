@@ -24,9 +24,7 @@ export default function Teams() {
     const [areTeamPlayersLoaded, setAreTeamPlayersLoaded] = useState(false);
     const [areTeamResultsLoaded, setAreTeamResultsLoaded] = useState(false);
 
-    const handleSeasonId = season => {
-        setSeasonId(season);
-    };
+    const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')

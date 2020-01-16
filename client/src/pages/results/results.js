@@ -16,9 +16,7 @@ const Results = () => {
     const [store, setStore] = useState();
     const [areResultsLoaded, setAreResultsLoaded] = useState(false);
 
-    const handleSeasonId = season => {
-        setSeasonId(season);
-    };
+    const handleSeasonId = season => setSeasonId(season);
 
     // add a useEffect to get all seasons that have results
 

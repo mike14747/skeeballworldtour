@@ -10,9 +10,7 @@ export default function Standings() {
     const querySeasonId = seasonId || currentSeasonId;
     const [standingsArr, setStandingsArr] = useState([]);
 
-    const handleSeasonId = season => {
-        setSeasonId(season);
-    };
+    const handleSeasonId = season => setSeasonId(season);
 
     function groupStandings(standings) {
         const standingsArray = [];
