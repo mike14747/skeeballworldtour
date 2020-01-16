@@ -19,6 +19,7 @@ import './css/my_style.css';
 
 export default function App() {
     const [currentSeasonId, setCurrentSeasonId] = useState(0);
+
     useEffect(() => {
         axios.get('/api/settings/current-season')
             .then((response) => {
@@ -28,6 +29,7 @@ export default function App() {
                 console.log(err);
             });
     }, []);
+
     return (
         <Router>
             <div className="container border bg-white">

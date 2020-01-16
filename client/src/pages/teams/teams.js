@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
-import Dropdown from '../../components/dropdown/dropdown';
+import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
 
 export default function Teams() {
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
-    const { seasonid } = useParams();
-    const querySeasonId = seasonid || currentSeasonId;
+    const querySeasonId = seasonId || currentSeasonId;
     const { teamid } = useParams();
     const queryTeamId = teamid || 0;
     const [teamNameStore, setTeamNameStore] = useState();
@@ -24,6 +24,10 @@ export default function Teams() {
     const [areTeamPlayersLoaded, setAreTeamPlayersLoaded] = useState(false);
     const [areTeamResultsLoaded, setAreTeamResultsLoaded] = useState(false);
 
+    const handleSeasonId = season => {
+        setSeasonId(season);
+    };
+
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
             .then(response => setTeamNameStore(response.data[0]))
@@ -32,9 +36,8 @@ export default function Teams() {
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {
-                        id: season.season_id,
+                        season_id: season.season_id,
                         text: season.season_name + ' - ' + season.year,
-                        href: '/teams/' + queryTeamId + '/' + season.season_id,
                     };
                 });
                 setTeamSeasons(seasonArray);
@@ -92,7 +95,7 @@ export default function Teams() {
                     <b>{teamNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Team: </span>{teamNameStore.team_name}</b>
                     {teamSeasons.length > 0 &&
                         <Fragment>
-                            <Dropdown buttonText="View Stats From:" listItems={teamSeasons} />
+                            <SeasonDropdown buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
                         </Fragment>
                     }
                 </div>
