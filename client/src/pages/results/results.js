@@ -2,18 +2,25 @@ import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
-// import Dropdown from '../../components/dropdown/dropdown';
+import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
 
 const Results = () => {
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
-    const { storeid, divisionid, seasonid } = useParams();
-    const querySeasonId = seasonid || currentSeasonId;
+    const { storeid, divisionid } = useParams();
+    const querySeasonId = seasonId || currentSeasonId;
     const [results, setResults] = useState([]);
     const [season, setSeason] = useState();
     const [store, setStore] = useState();
     const [areResultsLoaded, setAreResultsLoaded] = useState(false);
+
+    const handleSeasonId = season => {
+        setSeasonId(season);
+    };
+
+    // add a useEffect to get all seasons that have results
 
     useEffect(() => {
         setAreResultsLoaded(false);
@@ -39,6 +46,8 @@ const Results = () => {
     return (
         <Fragment>
             <PageHeading text="Results" />
+            {/* add a seasonsDropdown component here once the api call is finished */}
+            {/* <SeasonDropdown buttonText="View Results From:" listItems={resultsSeasons} handleSeasonId={handleSeasonId} /> */}
             {(store && season) &&
                 <div className="mb-4 bigger font-weight-bolder"><a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}</div>
             }

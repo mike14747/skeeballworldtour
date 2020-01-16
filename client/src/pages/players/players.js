@@ -46,7 +46,6 @@ const Players = () => {
         setArePlayerResultsLoaded(false);
         axios.get('/api/players/' + queryPlayerId + '/results/seasons/' + querySeasonId)
             .then((response) => {
-                console.log(response.data);
                 if (response.data.length > 0) {
                     const allScores = [];
                     const formattedResults = response.data.map((result, index) => {

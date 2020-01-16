@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 
 export default function Standings() {
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
-    const { seasonid } = useParams();
-    const querySeasonId = seasonid || currentSeasonId;
+    const querySeasonId = seasonId || currentSeasonId;
     const [standingsArr, setStandingsArr] = useState([]);
+
+    const handleSeasonId = season => {
+        setSeasonId(season);
+    };
 
     function groupStandings(standings) {
         const standingsArray = [];
@@ -25,6 +29,8 @@ export default function Standings() {
         setStandingsArr(standingsArray);
     }
 
+    // add a useEffect to get all seasons that have results
+
     useEffect(() => {
         axios.get('/api/standings/' + querySeasonId)
             .then((response) => groupStandings(response.data))
@@ -34,6 +40,8 @@ export default function Standings() {
     return (
         <Fragment>
             <PageHeading text="Standings" />
+            {/* add a seasonsDropdown component here once the api call is finished */}
+            {/* <SeasonDropdown buttonText="View Standings From:" listItems={standingsSeasons} handleSeasonId={handleSeasonId} /> */}
             {standingsArr.map((storeDiv, i) => (
                 <div key={i}>
                     <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
