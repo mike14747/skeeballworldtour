@@ -26,7 +26,7 @@ const Players = () => {
         axios.get('/api/players/' + queryPlayerId + '/name-store')
             .then(response => setPlayerNameStore(response.data[0]))
             .catch(err => console.log(err));
-        axios.get('/api/players/' + queryPlayerId + '/seasons')
+        axios.get('/api/players/' + queryPlayerId + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {
@@ -89,11 +89,7 @@ const Players = () => {
             <PageHeading text="Player Stats" />
             {playerNameStore &&
                 <div className="mb-4 bigger">
-                    {playerNameStore &&
-                        <Fragment>
-                            <b>{playerNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Player: </span>{playerNameStore.full_name}</b>
-                        </Fragment>
-                    }
+                    <b>{playerNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Player: </span>{playerNameStore.full_name}</b>
                     {playerSeasons.length > 0 &&
                         <Fragment>
                             <SeasonDropdown buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />

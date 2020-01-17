@@ -25,9 +25,9 @@ router.get('/:playerid/name-store', async (req, res) => {
     }
 });
 
-router.get('/:playerid/seasons', async (req, res) => {
+router.get('/:playerid/seasons-list', async (req, res) => {
     try {
-        const data = await Player.getSeasonsByPlayerId(req.params.playerid);
+        const data = await Player.getSeasonsListByPlayerId(req.params.playerid);
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);

@@ -15,10 +15,25 @@ const Results = () => {
     const [season, setSeason] = useState();
     const [store, setStore] = useState();
     const [areResultsLoaded, setAreResultsLoaded] = useState(false);
+    const [resultSeasons, setResultSeasons] = useState([]);
 
     const handleSeasonId = season => setSeasonId(season);
 
     // add a useEffect to get all seasons that have results
+
+    useEffect(() => {
+        axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/seasons-list')
+            .then((response) => {
+                const seasonArray = response.data.map((season) => {
+                    return {
+                        season_id: season.season_id,
+                        text: season.season_name + ' - ' + season.year,
+                    };
+                });
+                setResultSeasons(seasonArray);
+            })
+            .catch(err => console.log(err));
+    }, []);
 
     useEffect(() => {
         setAreResultsLoaded(false);
@@ -44,10 +59,17 @@ const Results = () => {
     return (
         <Fragment>
             <PageHeading text="Results" />
-            {/* add a seasonsDropdown component here once the api call is finished */}
-            {/* <SeasonDropdown buttonText="View Results From:" listItems={resultsSeasons} handleSeasonId={handleSeasonId} /> */}
             {(store && season) &&
-                <div className="mb-4 bigger font-weight-bolder"><a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}</div>
+                <div className="mb-4 bigger">
+                    <Fragment>
+                        <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}
+                    </Fragment>
+                    {resultSeasons.length > 0 &&
+                        <Fragment>
+                            <SeasonDropdown buttonText="View Results From:" listItems={resultSeasons} handleSeasonId={handleSeasonId} />
+                        </Fragment>
+                    }
+                </div>
             }
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">

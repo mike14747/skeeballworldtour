@@ -30,7 +30,7 @@ export default function Teams() {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
             .then(response => setTeamNameStore(response.data[0]))
             .catch(err => console.log(err));
-        axios.get('/api/teams/' + queryTeamId + '/seasons')
+        axios.get('/api/teams/' + queryTeamId + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {

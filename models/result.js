@@ -1,6 +1,12 @@
 const pool = require('../config/pool.js');
 
 const Results = {
+    getSeasonsList: async (paramsObj) => {
+        const queryString = 'SELECT DISTINCT(r.season_id), se.season_id, se.season_name, se.year FROM results AS r JOIN seasons AS se ON (r.season_id=se.season_id) WHERE r.store_id=? && r.division_id=? ORDER BY se.season_id DESC;';
+        const queryParams = [paramsObj.store_id, paramsObj.division_id];
+        const [result] = await pool.query(queryString, queryParams);
+        return result;
+    },
     getResultsByStoreDivisionSeason: async (paramsObj) => {
         let hA;
         let homeAway;

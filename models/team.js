@@ -20,8 +20,8 @@ const Team = {
         const [result] = await pool.query(queryString, queryParams);
         return result;
     },
-    getTeamBySeasons: async (id) => {
-        const queryString = 'SELECT DISTINCT(r.season_id), se.season_id, se.season_name, se.year FROM results AS r JOIN seasons AS se ON (r.season_id=se.season_id) WHERE r.team_id=? ORDER BY se.season_id ASC;';
+    getSeasonsListByTeamId: async (id) => {
+        const queryString = 'SELECT DISTINCT(r.season_id), se.season_id, se.season_name, se.year FROM results AS r JOIN seasons AS se ON (r.season_id=se.season_id) WHERE r.team_id=? ORDER BY se.season_id DESC;';
         const queryParams = [id];
         const [result] = await pool.query(queryString, queryParams);
         return result;

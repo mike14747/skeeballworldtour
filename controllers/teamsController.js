@@ -16,13 +16,13 @@ router.get('/:teamid/seasons/:seasonid', async (req, res) => {
     }
 });
 
-router.get('/:teamid/seasons', async (req, res) => {
+router.get('/:teamid/seasons-list', async (req, res) => {
     try {
-        const data = await Team.getTeamBySeasons(req.params.teamid);
+        const data = await Team.getSeasonsListByTeamId(Number(req.params.teamid));
         res.json(data);
     } catch (err) {
         console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        res.status(500).send('Request failed.. please check your request and try again!');
     }
 });
 

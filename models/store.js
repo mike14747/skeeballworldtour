@@ -15,7 +15,6 @@ const Store = {
         return result;
     },
     getOneStoreDivision: async (paramsObj) => {
-        console.log(paramsObj);
         const queryString = 'SELECT s.store_id, s.store_name, d.division_id, d.day_name FROM (SELECT store_id, store_name FROM stores WHERE store_id=? LIMIT 1) AS s, (SELECT division_id, day_name FROM divisions WHERE division_id=? LIMIT 1) AS d';
         const queryParams = [paramsObj.store_id, paramsObj.division_id];
         const [result] = await pool.query(queryString, queryParams);

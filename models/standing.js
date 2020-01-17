@@ -7,6 +7,11 @@ const Standings = {
         const [result] = await pool.query(queryString, queryParams);
         return result;
     },
+    getSeasonsList: async () => {
+        const queryString = 'SELECT DISTINCT(st.season_id), se.season_id, se.season_name, se.year FROM standings AS st JOIN seasons AS se ON (st.season_id=se.season_id) ORDER BY se.season_id DESC;';
+        const [result] = await pool.query(queryString);
+        return result;
+    },
 };
 
 module.exports = Standings;

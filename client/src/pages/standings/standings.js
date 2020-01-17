@@ -9,6 +9,7 @@ export default function Standings() {
     const currentSeasonId = useContext(CurrentSeasonContext);
     const querySeasonId = seasonId || currentSeasonId;
     const [standingsArr, setStandingsArr] = useState([]);
+    const [standingSeasons, setStandingSeasons] = useState([]);
 
     const handleSeasonId = season => setSeasonId(season);
 
@@ -27,10 +28,22 @@ export default function Standings() {
         setStandingsArr(standingsArray);
     }
 
-    // add a useEffect to get all seasons that have results
+    useEffect(() => {
+        axios.get('/api/standings/seasons-list')
+            .then((response) => {
+                const seasonArray = response.data.map((season) => {
+                    return {
+                        season_id: season.season_id,
+                        text: season.season_name + ' - ' + season.year,
+                    };
+                });
+                setStandingSeasons(seasonArray);
+            })
+            .catch(err => console.log(err));
+    }, []);
 
     useEffect(() => {
-        axios.get('/api/standings/' + querySeasonId)
+        axios.get('/api/standings/seasons/' + querySeasonId)
             .then((response) => groupStandings(response.data))
             .catch((err) => console.log(err));
     }, [querySeasonId]);
