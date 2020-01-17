@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Standing = require('../models/standing');
 
-router.get('/seasons/:id', async (req, res) => {
+router.get('/season/:id', async (req, res) => {
     try {
         const data = await Standing.getStandingsBySeasonId(Number(req.params.id));
         res.json(data);
