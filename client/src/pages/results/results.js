@@ -19,8 +19,6 @@ const Results = () => {
 
     const handleSeasonId = season => setSeasonId(season);
 
-    // add a useEffect to get all seasons that have results
-
     useEffect(() => {
         axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/seasons-list')
             .then((response) => {
@@ -33,7 +31,7 @@ const Results = () => {
                 setResultSeasons(seasonArray);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [storeid, divisionid]);
 
     useEffect(() => {
         setAreResultsLoaded(false);

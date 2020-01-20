@@ -8,6 +8,7 @@ import Champions from './pages/champions/champions';
 import Players from './pages/players/players';
 import Teams from './pages/teams/teams';
 import Results from './pages/results/results';
+import Schedule from './pages/schedule/schedule';
 import Header from './components/header/header';
 import NavBar from './components/navbar/navbar';
 import SearchBar from './components/searchbar/searchbar';
@@ -44,6 +45,7 @@ export default function App() {
                         <Route path="/teams/:teamid/:seasonid?" component={Teams} />
                         <Route path="/players/:playerid/:seasonid?" component={Players} />
                         <Route path="/results/:storeid/:divisionid/:seasonid?" component={Results} />
+                        <Route path="/schedule/:storeid/:divisionid/:seasonid?" component={Schedule} />
                         <Route path="/champions" component={Champions} />
                         <Route path="/search/:searchstring" component={Search} />
                     </CurrentSeasonContext.Provider>
