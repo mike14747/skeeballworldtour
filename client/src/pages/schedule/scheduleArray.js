@@ -271,6 +271,46 @@ const originalArray = [
     },
 ];
 
-const formattedArray = [
-    
+function formatScheduleArray(schedules) {
+    const formattedArray = [];
+    return formattedArray;
+}
+
+console.log(formatScheduleArray(originalArray));
+
+const desiredArray = [
+    {
+        week_id: 1,
+        date: 'January 14, 2019',
+        matchups: [
+            {
+                away_team_id: 853,
+                away_team: 'Milk Duds',
+                home_team_id: 154,
+                home_team: 'MT Nesters',
+                alley: 1,
+                start_time: '6:30 PM',
+            },
+            {
+                away_team_id: 622,
+                away_team: 'Dysfunctional',
+                home_team_id: 358,
+                home_team: 'Hooptabogen',
+                alley: 2,
+                start_time: '6:30 PM',
+            },
+            {
+                away_team_id: 152,
+                away_team: 'Brewskees',
+                home_team_id: 731,
+                home_team: 'Ghost Team 660 (Mon)',
+                alley: 1,
+                start_time: '7:45 PM',
+            },
+        ],
+    },
 ];
+
+console.log(originalArray);
+
+console.log(desiredArray);

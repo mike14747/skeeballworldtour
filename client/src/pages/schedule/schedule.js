@@ -18,6 +18,27 @@ const Schedule = () => {
 
     const handleSeasonId = season => setSeasonId(season);
 
+    function formatScheduleArray(schedules) {
+        const formattedArray = [];
+        let tempObj = {};
+        let counter = 0;
+        schedules.map((schedule) => {
+            const { week_id: weekId, week_date1: weekDate, ...rest } = schedule;
+            if (schedule.week_id !== counter) {
+                tempObj = {
+                    week_id: weekId,
+                    week_date1: weekDate,
+                    matchups: [],
+                };
+                formattedArray.push(tempObj);
+                counter = schedule.week_id;
+            }
+            formattedArray[counter - 1].matchups.push({ ...rest });
+        });
+        setScheduleArray(formattedArray);
+        setIsScheduleLoaded(true);
+    }
+
     useEffect(() => {
         axios.get('/api/schedules/store/' + storeid + '/division/' + divisionid + '/seasons-list')
             .then((response) => {
@@ -44,11 +65,7 @@ const Schedule = () => {
             }))
             .catch(err => console.log(err));
         axios('/api/schedules/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
-            .then((response) => {
-                console.log(response.data);
-                setScheduleArray(response.data);
-                setIsScheduleLoaded(true);
-            })
+            .then(response => formatScheduleArray(response.data))
             .catch(err => console.log(err));
     }, [storeid, divisionid, querySeasonId]);
 
