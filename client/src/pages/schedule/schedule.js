@@ -4,6 +4,7 @@ import axios from 'axios';
 import CurrentSeasonContext from '../../components/currentSeasonContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import ScheduleTable from '../../components/scheduleTable/scheduleTable';
 
 const Schedule = () => {
     const [seasonId, setSeasonId] = useState(null);
@@ -11,7 +12,7 @@ const Schedule = () => {
     const { storeid, divisionid } = useParams();
     const querySeasonId = seasonId || currentSeasonId;
     const [season, setSeason] = useState();
-    const [scheduleArray, setScheduleArray] = useState([]);
+    const [scheduleArray, setScheduleArray] = useState();
     const [isScheduleLoaded, setIsScheduleLoaded] = useState(false);
     const [scheduleSeasons, setScheduleArraySeasons] = useState([]);
     const [store, setStore] = useState();
@@ -33,7 +34,7 @@ const Schedule = () => {
                 formattedArray.push(tempObj);
                 counter = schedule.week_id;
             }
-            formattedArray[counter - 1].matchups.push({ ...rest });
+            return formattedArray[counter - 1].matchups.push({ ...rest });
         });
         setScheduleArray(formattedArray);
         setIsScheduleLoaded(true);
@@ -86,31 +87,11 @@ const Schedule = () => {
             }
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
-                    {!isScheduleLoaded
+                    {!isScheduleLoaded || !scheduleArray
                         ? <img src={'/images/loading.gif'} alt={'Loading'} />
                         : scheduleArray.length > 0
                             ? <Fragment>
-                                <h5 className="text-center">Week # and Date will go here.</h5>
-                                <table className="table table-bordered table-hover">
-                                    <thead>
-                                        <tr className="bg-gray6">
-                                            <th>Away Team</th>
-                                            <th>Home Team</th>
-                                            <th className="text-center">Alley</th>
-                                            <th>Start Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {scheduleArray.map((schedule, index) => (
-                                            <tr key={index} className="bg-white">
-                                                <td><a href={'/teams/' + schedule.away_team_id}>{schedule.away_team}</a></td>
-                                                <td><a href={'/teams/' + schedule.home_team_id}>{schedule.home_team}</a></td>
-                                                <td className="text-center">{schedule.alley}</td>
-                                                <td>{schedule.start_time}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                <ScheduleTable schedules={scheduleArray} />
                             </Fragment>
                             : <span className="empty-result">There is no schedule available for this season!</span>
                     }

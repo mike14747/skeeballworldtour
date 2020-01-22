@@ -8,7 +8,7 @@ export default function Standings() {
     const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
     const querySeasonId = seasonId || currentSeasonId;
-    const [standingsArr, setStandingsArr] = useState([]);
+    const [standingsArr, setStandingsArr] = useState();
     const [areStandingsLoaded, setAreStandingsLoaded] = useState(false);
     const [standingSeasons, setStandingSeasons] = useState([]);
 
@@ -54,13 +54,13 @@ export default function Standings() {
     return (
         <Fragment>
             <PageHeading text="Standings" />
-            {!areStandingsLoaded
+            {!areStandingsLoaded || !standingsArr
                 ? <img src={'/images/loading.gif'} alt={'Loading'} />
                 : standingsArr.length > 0
                     ? <Fragment>
                         <SeasonDropdown buttonText="View Standings From:" listItems={standingSeasons} handleSeasonId={handleSeasonId} />
-                        {standingsArr.map((storeDiv, i) => (
-                            <div key={i}>
+                        {standingsArr.map((storeDiv, index) => (
+                            <div key={index}>
                                 <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
                                 <div className="d-flex justify-content-center mb-4">
                                     <div className="min-w-50 mx-auto">
@@ -75,7 +75,7 @@ export default function Standings() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {standingsArr[i].map((standing) => (
+                                                {standingsArr[index].map((standing) => (
                                                     <tr key={standing.standings_id}>
                                                         <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
                                                         <td>{standing.wins}</td>
