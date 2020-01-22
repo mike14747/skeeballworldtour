@@ -79,7 +79,7 @@ const Players = () => {
                     setPlayerResults(formattedResults);
                 }
                 setArePlayerStatsLoaded(true);
-                setArePlayerResultsLoaded(true);
+                setTimeout(() => setArePlayerResultsLoaded(true), 100);
             })
             .catch(err => console.log(err));
     }, [queryPlayerId, querySeasonId]);
@@ -98,7 +98,7 @@ const Players = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!arePlayerStatsLoaded
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : playerStats
                             ? <Fragment>
                                 <h5 className="text-center">Detailed Breakdown</h5>
@@ -111,7 +111,7 @@ const Players = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!arePlayerResultsLoaded
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : playerResults.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Week by Week Results</h5>

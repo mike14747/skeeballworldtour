@@ -11,7 +11,7 @@ const Results = () => {
     const currentSeasonId = useContext(CurrentSeasonContext);
     const { storeid, divisionid } = useParams();
     const querySeasonId = seasonId || currentSeasonId;
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState();
     const [season, setSeason] = useState();
     const [store, setStore] = useState();
     const [areResultsLoaded, setAreResultsLoaded] = useState(false);
@@ -49,7 +49,7 @@ const Results = () => {
                 if (response.data[3]) {
                     setResults(response.data[3]);
                 }
-                setAreResultsLoaded(true);
+                setTimeout(() => setAreResultsLoaded(true), 100);
             })
             .catch(err => console.log(err));
     }, [storeid, divisionid, querySeasonId]);
@@ -68,7 +68,7 @@ const Results = () => {
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     {!areResultsLoaded
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : results.length > 0
                             ? <ResultsDiv results={results} />
                             : <span className="empty-result">There are no results for this season!</span>

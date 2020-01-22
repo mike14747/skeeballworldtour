@@ -27,7 +27,7 @@ export default function Standings() {
             standingsArray[index].push(standing);
         });
         setStandingsArr(standingsArray);
-        setAreStandingsLoaded(true);
+        setTimeout(() => setAreStandingsLoaded(true), 100);
     }
 
     useEffect(() => {
@@ -54,8 +54,8 @@ export default function Standings() {
     return (
         <Fragment>
             <PageHeading text="Standings" />
-            {!areStandingsLoaded || !standingsArr
-                ? <img src={'/images/loading.gif'} alt={'Loading'} />
+            {!areStandingsLoaded
+                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : standingsArr.length > 0
                     ? <Fragment>
                         <SeasonDropdown buttonText="View Standings From:" listItems={standingSeasons} handleSeasonId={handleSeasonId} />

@@ -84,7 +84,7 @@ const Schedule = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
                     {!isScheduleLoaded || !scheduleArray
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : scheduleArray.length > 0
                             ? <Fragment>
                                 <ScheduleTable schedules={scheduleArray} />

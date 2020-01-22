@@ -62,25 +62,25 @@ export default function Teams() {
                     tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
                     setTeamStats(tempTeamStats);
                 }
-                setAreTeamStatsLoaded(true);
+                setTimeout(() => setAreTeamStatsLoaded(true), 100);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
             .then((response) => {
                 setTeamSchedule(response.data[2]);
-                setIsTeamScheduleLoaded(true);
+                setTimeout(() => setIsTeamScheduleLoaded(true), 100);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
             .then((response) => {
                 setPlayersTeam(response.data);
-                setAreTeamPlayersLoaded(true);
+                setTimeout(() => setAreTeamPlayersLoaded(true), 100);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 setTeamResults(response.data[2]);
-                setAreTeamResultsLoaded(true);
+                setTimeout(() => setAreTeamResultsLoaded(true), 100);
             })
             .catch(err => console.log(err));
     }, [queryTeamId, querySeasonId]);
@@ -101,7 +101,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!areTeamPlayersLoaded
-                                ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : playersTeam.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Players</h5>
@@ -133,7 +133,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!areTeamStatsLoaded
-                                ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamStats.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Detailed Breakdown</h5>
@@ -148,7 +148,7 @@ export default function Teams() {
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
                     {!isTeamScheduleLoaded
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : teamSchedule.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Schedule</h5>
@@ -184,7 +184,7 @@ export default function Teams() {
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     {!areTeamResultsLoaded
-                        ? <img src={'/images/loading.gif'} alt={'Loading'} />
+                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : teamResults.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Weekly Results</h5>
