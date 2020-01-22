@@ -89,14 +89,12 @@ export default function Teams() {
         <Fragment>
             <PageHeading text="Team Stats" />
             {teamNameStore &&
-                <div className="mb-4 bigger">
-                    <b>{teamNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Team: </span>{teamNameStore.team_name}</b>
-                    {teamSeasons.length > 0 &&
-                        <Fragment>
-                            <SeasonDropdown buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
-                        </Fragment>
-                    }
+                <div className="mb-3 bigger">
+                    {teamNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Team: </span>{teamNameStore.team_name}
                 </div>
+            }
+            {teamSeasons.length > 0 &&
+                <SeasonDropdown buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="row mb-4">
                 <div className="col-sm-6">
@@ -137,7 +135,10 @@ export default function Teams() {
                             {!areTeamStatsLoaded
                                 ? <img src={'/images/loading.gif'} alt={'Loading'} />
                                 : teamStats.length > 0
-                                    ? <StatsBlock stats={teamStats} />
+                                    ? <Fragment>
+                                        <h5 className="text-center">Detailed Breakdown</h5>
+                                        <StatsBlock stats={teamStats} />
+                                    </Fragment>
                                     : <span className="empty-result">There are no team stats for the selected season!</span>
                             }
                         </div>

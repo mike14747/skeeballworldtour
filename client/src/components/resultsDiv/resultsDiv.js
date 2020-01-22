@@ -92,7 +92,7 @@ const ResultsDiv = ({ results }) => {
         <Fragment>
             {formattedResults.map((result) => (
                 <Fragment key={result.id}>
-                    <h6 className="text-success font-weight-bolder">Week {result.week_id} ({result.date})</h6>
+                    <h5 className="text-center text-success">Week {result.week_id} ({result.date})</h5>
                     <div className="p-1 mb-4 border border-secondary">
                         <table className="table table-bordered table-hover mb-0">
                             <ResultsThead teamId={result.away_team.team_id} teamName={result.away_team.team_name} wins={result.away_team.wins} losses={result.away_team.losses} ties={result.away_team.ties} />

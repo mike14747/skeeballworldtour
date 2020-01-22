@@ -6,6 +6,7 @@
     border: none;
     cursor: pointer;
     font-size: 90%;
+    font-weight: 600;
 }
 
 .dropbtn:hover {

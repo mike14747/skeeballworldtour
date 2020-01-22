@@ -88,21 +88,22 @@ const Players = () => {
         <Fragment>
             <PageHeading text="Player Stats" />
             {playerNameStore &&
-                <div className="mb-4 bigger">
-                    <b>{playerNameStore.store_name}</b> <span className="mx-2">|</span> <b><span className="text-danger">Player: </span>{playerNameStore.full_name}</b>
-                    {playerSeasons.length > 0 &&
-                        <Fragment>
-                            <SeasonDropdown buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
-                        </Fragment>
-                    }
+                <div className="mb-3 bigger">
+                    {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
                 </div>
+            }
+            {playerSeasons.length > 0 &&
+                <SeasonDropdown buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!arePlayerStatsLoaded
                         ? <img src={'/images/loading.gif'} alt={'Loading'} />
                         : playerStats
-                            ? <StatsBlock stats={playerStats} />
+                            ? <Fragment>
+                                <h5 className="text-center">Detailed Breakdown</h5>
+                                <StatsBlock stats={playerStats} />
+                            </Fragment>
                             : <span className="empty-result">There are no player stats for this season!</span>
                     }
                 </div>

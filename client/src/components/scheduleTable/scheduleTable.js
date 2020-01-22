@@ -6,8 +6,8 @@ const ScheduleTable = ({ schedules }) => {
     return (
         <Fragment>
             {schedules.map((week) => (
-                <Fragment key={week.week_id}>
-                    <h5 className="text-center">Week {week.week_id} ({week.week_date1})</h5>
+                <div key={week.week_id} className="mb-5">
+                    <h5 className="text-center text-success mb-4">Week {week.week_id} ({week.week_date1})</h5>
                     <table className="table table-bordered table-hover">
                         <thead>
                             <tr className="bg-gray6">
@@ -25,7 +25,7 @@ const ScheduleTable = ({ schedules }) => {
                             ))}
                         </tbody>
                     </table>
-                </Fragment>
+                </div>
             ))}
         </Fragment>
     );

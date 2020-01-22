@@ -74,16 +74,12 @@ const Schedule = () => {
         <Fragment>
             <PageHeading text="Schedule" />
             {(store && season) &&
-                <div className="mb-4 bigger">
-                    <Fragment>
-                        <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}
-                    </Fragment>
-                    {scheduleSeasons.length > 0 &&
-                        <Fragment>
-                            <SeasonDropdown buttonText="View Results From:" listItems={scheduleSeasons} handleSeasonId={handleSeasonId} />
-                        </Fragment>
-                    }
+                <div className="mb-3 bigger">
+                    <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}
                 </div>
+            }
+            {scheduleSeasons.length > 0 &&
+                <SeasonDropdown buttonText="View Schedule From:" listItems={scheduleSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
