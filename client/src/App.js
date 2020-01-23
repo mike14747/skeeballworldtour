@@ -11,7 +11,6 @@ import Results from './pages/results/results';
 import Schedule from './pages/schedule/schedule';
 import Header from './components/header/header';
 import NavBar from './components/navbar/navbar';
-import SearchBar from './components/searchbar/searchbar';
 import Footer from './components/footer/footer';
 import CurrentSeasonContext from './components/currentSeasonContext';
 import axios from 'axios';
@@ -36,7 +35,6 @@ export default function App() {
             <div className="container border bg-white">
                 <Header />
                 <NavBar />
-                <SearchBar />
                 <Switch>
                     <CurrentSeasonContext.Provider value={currentSeasonId}>
                         <Route exact path="/" component={Home} />

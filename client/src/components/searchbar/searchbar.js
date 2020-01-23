@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import './css/searchbar.css';
 
@@ -12,19 +12,19 @@ function SearchBar() {
         }
     }, [submitted]);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         searchInput.length > 0 && setSubmitted(true);
     };
 
     return (
-        <div className="d-flex justify-content-center mb-4">
-            <form className="form-inline justify-content-center mt-2" onSubmit={handleSubmit}>
-                <label className="m-1">Find a player or team: </label>
-                <input type="text" maxLength="20" className="form-control m-1" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
-                <button type="submit" className="form-control search-button m-1">Submit</button>
+        <Fragment>
+            <form className="form-searchbar" onSubmit={handleSubmit}>
+                <input type="text" maxLength="20" placeholder="Find a Player or Team" className="input-searchbar" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
+                <button type="submit" name="submit" className="search-button">Submit</button>
             </form>
             {submitted && <Redirect to={'/search/' + searchInput} />}
-        </div >
+        </Fragment>
     );
 }
 
