@@ -78,7 +78,7 @@ const Players = () => {
                     setPlayerStats(tempPlayerStats);
                     setPlayerResults(formattedResults);
                 }
-                setArePlayerStatsLoaded(true);
+                setTimeout(() => setArePlayerStatsLoaded(true), 100);
                 setTimeout(() => setArePlayerResultsLoaded(true), 100);
             })
             .catch(err => console.log(err));
