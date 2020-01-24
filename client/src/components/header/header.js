@@ -7,10 +7,10 @@ import SearchBar from '../searchbar/searchbar';
 function Header() {
     return (
         <div className="header-bg row mb-0">
-            <div className="col-logo p-2 my-auto text-left">
+            <div className="col-sm-2 col-3 p-2 my-auto text-left">
                 <Link to="/"><img className="img-fluid" src={skeeballLogo} alt="Skeeball World Tour" /></Link>
             </div>
-            <div className="col-8 d-flex justify-content-center align-items-end mb-1">
+            <div className="col-sm-8 col-9 d-flex justify-content-center align-items-end mb-1 p-0">
                 <SearchBar />
             </div>
         </div>
