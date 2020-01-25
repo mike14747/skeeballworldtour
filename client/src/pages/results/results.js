@@ -49,7 +49,7 @@ const Results = () => {
                 if (response.data[3]) {
                     setResults(response.data[3]);
                 }
-                setTimeout(() => setAreResultsLoaded(true), 100);
+                setAreResultsLoaded(true);
             })
             .catch(err => console.log(err));
     }, [storeid, divisionid, querySeasonId]);

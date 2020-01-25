@@ -62,25 +62,25 @@ export default function Teams() {
                     tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
                     setTeamStats(tempTeamStats);
                 }
-                setTimeout(() => setAreTeamStatsLoaded(true), 100);
+                setAreTeamStatsLoaded(true);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
             .then((response) => {
                 setTeamSchedule(response.data[2]);
-                setTimeout(() => setIsTeamScheduleLoaded(true), 100);
+                setIsTeamScheduleLoaded(true);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
             .then((response) => {
                 setPlayersTeam(response.data);
-                setTimeout(() => setAreTeamPlayersLoaded(true), 100);
+                setAreTeamPlayersLoaded(true);
             })
             .catch(err => console.log(err));
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 setTeamResults(response.data[2]);
-                setTimeout(() => setAreTeamResultsLoaded(true), 100);
+                setAreTeamResultsLoaded(true);
             })
             .catch(err => console.log(err));
     }, [queryTeamId, querySeasonId]);

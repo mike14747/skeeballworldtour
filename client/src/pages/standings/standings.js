@@ -10,7 +10,7 @@ export default function Standings() {
     const querySeasonId = seasonId || currentSeasonId;
     const [standingsArr, setStandingsArr] = useState();
     const [areStandingsLoaded, setAreStandingsLoaded] = useState(false);
-    const [standingSeasons, setStandingSeasons] = useState([]);
+    const [standingsSeasons, setStandingsSeasons] = useState([]);
 
     const handleSeasonId = season => setSeasonId(season);
 
@@ -27,7 +27,7 @@ export default function Standings() {
             standingsArray[index].push(standing);
         });
         setStandingsArr(standingsArray);
-        setTimeout(() => setAreStandingsLoaded(true), 100);
+        setAreStandingsLoaded(true);
     }
 
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function Standings() {
                         text: season.season_name + ' - ' + season.year,
                     };
                 });
-                setStandingSeasons(seasonArray);
+                setStandingsSeasons(seasonArray);
             })
             .catch(err => console.log(err));
     }, []);
@@ -58,7 +58,7 @@ export default function Standings() {
                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : standingsArr.length > 0
                     ? <Fragment>
-                        <SeasonDropdown buttonText="View Standings From:" listItems={standingSeasons} handleSeasonId={handleSeasonId} />
+                        <SeasonDropdown buttonText="View Standings From:" listItems={standingsSeasons} handleSeasonId={handleSeasonId} />
                         {standingsArr.map((storeDiv, index) => (
                             <div key={index}>
                                 <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>

@@ -21,8 +21,6 @@ app.get('*', (req, res) => {
     }
 });
 
-// app.get('/', (req, res) => res.send('Testing the skeeball subdomain'));
-
 app.listen(PORT, () => {
     console.log(`Server now listening on PORT ${PORT}!`);
 });

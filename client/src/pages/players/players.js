@@ -78,8 +78,8 @@ const Players = () => {
                     setPlayerStats(tempPlayerStats);
                     setPlayerResults(formattedResults);
                 }
-                setTimeout(() => setArePlayerStatsLoaded(true), 100);
-                setTimeout(() => setArePlayerResultsLoaded(true), 100);
+                setArePlayerStatsLoaded(true);
+                setArePlayerResultsLoaded(true);
             })
             .catch(err => console.log(err));
     }, [queryPlayerId, querySeasonId]);
