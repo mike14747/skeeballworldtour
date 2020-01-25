@@ -30,4 +30,7 @@ router.use('/results', resultsController);
 const seasonsController = require('./seasonsController');
 router.use('/seasons', seasonsController);
 
+const leadersController = require('./leadersController');
+router.use('/leaders', leadersController);
+
 module.exports = router;

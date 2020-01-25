@@ -25,17 +25,20 @@ const Leaders = () => {
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
+        axios()
+            .then(response => setLeadersSeasons(response.data))
+            .catch(err => console.log(err));
+    }, []);
+
+    useEffect(() => {
         setAreIndAvgLeadersLoaded(false);
         setAreIndTenGameLeadersLoaded(false);
         setAreIndOneGameLeadersLoaded(false);
         setAreTeamAvgLeadersLoaded(false);
         setAreTeamTenGameLeadersLoaded(false);
         setAreTeamOneGameLeadersLoaded(false);
-    }, []);
 
-    useEffect(() => {
-
-    }, []);
+    }, [querySeasonId]);
 
     return (
         <Fragment>
