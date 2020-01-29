@@ -11,25 +11,40 @@ export default function Teams() {
     const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
     const querySeasonId = seasonId || currentSeasonId;
+
     const { teamid } = useParams();
     const queryTeamId = teamid || 0;
-    const [teamNameStore, setTeamNameStore] = useState();
-    const [teamSeasons, setTeamSeasons] = useState([]);
-    const [teamStats, setTeamStats] = useState([]);
-    const [teamSchedule, setTeamSchedule] = useState([]);
-    const [playersTeam, setPlayersTeam] = useState([]);
-    const [teamResults, setTeamResults] = useState([]);
-    const [areTeamStatsLoaded, setAreTeamStatsLoaded] = useState(false);
-    const [isTeamScheduleLoaded, setIsTeamScheduleLoaded] = useState(false);
-    const [areTeamPlayersLoaded, setAreTeamPlayersLoaded] = useState(false);
-    const [areTeamResultsLoaded, setAreTeamResultsLoaded] = useState(false);
+
+    const [teamNameStore, setTeamNameStore] = useState(null);
+    const [teamNameStoreStatus, setTeamNameStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [teamSeasons, setTeamSeasons] = useState(null);
+    const [teamSeasonsStatus, setTeamSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [teamStats, setTeamStats] = useState(null);
+    const [teamStatsStatus, setTeamStatsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [teamSchedule, setTeamSchedule] = useState(null);
+    const [teamScheduleStatus, setTeamScheduleStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [teamPlayers, setTeamPlayers] = useState(null);
+    const [teamPlayersStatus, setTeamPlayersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [teamResults, setTeamResults] = useState(null);
+    const [teamResultsStatus, setTeamResultsStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
-            .then(response => setTeamNameStore(response.data[0]))
-            .catch(err => console.log(err));
+            .then((response) => {
+                response.data[0] ? setTeamNameStore(response.data[0]) : setTeamNameStore([]);
+            })
+            .catch((error) => {
+                console.log(error);
+                setTeamNameStore(null);
+                setTeamNameStoreStatus({ errorMsg: 'An error occurred fetching info for this team!', isLoaded: true });
+            });
         axios.get('/api/teams/' + queryTeamId + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
@@ -39,70 +54,93 @@ export default function Teams() {
                     };
                 });
                 setTeamSeasons(seasonArray);
+                setTeamSeasonsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setTeamSeasons(null);
+                setTeamSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
+            });
     }, [queryTeamId]);
 
     useEffect(() => {
-        setAreTeamStatsLoaded(false);
-        setIsTeamScheduleLoaded(false);
-        setAreTeamPlayersLoaded(false);
-        setAreTeamResultsLoaded(false);
+        setTeamNameStoreStatus({ errorMsg: undefined, isLoaded: false });
+        setTeamSeasonsStatus({ errorMsg: undefined, isLoaded: false });
+        setTeamStatsStatus({ errorMsg: undefined, isLoaded: false });
+        setTeamScheduleStatus({ errorMsg: undefined, isLoaded: false });
+        setTeamPlayersStatus({ errorMsg: undefined, isLoaded: false });
+        setTeamResultsStatus({ errorMsg: undefined, isLoaded: false });
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
             .then((response) => {
                 if (response.data[2][0]) {
-                    const tempTeamStats = [];
-                    tempTeamStats.push({ text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties });
-                    tempTeamStats.push({ text: 'Total Points:', data: response.data[2][0].total_points });
-                    tempTeamStats.push({ text: '1-Game Low:', data: response.data[2][0].one_game_low });
-                    tempTeamStats.push({ text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) });
-                    tempTeamStats.push({ text: '1-Game High:', data: response.data[2][0].one_game_high });
-                    tempTeamStats.push({ text: '10-Game Low:', data: response.data[2][0].ten_game_low });
-                    tempTeamStats.push({ text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) });
-                    tempTeamStats.push({ text: '10-Game High:', data: response.data[2][0].ten_game_high });
-                    setTeamStats(tempTeamStats);
+                    setTeamStats([
+                        { text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties },
+                        { text: 'Total Points:', data: response.data[2][0].total_points },
+                        { text: '1-Game Low:', data: response.data[2][0].one_game_low },
+                        { text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) },
+                        { text: '1-Game High:', data: response.data[2][0].one_game_high },
+                        { text: '10-Game Low:', data: response.data[2][0].ten_game_low },
+                        { text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) },
+                        { text: '10-Game High:', data: response.data[2][0].ten_game_high },
+                    ]);
                 }
-                setAreTeamStatsLoaded(true);
+                setTeamStatsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setTeamStats(null);
+                setTeamStatsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
+            });
         axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
             .then((response) => {
-                setTeamSchedule(response.data[2]);
-                setIsTeamScheduleLoaded(true);
+                response.data[2] ? setTeamSchedule(response.data[2]) : setTeamSchedule([]);
+                setTeamScheduleStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setTeamSchedule(null);
+                setTeamScheduleStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+            });
         axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
             .then((response) => {
-                setPlayersTeam(response.data);
-                setAreTeamPlayersLoaded(true);
+                setTeamPlayers(response.data);
+                setTeamPlayersStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setTeamPlayers(null);
+                setTeamPlayersStatus({ errorMsg: 'An error occurred fetching players for this team!', isLoaded: true });
+            });
         axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
             .then((response) => {
-                setTeamResults(response.data[2]);
-                setAreTeamResultsLoaded(true);
+                response.data[2] ? setTeamResults(response.data[2]) : setTeamResults([]);
+                setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setTeamResults(null);
+                setTeamResultsStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+            });
     }, [queryTeamId, querySeasonId]);
 
     return (
         <Fragment>
             <PageHeading text="Team Stats" />
-            {teamNameStore &&
+            {teamNameStoreStatus.isLoaded && teamNameStore &&
                 <div className="mb-3 bigger">
                     {teamNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Team: </span>{teamNameStore.team_name}
                 </div>
             }
-            {teamSeasons.length > 0 &&
+            {teamSeasonsStatus.isLoaded && teamSeasons && teamSeasons.length > 0 &&
                 <SeasonDropdown buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="row mb-4">
                 <div className="col-sm-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
-                            {!areTeamPlayersLoaded
+                            {!teamPlayersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : playersTeam.length > 0
+                                : teamPlayers && teamPlayers.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Players</h5>
                                         <table className="table table-bordered table-hover">
@@ -114,7 +152,7 @@ export default function Teams() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {playersTeam.map((player) => (
+                                                {teamPlayers.map((player) => (
                                                     <tr key={player.player_id}>
                                                         <td><a href={'/players/' + player.player_id}>{player.full_name}</a></td>
                                                         <td className="text-center">{player.games_played}</td>
@@ -124,7 +162,9 @@ export default function Teams() {
                                             </tbody>
                                         </table>
                                     </Fragment>
-                                    : <span className="empty-result">There are no players on this team in the selected season!</span>
+                                    : teamPlayers
+                                        ? <span className="empty-result">There are no players on this team in the selected season!</span>
+                                        : <span className="empty-result">{teamPlayersStatus.errorMsg}</span>
                             }
                         </div>
                     </div>
@@ -132,14 +172,16 @@ export default function Teams() {
                 <div className="col-sm-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
-                            {!areTeamStatsLoaded
+                            {!teamStatsStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : teamStats.length > 0
+                                : teamStats && teamStats.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Detailed Breakdown</h5>
                                         <StatsBlock stats={teamStats} />
                                     </Fragment>
-                                    : <span className="empty-result">There are no team stats for the selected season!</span>
+                                    : teamStats
+                                        ? <span className="empty-result">There are no team stats for the selected season!</span>
+                                        : <span className="empty-result">{teamStatsStatus.errorMsg}</span>
                             }
                         </div>
                     </div>
@@ -147,9 +189,9 @@ export default function Teams() {
             </div>
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
-                    {!isTeamScheduleLoaded
+                    {!teamScheduleStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : teamSchedule.length > 0
+                        : teamSchedule && teamSchedule.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Schedule</h5>
                                 <table className="table table-bordered table-hover">
@@ -177,20 +219,24 @@ export default function Teams() {
                                     </tbody>
                                 </table>
                             </Fragment>
-                            : <span className="empty-result">There is no schedule for this team in the selected season!</span>
+                            : teamSchedule
+                                ? <span className="empty-result">There is no schedule for this team in the selected season!</span>
+                                : <span className="empty-result">{teamScheduleStatus.errorMsg}</span>
                     }
                 </div>
             </div>
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
-                    {!areTeamResultsLoaded
+                    {!teamResultsStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : teamResults.length > 0
+                        : teamResults && teamResults.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Weekly Results</h5>
                                 <ResultsDiv results={teamResults} />
                             </Fragment>
-                            : <span className="empty-result">There are no results for this team in the selected season!</span>
+                            : teamResults
+                                ? <span className="empty-result">There are no results for this team in the selected season!</span>
+                                : <span className="empty-result">{teamResultsStatus.errorMsg}</span>
                     }
                 </div>
             </div>
