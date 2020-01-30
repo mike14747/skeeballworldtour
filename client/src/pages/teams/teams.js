@@ -41,6 +41,7 @@ export default function Teams() {
         axios.get('/api/teams/' + queryTeamId + '/store-name')
             .then((response) => {
                 response.data[0] ? setTeamNameStore(response.data[0]) : setTeamNameStore([]);
+                setTeamNameStoreStatus({ errorMsg: undefined, isLoaded: true });
             })
             .catch((error) => {
                 console.log(error);
