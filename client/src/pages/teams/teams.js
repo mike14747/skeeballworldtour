@@ -16,7 +16,6 @@ export default function Teams() {
     const queryTeamId = teamid || 0;
 
     const [seasonName, setSeasonName] = useState(null);
-    const [seasonNameStatus, setSeasonNameStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [teamNameStore, setTeamNameStore] = useState(null);
     const [teamNameStoreStatus, setTeamNameStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -74,7 +73,6 @@ export default function Teams() {
             .catch((error) => {
                 console.log(error);
                 setSeasonName(null);
-                setSeasonNameStatus({ errorMsg: 'An error occurred fetching the current season name/year!', isLoaded: true });
             });
         axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
             .then((response) => {
@@ -89,6 +87,8 @@ export default function Teams() {
                         { text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) },
                         { text: '10-Game High:', data: response.data[2][0].ten_game_high },
                     ]);
+                } else {
+                    setTeamStats([]);
                 }
                 setTeamStatsStatus({ errorMsg: undefined, isLoaded: true });
             })

@@ -40,9 +40,9 @@ function Dropdown({ currentSeason, buttonText, listItems, handleSeasonId }) {
                 <ul className="dropdown-content">
                     {listItems.map(item => (
                         <Fragment key={item.season_id}>
-                            {currentSeason && (item.season_id !== currentSeason.season_id)
-                                ? <li onClick={() => handleSeasonId(item.season_id)}>{item.text}</li>
-                                : <li className="viewing">{item.text}</li>
+                            {currentSeason && (item.season_id === currentSeason.season_id)
+                                ? <li className="viewing">{item.text}</li>
+                                : <li onClick={() => handleSeasonId(item.season_id)}>{item.text}</li>
                             }
                         </Fragment>
                     ))}
