@@ -10,22 +10,39 @@ const Players = () => {
     const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
     const querySeasonId = seasonId || currentSeasonId;
+
     const { playerid } = useParams();
     const queryPlayerId = playerid || 0;
-    const [playerNameStore, setPlayerNameStore] = useState();
-    const [playerSeasons, setPlayerSeasons] = useState([]);
-    const [playerStats, setPlayerStats] = useState();
-    const [playerResults, setPlayerResults] = useState([]);
-    const [arePlayerStatsLoaded, setArePlayerStatsLoaded] = useState(false);
-    const [arePlayerResultsLoaded, setArePlayerResultsLoaded] = useState(false);
+
+    const [seasonName, setSeasonName] = useState(null);
+
+    const [playerNameStore, setPlayerNameStore] = useState(null);
+    const [playerNameStoreStatus, setPlayerNameStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [playerSeasons, setPlayerSeasons] = useState(null);
+    const [playerSeasonsStatus, setPlayerSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [playerStats, setPlayerStats] = useState(null);
+    const [playerStatsStatus, setPlayerStatsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [playerResults, setPlayerResults] = useState(null);
+    const [playerResultsStatus, setPlayerResultsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
     const gamesArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
         axios.get('/api/players/' + queryPlayerId + '/name-store')
-            .then(response => setPlayerNameStore(response.data[0]))
-            .catch(err => console.log(err));
+            .then((response) => {
+                response.data[0] ? setPlayerNameStore(response.data[0]) : setPlayerNameStore([]);
+                setPlayerNameStoreStatus({ errorMsg: undefined, isLoaded: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                setPlayerNameStore(null);
+                setPlayerNameStoreStatus({ errorMsg: 'An error occurred fetching info for this Player!', isLoaded: true });
+            });
         axios.get('/api/players/' + queryPlayerId + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
@@ -35,13 +52,24 @@ const Players = () => {
                     };
                 });
                 setPlayerSeasons(seasonArray);
+                setPlayerSeasonsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setPlayerSeasons(null);
+                setPlayerSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this player!', isLoaded: true });
+            });
     }, [queryPlayerId]);
 
     useEffect(() => {
-        setArePlayerStatsLoaded(false);
-        setArePlayerResultsLoaded(false);
+        axios.get('/api/seasons/' + querySeasonId + '/name')
+            .then((response) => {
+                response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
+            })
+            .catch((error) => {
+                console.log(error);
+                setSeasonName(null);
+            });
         axios.get('/api/players/' + queryPlayerId + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 if (response.data.length > 0) {
@@ -77,42 +105,53 @@ const Players = () => {
                     tempPlayerStats.push({ text: 'Best 10-Game Series:', data: bestTenGameSeries });
                     setPlayerStats(tempPlayerStats);
                     setPlayerResults(formattedResults);
+                } else {
+                    setPlayerStats([]);
+                    setPlayerResults([]);
                 }
-                setArePlayerStatsLoaded(true);
-                setArePlayerResultsLoaded(true);
+                setPlayerStatsStatus({ errorMsg: undefined, isLoaded: true });
+                setPlayerResultsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setPlayerStats(null);
+                setPlayerResults(null);
+                setPlayerStatsStatus({ errorMsg: 'An error occurred fetching stats for this Player!', isLoaded: true });
+                setPlayerResultsStatus({ errorMsg: 'An error occurred fetching results for this Player!', isLoaded: true });
+            });
     }, [queryPlayerId, querySeasonId]);
 
     return (
         <Fragment>
             <PageHeading text="Player Stats" />
-            {playerNameStore &&
+            {playerNameStoreStatus.isLoaded && playerNameStore &&
                 <div className="mb-3 bigger">
                     {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
                 </div>
             }
-            {playerSeasons.length > 0 &&
-                <SeasonDropdown buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
+            {playerSeasonsStatus.isLoaded && playerSeasons && playerSeasons.length > 0 &&
+                <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
-                    {!arePlayerStatsLoaded
+                    {!playerStatsStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : playerStats
+                        : playerStats && playerStats.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Detailed Breakdown</h5>
                                 <StatsBlock stats={playerStats} />
                             </Fragment>
-                            : <span className="empty-result">There are no player stats for this season!</span>
+                            : playerStats
+                                ? <span className="empty-result">There are no player stats for this season!</span>
+                                : <span className="empty-result">{playerStatsStatus.errorMsg}</span>
                     }
                 </div>
             </div>
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
-                    {!arePlayerResultsLoaded
+                    {!playerResultsStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : playerResults.length > 0
+                        : playerResults && playerResults.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Week by Week Results</h5>
                                 <table className="table table-bordered table-hover mb-0">
@@ -138,7 +177,9 @@ const Players = () => {
                                     </tbody>
                                 </table>
                             </Fragment>
-                            : <span className="empty-result">There are no player results for this season!</span>
+                            : playerResults
+                                ? <span className="empty-result">There are no player results for this season!</span>
+                                : <span className="empty-result">{playerResultsStatus.errorMsg}</span>
                     }
                 </div>
             </div>

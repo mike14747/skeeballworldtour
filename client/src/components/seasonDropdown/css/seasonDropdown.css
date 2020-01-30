@@ -59,3 +59,12 @@
     background-color: #f3e3c0;
     color: #cc0000;
 }
+
+.viewing {
+    cursor: default;
+    color: #999999 !important;
+}
+
+.viewing:hover {
+    background-color: #f3e3c0 !important;
+}
