@@ -12,7 +12,6 @@ const Players = () => {
     const querySeasonId = seasonId || currentSeasonId;
 
     const { playerid } = useParams();
-    const queryPlayerId = playerid || 0;
 
     const [seasonName, setSeasonName] = useState(null);
 
@@ -33,7 +32,7 @@ const Players = () => {
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
-        axios.get('/api/players/' + queryPlayerId + '/name-store')
+        axios.get('/api/players/' + playerid + '/name-store')
             .then((response) => {
                 response.data[0] ? setPlayerNameStore(response.data[0]) : setPlayerNameStore([]);
                 setPlayerNameStoreStatus({ errorMsg: undefined, isLoaded: true });
@@ -43,7 +42,7 @@ const Players = () => {
                 setPlayerNameStore(null);
                 setPlayerNameStoreStatus({ errorMsg: 'An error occurred fetching info for this Player!', isLoaded: true });
             });
-        axios.get('/api/players/' + queryPlayerId + '/seasons-list')
+        axios.get('/api/players/' + playerid + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {
@@ -59,7 +58,7 @@ const Players = () => {
                 setPlayerSeasons(null);
                 setPlayerSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this player!', isLoaded: true });
             });
-    }, [queryPlayerId]);
+    }, [playerid]);
 
     useEffect(() => {
         axios.get('/api/seasons/' + querySeasonId + '/name')
@@ -70,7 +69,7 @@ const Players = () => {
                 console.log(error);
                 setSeasonName(null);
             });
-        axios.get('/api/players/' + queryPlayerId + '/results/seasons/' + querySeasonId)
+        axios.get('/api/players/' + playerid + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 if (response.data.length > 0) {
                     const allScores = [];
@@ -119,7 +118,7 @@ const Players = () => {
                 setPlayerStatsStatus({ errorMsg: 'An error occurred fetching stats for this Player!', isLoaded: true });
                 setPlayerResultsStatus({ errorMsg: 'An error occurred fetching results for this Player!', isLoaded: true });
             });
-    }, [queryPlayerId, querySeasonId]);
+    }, [playerid, querySeasonId]);
 
     return (
         <Fragment>

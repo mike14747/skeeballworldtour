@@ -9,13 +9,20 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 const Results = () => {
     const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = useContext(CurrentSeasonContext);
-    const { storeid, divisionid } = useParams();
     const querySeasonId = seasonId || currentSeasonId;
-    const [results, setResults] = useState();
-    const [season, setSeason] = useState();
-    const [store, setStore] = useState();
-    const [areResultsLoaded, setAreResultsLoaded] = useState(false);
-    const [resultSeasons, setResultSeasons] = useState([]);
+
+    const { storeid, divisionid } = useParams();
+
+    const [seasonName, setSeasonName] = useState(null);
+
+    const [results, setResults] = useState(null);
+    const [resultsStatus, setResultsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [store, setStore] = useState(null);
+    const [storeStatus, setStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [resultSeasons, setResultSeasons] = useState(null);
+    const [resultSeasonsStatus, setResultSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const handleSeasonId = season => setSeasonId(season);
 
@@ -29,49 +36,68 @@ const Results = () => {
                     };
                 });
                 setResultSeasons(seasonArray);
+                setResultSeasonsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setResultSeasons(null);
+                setResultSeasonsStatus({ errorMsg: 'An error occurred fetching results!', isLoaded: true });
+            });
     }, [storeid, divisionid]);
 
     useEffect(() => {
-        setAreResultsLoaded(false);
-        axios.all([
-            axios.get('/api/seasons/' + querySeasonId),
-            axios.get('/api/stores/' + storeid + '/divisions/' + divisionid),
-        ])
-            .then(axios.spread((season, store) => {
-                setSeason(season.data[0]);
-                setStore(store.data[0]);
-            }))
-            .catch(err => console.log(err));
+        axios.get('/api/seasons/' + querySeasonId + '/name')
+            .then((response) => {
+                response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
+            })
+            .catch((error) => {
+                console.log(error);
+                setSeasonName(null);
+            });
+        axios.get('/api/stores/' + storeid + '/divisions/' + divisionid)
+            .then((response) => {
+                response.data[0] ? setStore(response.data[0]) : setStore(null);
+                setStoreStatus({ errorMsg: undefined, isLoaded: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                setStore(null);
+                setStoreStatus({ errorMsg: 'An error occurred fetching the store name!', isLoaded: true });
+            });
         axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
             .then((response) => {
                 if (response.data[3]) {
                     setResults(response.data[3]);
                 }
-                setAreResultsLoaded(true);
+                setResultsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setResults(null);
+                setResultsStatus({ errorMsg: 'An error occurred fetching results!', isLoaded: true });
+            });
     }, [storeid, divisionid, querySeasonId]);
 
     return (
         <Fragment>
             <PageHeading text="Results" />
-            {(store && season) &&
+            {storeStatus.isLoaded && store &&
                 <div className="mb-3 bigger">
-                    <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a> <span className="mx-2">|</span> Season: {season.season_name}, {season.year}
+                    <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a>
                 </div>
             }
-            {resultSeasons.length > 0 &&
-                <SeasonDropdown buttonText="View Results From:" listItems={resultSeasons} handleSeasonId={handleSeasonId} />
+            {resultSeasonsStatus.isLoaded && resultSeasons && resultSeasons.length > 0 &&
+                <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={resultSeasons} handleSeasonId={handleSeasonId} />
             }
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
-                    {!areResultsLoaded
+                    {!resultsStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : results.length > 0
+                        : results && results.length > 0
                             ? <ResultsDiv results={results} />
-                            : <span className="empty-result">There are no results for this season!</span>
+                            : results
+                                ? <span className="empty-result">There are no results for this season!</span>
+                                : <span className="empty-result">{resultsStatus.errorMsg}</span>
                     }
                 </div>
             </div>

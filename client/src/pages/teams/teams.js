@@ -13,7 +13,6 @@ export default function Teams() {
     const querySeasonId = seasonId || currentSeasonId;
 
     const { teamid } = useParams();
-    const queryTeamId = teamid || 0;
 
     const [seasonName, setSeasonName] = useState(null);
 
@@ -38,7 +37,7 @@ export default function Teams() {
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
-        axios.get('/api/teams/' + queryTeamId + '/store-name')
+        axios.get('/api/teams/' + teamid + '/store-name')
             .then((response) => {
                 response.data[0] ? setTeamNameStore(response.data[0]) : setTeamNameStore([]);
                 setTeamNameStoreStatus({ errorMsg: undefined, isLoaded: true });
@@ -48,7 +47,7 @@ export default function Teams() {
                 setTeamNameStore(null);
                 setTeamNameStoreStatus({ errorMsg: 'An error occurred fetching info for this team!', isLoaded: true });
             });
-        axios.get('/api/teams/' + queryTeamId + '/seasons-list')
+        axios.get('/api/teams/' + teamid + '/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {
@@ -64,7 +63,7 @@ export default function Teams() {
                 setTeamSeasons(null);
                 setTeamSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
             });
-    }, [queryTeamId]);
+    }, [teamid]);
 
     useEffect(() => {
         axios.get('/api/seasons/' + querySeasonId + '/name')
@@ -75,7 +74,7 @@ export default function Teams() {
                 console.log(error);
                 setSeasonName(null);
             });
-        axios.get('/api/teams/' + queryTeamId + '/seasons/' + querySeasonId)
+        axios.get('/api/teams/' + teamid + '/seasons/' + querySeasonId)
             .then((response) => {
                 if (response.data[2][0]) {
                     setTeamStats([
@@ -98,7 +97,7 @@ export default function Teams() {
                 setTeamStats(null);
                 setTeamStatsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
             });
-        axios.get('/api/teams/' + queryTeamId + '/current-schedule/seasons/' + querySeasonId)
+        axios.get('/api/teams/' + teamid + '/current-schedule/seasons/' + querySeasonId)
             .then((response) => {
                 response.data[2] ? setTeamSchedule(response.data[2]) : setTeamSchedule([]);
                 setTeamScheduleStatus({ errorMsg: undefined, isLoaded: true });
@@ -108,7 +107,7 @@ export default function Teams() {
                 setTeamSchedule(null);
                 setTeamScheduleStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
             });
-        axios.get('/api/teams/' + queryTeamId + '/players/seasons/' + querySeasonId)
+        axios.get('/api/teams/' + teamid + '/players/seasons/' + querySeasonId)
             .then((response) => {
                 setTeamPlayers(response.data);
                 setTeamPlayersStatus({ errorMsg: undefined, isLoaded: true });
@@ -118,7 +117,7 @@ export default function Teams() {
                 setTeamPlayers(null);
                 setTeamPlayersStatus({ errorMsg: 'An error occurred fetching players for this team!', isLoaded: true });
             });
-        axios.get('/api/teams/' + queryTeamId + '/results/seasons/' + querySeasonId)
+        axios.get('/api/teams/' + teamid + '/results/seasons/' + querySeasonId)
             .then((response) => {
                 response.data[2] ? setTeamResults(response.data[2]) : setTeamResults([]);
                 setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
@@ -128,7 +127,7 @@ export default function Teams() {
                 setTeamResults(null);
                 setTeamResultsStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
             });
-    }, [queryTeamId, querySeasonId]);
+    }, [teamid, querySeasonId]);
 
     return (
         <Fragment>

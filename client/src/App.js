@@ -41,9 +41,9 @@ export default function App() {
                     <CurrentSeasonContext.Provider value={currentSeasonId}>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/rules" component={Rules} />
-                        <Route path="/standings/:seasonid?" component={Standings} />
-                        <Route path="/teams/:teamid/:seasonid?" component={Teams} />
-                        <Route path="/players/:playerid/:seasonid?" component={Players} />
+                        <Route path="/standings" component={Standings} />
+                        <Route path="/teams/:teamid" component={Teams} />
+                        <Route path="/players/:playerid" component={Players} />
                         <Route path="/results/:storeid/:divisionid/:seasonid?" component={Results} />
                         <Route path="/schedule/:storeid/:divisionid/:seasonid?" component={Schedule} />
                         <Route exact path="/leaders" component={Leaders} />
