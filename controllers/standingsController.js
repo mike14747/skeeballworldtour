@@ -1,23 +1,23 @@
 const router = require('express').Router();
 const Standing = require('../models/standing');
 
-router.get('/season/:id', async (req, res) => {
+router.get('/season/:id', async (req, res, next) => {
     try {
-        const data = await Standing.getStandingsBySeasonId(Number(req.params.id));
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Standing.getStandingsBySeasonId({
+            id: Number(req.params.id),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/seasons-list', async (req, res) => {
+router.get('/seasons-list', async (req, res, next) => {
     try {
         const data = await Standing.getSeasonsList();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
