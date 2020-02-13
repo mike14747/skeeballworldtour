@@ -12,15 +12,15 @@ export default function Search() {
             .then((response) => {
                 setPlayerArray(response.data);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
             });
         axios.get('/api/searches/teams/' + searchstring)
             .then((response) => {
                 setTeamArray(response.data);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
             });
     }, [searchstring]);
 

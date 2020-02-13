@@ -2,93 +2,85 @@ const router = require('express').Router();
 const Team = require('../models/team');
 const Player = require('../models/player');
 
-router.get('/:teamid/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        team_id: req.params.teamid,
-        season_id: req.params.seasonid,
-    };
+router.get('/:teamid/seasons/:seasonid', async (req, res, next) => {
     try {
-        const data = await Team.getTeamStatsByTeamSeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Team.getTeamStatsByTeamSeasonId({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/seasons-list', async (req, res) => {
+router.get('/:teamid/seasons-list', async (req, res, next) => {
     try {
-        const data = await Team.getSeasonsListByTeamId(Number(req.params.teamid));
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed.. please check your request and try again!');
+        const data = await Team.getSeasonsListByTeamId({
+            id: req.params.teamid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/store-name', async (req, res) => {
+router.get('/:teamid/store-name', async (req, res, next) => {
     try {
-        const data = await Team.getTeamNameAndStoreName(req.params.teamid);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Team.getTeamNameAndStoreName({
+            id: req.params.teamid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/in-schedule/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        team_id: req.params.teamid,
-        season_id: req.params.seasonid,
-    };
+router.get('/:teamid/in-schedule/seasons/:seasonid', async (req, res, next) => {
     try {
-        const data = await Team.getTeamInScheduleBySeason(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Team.getTeamInScheduleBySeason({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/current-schedule/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        team_id: req.params.teamid,
-        season_id: req.params.seasonid,
-    };
+router.get('/:teamid/current-schedule/seasons/:seasonid', async (req, res, next) => {
     try {
-        const data = await Team.getTeamScheduleBySeason(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Team.getTeamScheduleBySeason({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/results/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        team_id: req.params.teamid,
-        season_id: req.params.seasonid,
-    };
+router.get('/:teamid/results/seasons/:seasonid', async (req, res, next) => {
     try {
-        const data = await Team.getTeamResultsBySeason(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Team.getTeamResultsBySeason({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:teamid/players/seasons/:seasonid', async (req, res) => {
-    const paramsObj = {
-        team_id: req.params.teamid,
-        season_id: req.params.seasonid,
-    };
+router.get('/:teamid/players/seasons/:seasonid', async (req, res, next) => {
     try {
-        const data = await Player.getPlayersOnTeamInSeason(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Player.getPlayersOnTeamInSeason({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
