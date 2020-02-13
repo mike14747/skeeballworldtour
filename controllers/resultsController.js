@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Result = require('../models/result');
 
-router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, res) => {
+router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, res, next) => {
     const paramsObj = {
         store_id: req.params.storeid,
         division_id: req.params.divisionid,
@@ -16,7 +16,7 @@ router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, 
     }
 });
 
-router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res) => {
+router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res, next) => {
     const paramsObj = {
         store_id: req.params.storeid,
         division_id: req.params.divisionid,

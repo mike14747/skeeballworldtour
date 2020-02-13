@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Season = require('../models/season');
 
-router.get('/champions', async (req, res) => {
+router.get('/champions', async (req, res, next) => {
     try {
         const data = await Season.getAllChampions();
         res.json(data);
@@ -11,7 +11,7 @@ router.get('/champions', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const data = await Season.getAllSeasons();
         res.json(data);
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const data = await Season.getSeasonById(req.params.id);
         res.json(data);
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/:id/name', async (req, res) => {
+router.get('/:id/name', async (req, res, next) => {
     try {
         const data = await Season.getSeasonNameYearById(req.params.id);
         res.json(data);

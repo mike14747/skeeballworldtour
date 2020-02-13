@@ -1,37 +1,35 @@
 const router = require('express').Router();
 const Store = require('../models/store');
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const data = await Store.getAllActive();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const data = await Store.getOneActive(req.params.id);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Store.getOneActive({
+            id: req.params.id,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/:storeid/divisions/:divisionid', async (req, res) => {
-    const paramsObj = {
-        store_id: req.params.storeid,
-        division_id: req.params.divisionid,
-    };
+router.get('/:storeid/divisions/:divisionid', async (req, res, next) => {
     try {
-        const data = await Store.getOneStoreDivision(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Store.getOneStoreDivision({
+            store_id: req.params.storeid,
+            division_id: req.params.divisionid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 

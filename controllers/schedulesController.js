@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Schedule = require('../models/schedule');
 
-router.get('/navbar/:id', async (req, res) => {
+router.get('/navbar/:id', async (req, res, next) => {
     try {
         const data = await Schedule.getCurrentStoresDivisions(req.params.id);
         res.json(data);
@@ -11,7 +11,7 @@ router.get('/navbar/:id', async (req, res) => {
     }
 });
 
-router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res) => {
+router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res, next) => {
     const paramsObj = {
         store_id: req.params.storeid,
         division_id: req.params.divisionid,
@@ -25,7 +25,7 @@ router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res)
     }
 });
 
-router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, res) => {
+router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, res, next) => {
     const paramsObj = {
         store_id: req.params.storeid,
         division_id: req.params.divisionid,
