@@ -4,40 +4,40 @@ const Season = require('../models/season');
 router.get('/champions', async (req, res, next) => {
     try {
         const data = await Season.getAllChampions();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
 router.get('/', async (req, res, next) => {
     try {
         const data = await Season.getAllSeasons();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const data = await Season.getSeasonById(req.params.id);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Season.getSeasonById({
+            id: req.params.id,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
 router.get('/:id/name', async (req, res, next) => {
     try {
-        const data = await Season.getSeasonNameYearById(req.params.id);
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        const data = await Season.getSeasonNameYearById({
+            id: req.params.id,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
