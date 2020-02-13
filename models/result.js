@@ -43,6 +43,7 @@ const Results = {
         }
         const queryString = 'SET @store_id=?;SET @division_id=?;SET @season_id=?;SELECT s.week_id, s.week_date1, s.away_team_id, s.home_team_id, s.alley, s.start_time, ' + innerString + ' FROM results AS r JOIN players AS p ON (r.player_id=p.player_id) JOIN teams AS t ON (r.team_id=t.team_id) JOIN (SELECT week_id, DATE_FORMAT(week_date, "%b-%d, %Y") AS week_date1, away_team_id, home_team_id, alley, start_time FROM schedule WHERE season_id=@season_id && store_id=@store_id && division_id=@division_id ORDER BY week_id DESC, start_time ASC, alley ASC) AS s ON (r.week_id=s.week_id AND (r.team_id=s.away_team_id || r.team_id=s.home_team_id)) WHERE r.season_id=@season_id && r.store_id=@store_id && r.division_id=@division_id GROUP BY r.week_id, s.start_time, s.alley ORDER BY r.week_id DESC, s.start_time ASC, s.alley ASC, r.team_id ASC, r.player_num ASC;';
         const queryParams = [paramsObj.store_id, paramsObj.division_id, paramsObj.season_id];
+        console.log(queryString);
         const [result] = await pool.query(queryString, queryParams);
         return result;
     },

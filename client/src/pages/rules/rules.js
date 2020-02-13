@@ -4,23 +4,24 @@ import axios from 'axios';
 import PageHeading from '../../components/pageHeading/pageHeading';
 
 const Rules = () => {
-    const [rules, setRules] = useState();
-    const [haveRulesLoaded, setHaveRulesLoaded] = useState(false);
+    const [rules, setRules] = useState(null);
+    const [rulesStatus, setRulesStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     useEffect(() => {
         axios.get('/api/pages/rules')
             .then((response) => {
-                if (response.data[0]) {
-                    setRules(response.data[0]);
-                }
-                setHaveRulesLoaded(true);
+                response.data[0] && setRules(response.data[0]);
+                setRulesStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch(err => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                setRulesStatus({ errorMsg: 'An error occurred fetching league rules!', isLoaded: true });
+            });
     }, []);
 
     return (
         <Fragment>
-            {!haveRulesLoaded
+            {!rulesStatus.isLoaded
                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : rules
                     ? <Fragment>

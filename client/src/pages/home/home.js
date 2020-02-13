@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 
 function Home() {
     const [showRegButton, setShowRegButton] = useState(0);
-    const [regButtonUrl, setregButtonUrl] = useState('');
-    const [regButtonText, setregButtonText] = useState('');
+    const [regButtonUrl, setregButtonUrl] = useState(null);
+    const [regButtonText, setregButtonText] = useState(null);
     const [newsArr, setNewsArr] = useState([]);
+    const [newsStatus, setNewsStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     useEffect(() => {
         axios.get('/api/settings/homepage')
@@ -21,15 +22,17 @@ function Home() {
         axios.get('/api/pages/homepage-news')
             .then((response) => {
                 setNewsArr(response.data);
+                setNewsStatus({ errorMsg: undefined, isLoaded: true });
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
+                setNewsStatus({ errorMsg: 'An error occurred fetching league news!', isLoaded: true });
             });
     }, []);
 
     return (
         <div>
-            {showRegButton === 1 &&
+            {showRegButton === 1 && regButtonUrl && regButtonText &&
                 <div>
                     <div className="text-center">
                         <a href={regButtonUrl}><img src="/images/register_now.jpg" alt="REGISTER NOW!" /></a>
@@ -37,14 +40,23 @@ function Home() {
                     </div>
                 </div>
             }
-            {newsArr.map((news, i) => (
-                <div key={news.page_id}>
-                    {i > 0 && <hr className="mt-4 mb-4" />}
-                    <h5 className="text-danger mt-1 mb-0">{news.content_heading}</h5>
-                    <p><span className="small">{news.text_date1}</span></p>
-                    {ReactHtmlParser(news.page_content)}
-                </div>
-            ))}
+
+            {!newsStatus.isLoaded
+                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                : newsArr && newsArr.length > 0
+                    ? <Fragment>
+                        {newsArr.map((news, i) => (
+                            <div key={news.page_id}>
+                                {i > 0 && <hr className="mt-4 mb-4" />}
+                                <h5 className="text-danger mt-1 mb-0">{news.content_heading}</h5>
+                                <p><span className="small">{news.text_date1}</span></p>
+                                {ReactHtmlParser(news.page_content)}
+                            </div>
+                        ))}
+                    </Fragment>
+                    : <div className="text-center empty-result">Please check back again soon to see league news!</div>
+
+            }
         </div>
     );
 }

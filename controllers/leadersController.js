@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Leader = require('../models/leader');
-const msg = require('./addons/messages');
+const msg = require('./utils/messages');
 
 router.get('/individual/average/:seasonid/:numleaders', async (req, res) => {
     const paramsObj = {

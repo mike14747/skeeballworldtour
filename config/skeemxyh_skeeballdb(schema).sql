@@ -58,7 +58,8 @@ CREATE TABLE results (
   g8 int(3) UNSIGNED NOT NULL,
   g9 int(3) UNSIGNED NOT NULL,
   g10 int(3) UNSIGNED NOT NULL,
-  PRIMARY KEY (results_id)
+  PRIMARY KEY (results_id),
+  INDEX results_idx (season_id, store_id, division_id)
 );
 
 -- --------------------------------------------------------
@@ -77,7 +78,8 @@ CREATE TABLE schedule (
   alley int(2) UNSIGNED NOT NULL,
   away_team_id int(4) UNSIGNED NOT NULL,
   home_team_id int(4) UNSIGNED NOT NULL,
-  PRIMARY KEY (schedule_id)
+  PRIMARY KEY (schedule_id),
+  INDEX schedule_idx (season_id, store_id, division_id)
 );
 
 -- --------------------------------------------------------
@@ -104,10 +106,10 @@ CREATE TABLE seasons (
   season_games tinyint(2) UNSIGNED NOT NULL,
   tourny_team_id int(4) NOT NULL,
   comments text NOT NULL,
-  reg_ends date NOT NULL,
+  reg_ends date DEFAULT NULL,
   start_date date NOT NULL,
   end_date date NOT NULL,
-  tourny_date date NOT NULL,
+  tourny_date date DEFAULT NULL,
   PRIMARY KEY (season_id)
 );
 
@@ -170,7 +172,7 @@ CREATE TABLE store_text (
   store_id int(2) UNSIGNED NOT NULL,
   content_heading varchar(100) NOT NULL,
   page_content text,
-  text_date date NOT NULL,
+  text_date date DEFAULT NULL,
   display_content tinyint(1) UNSIGNED NOT NULL,
   PRIMARY KEY (page_id)
 );

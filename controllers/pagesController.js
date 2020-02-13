@@ -1,24 +1,21 @@
 const router = require('express').Router();
 const Page = require('../models/page');
-const msg = require('./addons/messages');
 
-router.get('/rules', async (req, res) => {
+router.get('/rules', async (req, res, next) => {
     try {
         const data = await Page.getRules();
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/homepage-news', async (req, res) => {
+router.get('/homepage-news', async (req, res, next) => {
     try {
         const data = await Page.getHomepageNews();
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
