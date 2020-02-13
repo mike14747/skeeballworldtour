@@ -27,8 +27,8 @@ export default function App() {
             .then((response) => {
                 setCurrentSeasonId(response.data[0].current_season_id);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((error) => {
+                console.log(error);
             });
     }, []);
 

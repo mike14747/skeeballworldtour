@@ -1,43 +1,39 @@
 const router = require('express').Router();
 const Setting = require('../models/setting');
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
     try {
         const data = await Setting.getAllSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/navbar', async (req, res) => {
+router.get('/navbar', async (req, res, next) => {
     try {
         const data = await Setting.getNavbarSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/homepage', async (req, res) => {
+router.get('/homepage', async (req, res, next) => {
     try {
         const data = await Setting.getHomepageSettings();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/current-season', async (req, res) => {
+router.get('/current-season', async (req, res, next) => {
     try {
         const data = await Setting.getCurrentSeasonId();
-        res.json(data);
-    } catch (err) {
-        console.log('An error has occurred! ' + err);
-        res.status(500).send('Request failed... please check your request and try again!');
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 

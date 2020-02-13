@@ -1,88 +1,75 @@
 const router = require('express').Router();
 const Leader = require('../models/leader');
-const msg = require('./utils/messages');
 
-router.get('/individual/average/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/individual/average/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getIndividualAverageBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getIndividualAverageBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/individual/one-game/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/individual/one-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getIndividualOneGameBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getIndividualOneGameBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/individual/ten-game/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/individual/ten-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getIndividualTenGameBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getIndividualTenGameBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/team/average/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/team/average/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamAverageBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getTeamAverageBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/team/one-game/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/team/one-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamOneGameBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getTeamOneGameBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
-router.get('/team/ten-game/:seasonid/:numleaders', async (req, res) => {
-    const paramsObj = {
-        season_id: Number(req.params.seasonid),
-        num_leaders: Number(req.params.numleaders),
-    };
+router.get('/team/ten-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamTenGameBySeasonId(paramsObj);
-        res.json(data);
-    } catch (err) {
-        console.log(msg.consoleLogErrorMessage + err);
-        res.status(msg.errorStatusCode).send(msg.errorResponseText);
+        const data = await Leader.getTeamTenGameBySeasonId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
     }
 });
 
