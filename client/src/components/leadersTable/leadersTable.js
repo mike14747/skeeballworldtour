@@ -26,10 +26,10 @@ const LeadersTable = ({ heading, columnName, format, href, leadersObj }) => {
                             </td>
                         </tr>
                     ))}
-                    {leadersObj.numTies > 1 &&
+                    {leadersObj.numAtTieValue > 1 &&
                         <tr>
                             <td></td>
-                            <td className="text-right text-success">{leadersObj.numTies} tied at:</td>
+                            <td className="text-right text-success">{leadersObj.numAtTieValue} tied at:</td>
                             <td className="text-center">{leadersObj.tieValue}</td>
                         </tr>
                     }

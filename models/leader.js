@@ -31,11 +31,13 @@ const Leader = {
     },
     getIndividualTenGameBySeasonId: async (paramsObj) => {
         try {
-            const querySubStringOne = 'SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num';
-            const querySubStringTwo = 'SELECT player_id, (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num HAVING data>@tie_value';
-            const queryString = 'SET @season_id=?;SELECT r.data INTO @tie_value FROM (SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num ORDER BY data DESC LIMIT ?, 1) AS r;SELECT (SELECT COUNT(r.data) FROM (SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num HAVING data=@tie_value ORDER BY data DESC) AS r) AS num_ties, @tie_value AS tie_value;SELECT p.player_id AS field_id, p.full_name AS field_name, st.store_city, r.data FROM (SELECT player_id, (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num HAVING data>@tie_value) AS r INNER JOIN players AS p ON (r.player_id=p.player_id) INNER JOIN stores AS st ON (p.store_id=st.store_id) ORDER BY data DESC';
+            const setTieValueVariables = 'SELECT r1.data, r2.data INTO @tie_value_num_leaders, @tie_value_num_leaders_plus_one FROM (SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num ORDER BY data DESC LIMIT ?, 1) AS r1, (SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num ORDER BY data DESC LIMIT ?, 1) AS r2;';
+            const tiesInfo = 'SELECT (CASE WHEN @tie_value_num_leaders=@tie_value_num_leaders_plus_one THEN (SELECT COUNT(*) FROM (SELECT (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num HAVING data=@tie_value_num_leaders_plus_one) AS nt) ELSE 0 END) AS num_at_tie_value, @tie_value_num_leaders AS tie_value;';
+            const mainQuery = 'SELECT p.player_id AS field_id, p.full_name AS field_name, st.store_city, r.data FROM (SELECT player_id, (g1+g2+g3+g4+g5+g6+g7+g8+g9+g10) as data FROM results WHERE season_id=@season_id && player_id!=100 GROUP BY player_id, week_id, team_id, player_num HAVING data>@tie_value_num_leaders_plus_one) AS r INNER JOIN players AS p ON (r.player_id=p.player_id) INNER JOIN stores AS st ON (p.store_id=st.store_id) ORDER BY data DESC;';
+            const queryString = 'SET @season_id=?;' + setTieValueVariables + tiesInfo + mainQuery;
             const queryParams = [
                 paramsObj.season_id,
+                paramsObj.num_leaders - 1,
                 paramsObj.num_leaders,
             ];
             const [result] = await pool.query(queryString, queryParams);

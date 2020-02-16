@@ -79,7 +79,7 @@ const Leaders = () => {
         // axios.get('api/leaders/individual/average/' + querySeasonId + '/' + 20)
         //     .then((response) => {
         //         setIndAvgLeaders({
-        //             numTies: response.data[0][0].num_ties,
+        //             numAtTieValue: response.data[0][0].num_at_tie_value,
         //             tieValue: response.data[0][0].tie_value,
         //             leaders: rankLeaders(response.data[1]),
         //         });
@@ -93,7 +93,7 @@ const Leaders = () => {
         axios.get('api/leaders/individual/one-game/' + querySeasonId + '/' + 20)
             .then((response) => {
                 setIndOneGameLeaders({
-                    numTies: response.data[0][0].num_ties,
+                    numAtTieValue: response.data[0][0].num_at_tie_value,
                     tieValue: response.data[0][0].tie_value,
                     leaders: rankLeaders(response.data[1]),
                 });
@@ -107,7 +107,7 @@ const Leaders = () => {
         axios.get('api/leaders/individual/ten-game/' + querySeasonId + '/' + 20)
             .then((response) => {
                 setIndTenGameLeaders({
-                    numTies: response.data[0][0].num_ties,
+                    numAtTieValue: response.data[0][0].num_at_tie_value,
                     tieValue: response.data[0][0].tie_value,
                     leaders: rankLeaders(response.data[1]),
                 });
