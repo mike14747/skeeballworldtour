@@ -14,8 +14,8 @@ const Leaders = () => {
 
     const [numLeaders, setNumLeaders] = useState(20);
 
-    // const [indAvgLeaders, setIndAvgLeaders] = useState(null);
-    // const [indAvgLeadersStatus, setIndAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [indAvgLeaders, setIndAvgLeaders] = useState(null);
+    const [indAvgLeadersStatus, setIndAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [indOneGameLeaders, setIndOneGameLeaders] = useState(null);
     const [indOneGameLeadersStatus, setIndOneGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -78,20 +78,20 @@ const Leaders = () => {
                 console.log(error);
                 setSeasonName(null);
             });
-        // axios.get('api/leaders/individual/average/' + querySeasonId + '/' + numLeaders)
-        //     .then((response) => {
-        //         setIndAvgLeaders({
-        //             numAtTieValue: response.data[0][0].num_at_tie_value,
-        //             tieValue: response.data[0][0].tie_value,
-        //             leaders: rankLeaders(response.data[1]),
-        //         });
-        //         setIndAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         setIndAvgLeaders(null);
-        //         setIndAvgLeadersStatus({ errorMsg: 'An error occurred fetching player best average leaders!', isLoaded: true });
-        //     });
+        axios.get('api/leaders/individual/average/' + querySeasonId + '/' + numLeaders)
+            .then((response) => {
+                setIndAvgLeaders({
+                    numAtTieValue: response.data[0][0].num_at_tie_value,
+                    tieValue: response.data[0][0].tie_value,
+                    leaders: rankLeaders(response.data[1]),
+                });
+                setIndAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                setIndAvgLeaders(null);
+                setIndAvgLeadersStatus({ errorMsg: 'An error occurred fetching player best average leaders!', isLoaded: true });
+            });
         axios.get('api/leaders/individual/one-game/' + querySeasonId + '/' + numLeaders)
             .then((response) => {
                 setIndOneGameLeaders({
@@ -175,14 +175,14 @@ const Leaders = () => {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Individual Leaders</h3>
-                            {/* {!indAvgLeadersStatus.isLoaded
+                            {!indAvgLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : indAvgLeaders && indAvgLeaders.length > 0
-                                    ? <LeadersTable heading="Player, high season average / game" subheading="(must play in a minimum of 50% of your team's games to qualify)" format="decimal" href="/players/" leaders={indAvgLeaders} />
-                                    : indAvgLeaders
+                                : indAvgLeaders.leaders && indAvgLeaders.leaders.length > 0
+                                    ? <LeadersTable heading="Player, high season average / game" subHeading="(must play in a minimum of 50% of your team's games to qualify)" format="decimal" href="/players/" leadersObj={indAvgLeaders} />
+                                    : indAvgLeaders.leaders
                                         ? <span className="empty-result">There are no player average leaders for this season!</span>
                                         : <span className="empty-result">{indAvgLeadersStatus.errorMsg}</span>
-                            } */}
+                            }
                             {!indOneGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : indOneGameLeaders.leaders && indOneGameLeaders.leaders.length > 0

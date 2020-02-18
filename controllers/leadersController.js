@@ -7,7 +7,7 @@ router.get('/individual/average/:seasonid/:numleaders', async (req, res, next) =
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json(data[1][1]) : next(data[1]);
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
     } catch (error) {
         next(error);
     }
