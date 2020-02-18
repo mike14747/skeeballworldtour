@@ -12,8 +12,10 @@ const Leaders = () => {
 
     const [seasonName, setSeasonName] = useState(null);
 
-    const [indAvgLeaders, setIndAvgLeaders] = useState(null);
-    const [indAvgLeadersStatus, setIndAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [numLeaders, setNumLeaders] = useState(20);
+
+    // const [indAvgLeaders, setIndAvgLeaders] = useState(null);
+    // const [indAvgLeadersStatus, setIndAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [indOneGameLeaders, setIndOneGameLeaders] = useState(null);
     const [indOneGameLeadersStatus, setIndOneGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -27,8 +29,8 @@ const Leaders = () => {
     const [teamOneGameLeaders, setTeamOneGameLeaders] = useState(null);
     const [teamOneGameLeadersStatus, setTeamOneGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
-    // const [teamTenGameLeaders, setTeamTenGameLeaders] = useState(null);
-    // const [teamTenGameLeadersStatus, setTeamTenGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamTenGameLeaders, setTeamTenGameLeaders] = useState(null);
+    const [teamTenGameLeadersStatus, setTeamTenGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [leadersSeasons, setLeadersSeasons] = useState(null);
     const [leadersSeasonsStatus, setLeadersSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -76,7 +78,7 @@ const Leaders = () => {
                 console.log(error);
                 setSeasonName(null);
             });
-        // axios.get('api/leaders/individual/average/' + querySeasonId + '/' + 20)
+        // axios.get('api/leaders/individual/average/' + querySeasonId + '/' + numLeaders)
         //     .then((response) => {
         //         setIndAvgLeaders({
         //             numAtTieValue: response.data[0][0].num_at_tie_value,
@@ -88,9 +90,9 @@ const Leaders = () => {
         //     .catch((error) => {
         //         console.log(error);
         //         setIndAvgLeaders(null);
-        //         setIndAvgLeadersStatus({ errorMsg: 'An error occurred fetching individual best average leaders!', isLoaded: true });
+        //         setIndAvgLeadersStatus({ errorMsg: 'An error occurred fetching player best average leaders!', isLoaded: true });
         //     });
-        axios.get('api/leaders/individual/one-game/' + querySeasonId + '/' + 20)
+        axios.get('api/leaders/individual/one-game/' + querySeasonId + '/' + numLeaders)
             .then((response) => {
                 setIndOneGameLeaders({
                     numAtTieValue: response.data[0][0].num_at_tie_value,
@@ -102,9 +104,9 @@ const Leaders = () => {
             .catch((error) => {
                 console.log(error);
                 setIndOneGameLeaders(null);
-                setIndOneGameLeadersStatus({ errorMsg: 'An error occurred fetching individual one-game leaders!', isLoaded: true });
+                setIndOneGameLeadersStatus({ errorMsg: 'An error occurred fetching player 1-game leaders!', isLoaded: true });
             });
-        axios.get('api/leaders/individual/ten-game/' + querySeasonId + '/' + 20)
+        axios.get('api/leaders/individual/ten-game/' + querySeasonId + '/' + numLeaders)
             .then((response) => {
                 setIndTenGameLeaders({
                     numAtTieValue: response.data[0][0].num_at_tie_value,
@@ -116,9 +118,23 @@ const Leaders = () => {
             .catch((error) => {
                 console.log(error);
                 setIndTenGameLeaders(null);
-                setIndTenGameLeadersStatus({ errorMsg: 'An error occurred fetching individual ten-game leaders!', isLoaded: true });
+                setIndTenGameLeadersStatus({ errorMsg: 'An error occurred fetching player 10-game leaders!', isLoaded: true });
             });
-        axios.get('api/leaders/team/one-game/' + querySeasonId + '/' + 20)
+        // axios.get('api/leaders/team/average/' + querySeasonId + '/' + numLeaders)
+        //     .then((response) => {
+        //         setTeamAvgLeaders({
+        //             numAtTieValue: response.data[0][0].num_at_tie_value,
+        //             tieValue: response.data[0][0].tie_value,
+        //             leaders: rankLeaders(response.data[1]),
+        //         });
+        //         setTeamAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //         setTeamAvgLeaders(null);
+        //         setTeamAvgLeadersStatus({ errorMsg: 'An error occurred fetching team best average leaders!', isLoaded: true });
+        //     });
+        axios.get('api/leaders/team/one-game/' + querySeasonId + '/' + numLeaders)
             .then((response) => {
                 setTeamOneGameLeaders({
                     numAtTieValue: response.data[0][0].num_at_tie_value,
@@ -130,9 +146,23 @@ const Leaders = () => {
             .catch((error) => {
                 console.log(error);
                 setTeamOneGameLeaders(null);
-                setTeamOneGameLeadersStatus({ errorMsg: 'An error occurred fetching team one-game leaders!', isLoaded: true });
+                setTeamOneGameLeadersStatus({ errorMsg: 'An error occurred fetching team 1-game leaders!', isLoaded: true });
             });
-    }, [querySeasonId]);
+        axios.get('api/leaders/team/ten-game/' + querySeasonId + '/' + numLeaders)
+            .then((response) => {
+                setTeamTenGameLeaders({
+                    numAtTieValue: response.data[0][0].num_at_tie_value,
+                    tieValue: response.data[0][0].tie_value,
+                    leaders: rankLeaders(response.data[1]),
+                });
+                setTeamTenGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                setTeamTenGameLeaders(null);
+                setTeamTenGameLeadersStatus({ errorMsg: 'An error occurred fetching team 10-game leaders!', isLoaded: true });
+            });
+    }, [querySeasonId, numLeaders]);
 
     return (
         <Fragment>
@@ -148,9 +178,9 @@ const Leaders = () => {
                             {/* {!indAvgLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : indAvgLeaders && indAvgLeaders.length > 0
-                                    ? <LeadersTable heading="Player, high season average / game" format="decimal" href="/players/" leaders={indAvgLeaders} />
+                                    ? <LeadersTable heading="Player, high season average / game" subheading="(must play in a minimum of 50% of your team's games to qualify)" format="decimal" href="/players/" leaders={indAvgLeaders} />
                                     : indAvgLeaders
-                                        ? <span className="empty-result">There are no player results for this season!</span>
+                                        ? <span className="empty-result">There are no player average leaders for this season!</span>
                                         : <span className="empty-result">{indAvgLeadersStatus.errorMsg}</span>
                             } */}
                             {!indOneGameLeadersStatus.isLoaded
@@ -158,7 +188,7 @@ const Leaders = () => {
                                 : indOneGameLeaders.leaders && indOneGameLeaders.leaders.length > 0
                                     ? <LeadersTable heading="Player, 1-game high" columnName="Score" format="integer" href="/players/" leadersObj={indOneGameLeaders} />
                                     : indOneGameLeaders.leaders
-                                        ? <span className="empty-result">There are no individual one-game leaders for this season!</span>
+                                        ? <span className="empty-result">There are no player 1-game leaders for this season!</span>
                                         : <span className="empty-result">{indOneGameLeadersStatus.errorMsg}</span>
                             }
                             {!indTenGameLeadersStatus.isLoaded
@@ -166,7 +196,7 @@ const Leaders = () => {
                                 : indTenGameLeaders.leaders && indTenGameLeaders.leaders.length > 0
                                     ? <LeadersTable heading="Player, 10-game high" columnName="Points" format="integer" href="/players/" leadersObj={indTenGameLeaders} />
                                     : indTenGameLeaders.leaders
-                                        ? <span className="empty-result">There are no individual ten-game leaders for this season!</span>
+                                        ? <span className="empty-result">There are no player 10-game leaders for this season!</span>
                                         : <span className="empty-result">{indTenGameLeadersStatus.errorMsg}</span>
                             }
                         </div>
@@ -176,13 +206,29 @@ const Leaders = () => {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Team Leaders</h3>
+                            {/* {!teamAvgGameLeadersStatus.isLoaded
+                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                : teamAvgGameLeaders.leaders && teamAvgGameLeaders.leaders.length > 0
+                                    ? <LeadersTable heading="Team, 10-game high average" columnName="Score" format="decimal" href="/teams/" leadersObj={teamAvgGameLeaders} />
+                                    : teamAvgGameLeaders.leaders
+                                        ? <span className="empty-result">There are no team average leaders for this season!</span>
+                                        : <span className="empty-result">{teamAvgGameLeadersStatus.errorMsg}</span>
+                            } */}
                             {!teamOneGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamOneGameLeaders.leaders && teamOneGameLeaders.leaders.length > 0
                                     ? <LeadersTable heading="Team, 1-game high" columnName="Score" format="integer" href="/teams/" leadersObj={teamOneGameLeaders} />
                                     : teamOneGameLeaders.leaders
-                                        ? <span className="empty-result">There are no team one-game leaders for this season!</span>
+                                        ? <span className="empty-result">There are no team 1-game leaders for this season!</span>
                                         : <span className="empty-result">{teamOneGameLeadersStatus.errorMsg}</span>
+                            }
+                            {!teamTenGameLeadersStatus.isLoaded
+                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                : teamTenGameLeaders.leaders && teamTenGameLeaders.leaders.length > 0
+                                    ? <LeadersTable heading="Team, 10-game high" columnName="Score" format="integer" href="/teams/" leadersObj={teamTenGameLeaders} />
+                                    : teamTenGameLeaders.leaders
+                                        ? <span className="empty-result">There are no team 10-game leaders for this season!</span>
+                                        : <span className="empty-result">{teamTenGameLeadersStatus.errorMsg}</span>
                             }
                         </div>
                     </div>

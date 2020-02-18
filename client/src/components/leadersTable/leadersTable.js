@@ -1,10 +1,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const LeadersTable = ({ heading, columnName, format, href, leadersObj }) => {
+const LeadersTable = ({ heading, subHeading, columnName, format, href, leadersObj }) => {
     return (
         <Fragment>
-            <h5 className="text-center text-success mb-4">{heading}</h5>
+            <div className="text-center mb-4">
+                <h5 className="text-success mb-0">{heading}</h5>
+                {subHeading &&
+                    <span className="text-secondary small">{subHeading}</span>
+                }
+            </div>
             <table className="table table-bordered table-hover mb-5">
                 <thead>
                     <tr className="bg-gray6">
@@ -41,6 +46,7 @@ const LeadersTable = ({ heading, columnName, format, href, leadersObj }) => {
 
 LeadersTable.propTypes = {
     heading: PropTypes.string,
+    subHeading: PropTypes.string,
     columnName: PropTypes.string,
     format: PropTypes.string,
     href: PropTypes.string,
