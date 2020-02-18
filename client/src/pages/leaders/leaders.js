@@ -23,8 +23,8 @@ const Leaders = () => {
     const [indTenGameLeaders, setIndTenGameLeaders] = useState(null);
     const [indTenGameLeadersStatus, setIndTenGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
-    // const [teamAvgLeaders, setTeamAvgLeaders] = useState(null);
-    // const [teamAvgLeadersStatus, setTeamAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamAvgLeaders, setTeamAvgLeaders] = useState(null);
+    const [teamAvgLeadersStatus, setTeamAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [teamOneGameLeaders, setTeamOneGameLeaders] = useState(null);
     const [teamOneGameLeadersStatus, setTeamOneGameLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -120,20 +120,20 @@ const Leaders = () => {
                 setIndTenGameLeaders(null);
                 setIndTenGameLeadersStatus({ errorMsg: 'An error occurred fetching player 10-game leaders!', isLoaded: true });
             });
-        // axios.get('api/leaders/team/average/' + querySeasonId + '/' + numLeaders)
-        //     .then((response) => {
-        //         setTeamAvgLeaders({
-        //             numAtTieValue: response.data[0][0].num_at_tie_value,
-        //             tieValue: response.data[0][0].tie_value,
-        //             leaders: rankLeaders(response.data[1]),
-        //         });
-        //         setTeamAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         setTeamAvgLeaders(null);
-        //         setTeamAvgLeadersStatus({ errorMsg: 'An error occurred fetching team best average leaders!', isLoaded: true });
-        //     });
+        axios.get('api/leaders/team/average/' + querySeasonId + '/' + numLeaders)
+            .then((response) => {
+                setTeamAvgLeaders({
+                    numAtTieValue: response.data[0][0].num_at_tie_value,
+                    tieValue: response.data[0][0].tie_value,
+                    leaders: rankLeaders(response.data[1]),
+                });
+                setTeamAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
+            })
+            .catch((error) => {
+                console.log(error);
+                setTeamAvgLeaders(null);
+                setTeamAvgLeadersStatus({ errorMsg: 'An error occurred fetching team best average leaders!', isLoaded: true });
+            });
         axios.get('api/leaders/team/one-game/' + querySeasonId + '/' + numLeaders)
             .then((response) => {
                 setTeamOneGameLeaders({
@@ -206,14 +206,14 @@ const Leaders = () => {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Team Leaders</h3>
-                            {/* {!teamAvgGameLeadersStatus.isLoaded
+                            {!teamAvgLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : teamAvgGameLeaders.leaders && teamAvgGameLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Team, 10-game high average" columnName="Score" format="decimal" href="/teams/" leadersObj={teamAvgGameLeaders} />
-                                    : teamAvgGameLeaders.leaders
+                                : teamAvgLeaders.leaders && teamAvgLeaders.leaders.length > 0
+                                    ? <LeadersTable heading="Team, 10-game high average" columnName="Score" format="decimal" href="/teams/" leadersObj={teamAvgLeaders} />
+                                    : teamAvgLeaders.leaders
                                         ? <span className="empty-result">There are no team average leaders for this season!</span>
-                                        : <span className="empty-result">{teamAvgGameLeadersStatus.errorMsg}</span>
-                            } */}
+                                        : <span className="empty-result">{teamAvgLeadersStatus.errorMsg}</span>
+                            }
                             {!teamOneGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamOneGameLeaders.leaders && teamOneGameLeaders.leaders.length > 0
