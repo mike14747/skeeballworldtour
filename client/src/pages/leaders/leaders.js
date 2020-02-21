@@ -169,12 +169,18 @@ const Leaders = () => {
     return (
         <Fragment>
             <PageHeading text="League Leaders" />
-            <NumLeadersDropdown numLeaders={numLeaders} numLeadersArray={numLeadersArray} setNumLeaders={setNumLeaders} />
-            {leadersSeasonsStatus.isLoaded && leadersSeasons && leadersSeasons.length > 0 &&
-                <SeasonDropdown currentSeason={seasonName} buttonText="View Leaders From:" listItems={leadersSeasons} handleSeasonId={handleSeasonId} />
-            }
+            <div className="d-flex justify-content-between">
+                <div>
+                    <NumLeadersDropdown numLeaders={numLeaders} numLeadersArray={numLeadersArray} setNumLeaders={setNumLeaders} />
+                </div>
+                <div className="text-right">
+                    {leadersSeasonsStatus.isLoaded && leadersSeasons && leadersSeasons.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Leaders From:" listItems={leadersSeasons} handleSeasonId={handleSeasonId} />
+                    }
+                </div>
+            </div>
             <div className="row mb-4">
-                <div className="col-sm-6">
+                <div className="col-md-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Individual Leaders</h3>
@@ -205,7 +211,7 @@ const Leaders = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-sm-6">
+                <div className="col-md-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Team Leaders</h3>

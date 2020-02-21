@@ -123,14 +123,20 @@ const Players = () => {
     return (
         <Fragment>
             <PageHeading text="Player Stats" />
-            {playerNameStoreStatus.isLoaded && playerNameStore &&
-                <div className="mb-3 bigger">
-                    {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
+            <div className="d-flex justify-content-between">
+                <div>
+                    {playerNameStoreStatus.isLoaded && playerNameStore &&
+                        <div className="mb-3 bigger">
+                            {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
+                        </div>
+                    }
                 </div>
-            }
-            {playerSeasonsStatus.isLoaded && playerSeasons && playerSeasons.length > 0 &&
-                <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
-            }
+                <div className="text-right">
+                    {playerSeasonsStatus.isLoaded && playerSeasons && playerSeasons.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
+                    }
+                </div>
+            </div>
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!playerStatsStatus.isLoaded

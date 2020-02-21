@@ -75,9 +75,13 @@ export default function Standings() {
     return (
         <Fragment>
             <PageHeading text="Standings" />
-            {standingsSeasonsStatus.isLoaded && standingsSeasons && standingsSeasons.length > 0 &&
-                <SeasonDropdown currentSeason={seasonName} buttonText="View Standings From:" listItems={standingsSeasons} handleSeasonId={handleSeasonId} />
-            }
+            <div className="d-flex justify-content-end">
+                <div className="text-right">
+                    {standingsSeasonsStatus.isLoaded && standingsSeasons && standingsSeasons.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Standings From:" listItems={standingsSeasons} handleSeasonId={handleSeasonId} />
+                    }
+                </div>
+            </div>
             {!standingsArrStatus.isLoaded
                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : standingsArr && standingsArr.length > 0

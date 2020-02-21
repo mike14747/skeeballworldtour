@@ -132,14 +132,20 @@ export default function Teams() {
     return (
         <Fragment>
             <PageHeading text="Team Stats" />
-            {teamNameStoreStatus.isLoaded && teamNameStore &&
-                <div className="mb-3 bigger">
-                    {teamNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Team: </span>{teamNameStore.team_name}
+            <div className="d-flex justify-content-between">
+                <div>
+                    {teamNameStoreStatus.isLoaded && teamNameStore &&
+                        <div className="mb-3 bigger">
+                            {teamNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Team: </span>{teamNameStore.team_name}
+                        </div>
+                    }
                 </div>
-            }
-            {teamSeasonsStatus.isLoaded && teamSeasons && teamSeasons.length > 0 &&
-                <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
-            }
+                <div className="text-right">
+                    {teamSeasonsStatus.isLoaded && teamSeasons && teamSeasons.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
+                    }
+                </div>
+            </div>
             <div className="row mb-4">
                 <div className="col-sm-6">
                     <div className="d-flex justify-content-center">

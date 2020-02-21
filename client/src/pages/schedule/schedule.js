@@ -94,14 +94,20 @@ const Schedule = () => {
     return (
         <Fragment>
             <PageHeading text="Schedule" />
-            {storeStatus.isLoaded && store &&
-                <div className="mb-3 bigger">
-                    <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a>
+            <div className="d-flex justify-content-between">
+                <div>
+                    {storeStatus.isLoaded && store &&
+                        <div className="mb-3 bigger">
+                            <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a>
+                        </div>
+                    }
                 </div>
-            }
-            {scheduleSeasonsStatus.isLoaded && scheduleSeasons && scheduleSeasons.length > 0 &&
-                <SeasonDropdown currentSeason={seasonName} buttonText="View Schedule From:" listItems={scheduleSeasons} handleSeasonId={handleSeasonId} />
-            }
+                <div className="text-right">
+                    {scheduleSeasonsStatus.isLoaded && scheduleSeasons && scheduleSeasons.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Schedule From:" listItems={scheduleSeasons} handleSeasonId={handleSeasonId} />
+                    }
+                </div>
+            </div>
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
                     {!scheduleArrayStatus.isLoaded

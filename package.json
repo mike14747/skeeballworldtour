@@ -11,8 +11,7 @@
         "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
         "client": "cd client && npm run start",
         "install": "cd client && npm install",
-        "build": "cd client && npm run build",
-        "test": "mocha || exit 0"
+        "build": "cd client && npm run build"
     },
     "devDependencies": {
         "babel-eslint": "^10.0.3",

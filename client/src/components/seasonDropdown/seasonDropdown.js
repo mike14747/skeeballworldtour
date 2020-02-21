@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function Dropdown({ currentSeason, buttonText, listItems, handleSeasonId }) {
     return (
-        <div className="d-flex justify-content-end">
+        <Fragment>
             {currentSeason &&
                 <span className="py-1 px-2"><span className="small">Current View:</span> {currentSeason.season_name}, {currentSeason.season_year}</span>
             }
@@ -21,7 +21,7 @@ function Dropdown({ currentSeason, buttonText, listItems, handleSeasonId }) {
                     ))}
                 </ul>
             </div>
-        </div>
+        </Fragment>
     );
 }
 
