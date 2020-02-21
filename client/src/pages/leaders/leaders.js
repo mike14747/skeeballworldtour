@@ -4,6 +4,7 @@ import CurrentSeasonContext from '../../components/currentSeasonContext';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import LeadersTable from '../../components/leadersTable/leadersTable';
+import NumLeadersDropdown from '../../components/numLeadersDropdown/numLeadersDropdown';
 
 const Leaders = () => {
     const [seasonId, setSeasonId] = useState(null);
@@ -13,6 +14,7 @@ const Leaders = () => {
     const [seasonName, setSeasonName] = useState(null);
 
     const [numLeaders, setNumLeaders] = useState(20);
+    const numLeadersArray = [10, 20, 50, 100];
 
     const [indAvgLeaders, setIndAvgLeaders] = useState(null);
     const [indAvgLeadersStatus, setIndAvgLeadersStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -167,6 +169,7 @@ const Leaders = () => {
     return (
         <Fragment>
             <PageHeading text="League Leaders" />
+            <NumLeadersDropdown numLeaders={numLeaders} numLeadersArray={numLeadersArray} setNumLeaders={setNumLeaders} />
             {leadersSeasonsStatus.isLoaded && leadersSeasons && leadersSeasons.length > 0 &&
                 <SeasonDropdown currentSeason={seasonName} buttonText="View Leaders From:" listItems={leadersSeasons} handleSeasonId={handleSeasonId} />
             }
