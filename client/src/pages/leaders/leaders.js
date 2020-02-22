@@ -169,13 +169,16 @@ const Leaders = () => {
     return (
         <Fragment>
             <PageHeading text="League Leaders" />
-            <div className="d-flex justify-content-between">
-                <div>
+            <div className="row mb-4">
+                <div className="col-4 text-left p-2">
+                    Filter by: (Store / Division)
+                </div>
+                <div className="col-4 text-center p-2">
                     <NumLeadersDropdown numLeaders={numLeaders} numLeadersArray={numLeadersArray} setNumLeaders={setNumLeaders} />
                 </div>
-                <div className="text-right">
+                <div className="col-4 text-right p-2">
                     {leadersSeasonsStatus.isLoaded && leadersSeasons && leadersSeasons.length > 0 &&
-                        <SeasonDropdown currentSeason={seasonName} buttonText="View Leaders From:" listItems={leadersSeasons} handleSeasonId={handleSeasonId} />
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Leaders From" listItems={leadersSeasons} handleSeasonId={handleSeasonId} />
                     }
                 </div>
             </div>

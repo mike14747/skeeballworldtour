@@ -123,17 +123,17 @@ const Players = () => {
     return (
         <Fragment>
             <PageHeading text="Player Stats" />
-            <div className="d-flex justify-content-between">
-                <div>
+            <div className="row mb-4">
+                <div className="col-6 text-left p-2">
                     {playerNameStoreStatus.isLoaded && playerNameStore &&
                         <div className="mb-3 bigger">
                             {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
                         </div>
                     }
                 </div>
-                <div className="text-right">
+                <div className="col-6 text-right p-2">
                     {playerSeasonsStatus.isLoaded && playerSeasons && playerSeasons.length > 0 &&
-                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From" listItems={playerSeasons} handleSeasonId={handleSeasonId} />
                     }
                 </div>
             </div>

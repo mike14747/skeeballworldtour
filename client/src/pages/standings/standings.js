@@ -75,10 +75,10 @@ export default function Standings() {
     return (
         <Fragment>
             <PageHeading text="Standings" />
-            <div className="d-flex justify-content-end">
-                <div className="text-right">
+            <div className="row mb-4">
+                <div className="col-12 text-right p-2">
                     {standingsSeasonsStatus.isLoaded && standingsSeasons && standingsSeasons.length > 0 &&
-                        <SeasonDropdown currentSeason={seasonName} buttonText="View Standings From:" listItems={standingsSeasons} handleSeasonId={handleSeasonId} />
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Standings From" listItems={standingsSeasons} handleSeasonId={handleSeasonId} />
                     }
                 </div>
             </div>

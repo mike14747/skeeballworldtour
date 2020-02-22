@@ -81,17 +81,17 @@ const Results = () => {
     return (
         <Fragment>
             <PageHeading text="Results" />
-            <div className="d-flex justify-content-between">
-                <div>
+            <div className="row mb-4">
+                <div className="col-6 text-left p-2">
                     {storeStatus.isLoaded && store &&
                         <div className="mb-3 bigger">
                             <a href={'/stores/' + store.store_id + '/divisions/' + store.division_id}>{store.store_name} ({store.day_name})</a>
                         </div>
                     }
                 </div>
-                <div className="text-right">
+                <div className="col-6 text-right p-2">
                     {resultSeasonsStatus.isLoaded && resultSeasons && resultSeasons.length > 0 &&
-                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From:" listItems={resultSeasons} handleSeasonId={handleSeasonId} />
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From" listItems={resultSeasons} handleSeasonId={handleSeasonId} />
                     }
                 </div>
             </div>

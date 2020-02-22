@@ -68,3 +68,16 @@
 .viewing:hover {
     background-color: #f3e3c0 !important;
 }
+
+i {
+    border: solid #6c757d;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    margin: 0 0 3px 4px;
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}

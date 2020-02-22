@@ -6,10 +6,12 @@ function Dropdown({ currentSeason, buttonText, listItems, handleSeasonId }) {
     return (
         <Fragment>
             {currentSeason &&
-                <span className="py-1 px-2"><span className="small">Current View:</span> {currentSeason.season_name}, {currentSeason.season_year}</span>
+                <Fragment>
+                    <span className="small">Current View:</span> {currentSeason.season_name}, {currentSeason.season_year}
+                </Fragment>
             }
-            <div className="dropdown mb-3">
-                <button className="dropbtn">{buttonText}</button>
+            <div className="dropdown ml-2">
+                <button className="dropbtn">{buttonText}<i className="down"></i></button>
                 <ul className="dropdown-content">
                     {listItems.map(item => (
                         <Fragment key={item.season_id}>

@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
-import './css/numLeadersDropdown.css';
 import PropTypes from 'prop-types';
 
 function NumLeadersDropdown({ numLeaders, numLeadersArray, setNumLeaders }) {
     return (
-        <div className="d-flex justify-content-end">
+        <Fragment>
             {numLeadersArray && numLeadersArray.length > 0 &&
-                <span className="py-1 px-2"><span className="small">Currently showing top: </span></span>
+                <span className="small">Currently showing top:</span>
             }
-            <select>
+            <select className="ml-2">
                 {numLeadersArray.map(leaders => (
                     <Fragment key={leaders}>
                         {numLeaders === leaders
@@ -18,7 +17,7 @@ function NumLeadersDropdown({ numLeaders, numLeadersArray, setNumLeaders }) {
                     </Fragment>
                 ))}
             </select>
-        </div>
+        </Fragment>
     );
 }
 
