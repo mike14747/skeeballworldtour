@@ -61,11 +61,39 @@ router.get('/team/one-game/:seasonid/:numleaders', async (req, res, next) => {
     }
 });
 
+router.get('/team/one-game/:seasonid/:numleaders/store/:storeid/division/:divisionid', async (req, res, next) => {
+    try {
+        const data = await Leader.getTeamOneGameBySeasonStoreDivisionId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+            store_id: Number(req.params.storeid),
+            division_id: Number(req.params.divisionid),
+        });
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/team/ten-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
         const data = await Leader.getTeamTenGameBySeasonId({
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/team/ten-game/:seasonid/:numleaders/store/:storeid/division/:divisionid', async (req, res, next) => {
+    try {
+        const data = await Leader.getTeamTenGameBySeasonStoreDivisionId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+            store_id: Number(req.params.storeid),
+            division_id: Number(req.params.divisionid),
         });
         data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
     } catch (error) {
