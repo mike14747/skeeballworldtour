@@ -25,6 +25,20 @@ router.get('/individual/one-game/:seasonid/:numleaders', async (req, res, next) 
     }
 });
 
+router.get('/individual/one-game/:seasonid/:numleaders/store/:storeid/division/:divisionid', async (req, res, next) => {
+    try {
+        const data = await Leader.getIndividualOneGameBySeasonStoreDivisionId({
+            season_id: Number(req.params.seasonid),
+            num_leaders: Number(req.params.numleaders),
+            store_id: Number(req.params.storeid),
+            division_id: Number(req.params.divisionid),
+        });
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/individual/ten-game/:seasonid/:numleaders', async (req, res, next) => {
     try {
         const data = await Leader.getIndividualTenGameBySeasonId({
