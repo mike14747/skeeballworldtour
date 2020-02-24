@@ -97,36 +97,40 @@ const Leader = {
             return [false, error];
         }
     },
-    getTeamAverageBySeasonId: async (paramsObj) => {
+    getTeamAverage: async (paramsObj) => {
         try {
-            const setTieValueVariables = 'SELECT r1.data, r2.data INTO @tie_value_num_leaders, @tie_value_num_leaders_plus_one FROM (SELECT IFNULL((SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id GROUP BY st.team_id ORDER BY data DESC LIMIT ?, 1), 1) AS data) AS r1, (SELECT IFNULL((SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id GROUP BY st.team_id ORDER BY data DESC LIMIT ?, 1), 0) AS data) AS r2;';
-            const tiesInfo = 'SELECT (CASE WHEN @tie_value_num_leaders=@tie_value_num_leaders_plus_one THEN (SELECT COUNT(*) FROM (SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id GROUP BY st.team_id HAVING data=@tie_value_num_leaders_plus_one) AS nt) ELSE 1 END) AS num_at_tie_value, @tie_value_num_leaders AS tie_value;';
-            const mainQuery = 'SELECT t.team_id AS field_id, t.team_name AS field_name, s.store_city, st.data FROM (SELECT team_id, store_id, ROUND(10*total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id=@season_id GROUP BY team_id HAVING data>@tie_value_num_leaders_plus_one) as st JOIN teams AS t ON (st.team_id=t.team_id) JOIN stores AS s ON (st.store_id=s.store_id) ORDER BY st.data DESC;';
-            const queryString = 'SET @season_id=?;' + setTieValueVariables + tiesInfo + mainQuery;
+            let selectClause = '';
+            let setVariables = '';
             const queryParams = [
-                paramsObj.season_id,
                 paramsObj.num_leaders - 1,
                 paramsObj.num_leaders,
             ];
-            const [result] = await pool.query(queryString, queryParams);
-            return [true, result];
-        } catch (error) {
-            return [false, error];
-        }
-    },
-    getTeamAverageBySeasonStoreDivisionId: async (paramsObj) => {
-        try {
-            const setTieValueVariables = 'SELECT r1.data, r2.data INTO @tie_value_num_leaders, @tie_value_num_leaders_plus_one FROM (SELECT IFNULL((SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id && st.store_id=@store_id && st.division_id=@division_id GROUP BY st.team_id ORDER BY data DESC LIMIT ?, 1), 1) AS data) AS r1, (SELECT IFNULL((SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id && st.store_id=@store_id && st.division_id=@division_id GROUP BY st.team_id ORDER BY data DESC LIMIT ?, 1), 0) AS data) AS r2;';
-            const tiesInfo = 'SELECT (CASE WHEN @tie_value_num_leaders=@tie_value_num_leaders_plus_one THEN (SELECT COUNT(*) FROM (SELECT ROUND(10*total_points/(st.wins+st.losses+st.ties),5) AS data FROM standings AS st WHERE st.season_id=@season_id && st.store_id=@store_id && st.division_id=@division_id GROUP BY st.team_id HAVING data=@tie_value_num_leaders_plus_one) AS nt) ELSE 1 END) AS num_at_tie_value, @tie_value_num_leaders AS tie_value;';
-            const mainQuery = 'SELECT t.team_id AS field_id, t.team_name AS field_name, s.store_city, st.data FROM (SELECT team_id, store_id, ROUND(10*total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id=@season_id && store_id=@store_id && division_id=@division_id GROUP BY team_id HAVING data>@tie_value_num_leaders_plus_one) as st JOIN teams AS t ON (st.team_id=t.team_id) JOIN stores AS s ON (st.store_id=s.store_id) ORDER BY st.data DESC;';
-            const queryString = 'SET @season_id=?, @store_id=?, @division_id=?;' + setTieValueVariables + tiesInfo + mainQuery;
-            const queryParams = [
-                paramsObj.season_id,
-                paramsObj.store_id,
-                paramsObj.division_id,
-                paramsObj.num_leaders - 1,
-                paramsObj.num_leaders,
-            ];
+            if (paramsObj.season_id && paramsObj.store_id && paramsObj.division_id) {
+                if (paramsObj.season_id > 5) {
+                    selectClause = '';
+                } else {
+                    selectClause = '';
+                }
+                setVariables = 'SET @season_id=?, @store_id=?, @division_id=?;';
+                queryParams.unshift(paramsObj.season_id, paramsObj.store_id, paramsObj.division_id);
+            } else if (paramsObj.season_id) {
+                if (paramsObj.season_id > 5) {
+                    selectClause = '';
+                } else {
+                    selectClause = '';
+                }
+                setVariables = 'SET @season_id=?;';
+                queryParams.unshift(paramsObj.season_id);
+            } else {
+                selectClause = 'SELECT ROUND(10*total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id>5 UNION ALL SELECT ROUND(total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id<=5';
+                setVariables = 'SET @dummy_variable=?;';
+                queryParams.unshift(0);
+            }
+            const setTieValueVariables = 'SELECT r1.data, r2.data INTO @tie_value_num_leaders, @tie_value_num_leaders_plus_one FROM (SELECT IFNULL((' + selectClause + ' ORDER BY data DESC LIMIT ?, 1), 1) AS data) AS r1, (SELECT IFNULL((' + selectClause + ' ORDER BY data DESC LIMIT ?, 1), 0) AS data) AS r2;';
+            const tiesInfo = 'SELECT (CASE WHEN @tie_value_num_leaders=@tie_value_num_leaders_plus_one THEN (SELECT COUNT(*) FROM (SELECT ROUND(10*total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id>5 HAVING data=@tie_value_num_leaders_plus_one UNION ALL SELECT ROUND(total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id<=5 HAVING data=@tie_value_num_leaders_plus_one) AS nt) ELSE 1 END) AS num_at_tie_value, @tie_value_num_leaders AS tie_value;';
+            const mainQuery = 'SELECT t.team_id AS field_id, t.team_name AS field_name, s.store_city, st.data FROM (SELECT team_id, store_id, ROUND(10*total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id>5 HAVING data>@tie_value_num_leaders_plus_one UNION ALL SELECT team_id, store_id, ROUND(total_points/(wins+losses+ties),5) AS data FROM standings WHERE season_id<=5 HAVING data>@tie_value_num_leaders_plus_one) as st JOIN teams AS t USING (team_id) JOIN stores AS s ON (st.store_id=s.store_id) ORDER BY st.data DESC;';
+            const queryString = setVariables + setTieValueVariables + tiesInfo + mainQuery;
+            console.log(queryString);
             const [result] = await pool.query(queryString, queryParams);
             return [true, result];
         } catch (error) {
