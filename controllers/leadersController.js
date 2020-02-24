@@ -149,9 +149,20 @@ router.get('/team/average/num-leaders/:numleaders/season/:seasonid/store/:storei
     }
 });
 
-router.get('/team/one-game/:seasonid/:numleaders', async (req, res, next) => {
+router.get('/team/one-game/num-leaders/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamOneGameBySeasonId({
+        const data = await Leader.getTeamOneGame({
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/team/one-game/num-leaders/:numleaders/season/:seasonid', async (req, res, next) => {
+    try {
+        const data = await Leader.getTeamOneGame({
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
@@ -161,9 +172,9 @@ router.get('/team/one-game/:seasonid/:numleaders', async (req, res, next) => {
     }
 });
 
-router.get('/team/one-game/:seasonid/:numleaders/store/:storeid/division/:divisionid', async (req, res, next) => {
+router.get('/team/one-game/num-leaders/:numleaders/season/:seasonid/store/:storeid/division/:divisionid', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamOneGameBySeasonStoreDivisionId({
+        const data = await Leader.getTeamOneGame({
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
             store_id: Number(req.params.storeid),
@@ -175,9 +186,20 @@ router.get('/team/one-game/:seasonid/:numleaders/store/:storeid/division/:divisi
     }
 });
 
-router.get('/team/ten-game/:seasonid/:numleaders', async (req, res, next) => {
+router.get('/team/ten-game/num-leaders/:numleaders', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamTenGameBySeasonId({
+        const data = await Leader.getTeamTenGame({
+            num_leaders: Number(req.params.numleaders),
+        });
+        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/team/ten-game/num-leaders/:numleaders/season/:seasonid', async (req, res, next) => {
+    try {
+        const data = await Leader.getTeamTenGame({
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
@@ -187,9 +209,9 @@ router.get('/team/ten-game/:seasonid/:numleaders', async (req, res, next) => {
     }
 });
 
-router.get('/team/ten-game/:seasonid/:numleaders/store/:storeid/division/:divisionid', async (req, res, next) => {
+router.get('/team/ten-game/num-leaders/:numleaders/season/:seasonid/store/:storeid/division/:divisionid', async (req, res, next) => {
     try {
-        const data = await Leader.getTeamTenGameBySeasonStoreDivisionId({
+        const data = await Leader.getTeamTenGame({
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
             store_id: Number(req.params.storeid),
