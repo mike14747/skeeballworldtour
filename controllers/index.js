@@ -33,6 +33,9 @@ router.use('/seasons', seasonsController);
 const leadersController = require('./leadersController');
 router.use('/leaders', leadersController);
 
+const allTimeController = require('./allTimeController');
+router.use('/all-time', allTimeController);
+
 router.use((req, res, next) => {
     const error = new Error('Route not found');
     error.status = 404;
