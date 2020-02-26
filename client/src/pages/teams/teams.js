@@ -66,67 +66,69 @@ export default function Teams() {
     }, [teamid]);
 
     useEffect(() => {
-        axios.get('/api/seasons/' + querySeasonId + '/name')
-            .then((response) => {
-                response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
-            })
-            .catch((error) => {
-                console.log(error);
-                setSeasonName(null);
-            });
-        axios.get('/api/teams/' + teamid + '/seasons/' + querySeasonId)
-            .then((response) => {
-                if (response.data[2][0]) {
-                    setTeamStats([
-                        { text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties },
-                        { text: 'Total Points:', data: response.data[2][0].total_points },
-                        { text: '1-Game Low:', data: response.data[2][0].one_game_low },
-                        { text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) },
-                        { text: '1-Game High:', data: response.data[2][0].one_game_high },
-                        { text: '10-Game Low:', data: response.data[2][0].ten_game_low },
-                        { text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) },
-                        { text: '10-Game High:', data: response.data[2][0].ten_game_high },
-                    ]);
-                } else {
-                    setTeamStats([]);
-                }
-                setTeamStatsStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setTeamStats(null);
-                setTeamStatsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
-            });
-        axios.get('/api/teams/' + teamid + '/current-schedule/seasons/' + querySeasonId)
-            .then((response) => {
-                response.data[2] ? setTeamSchedule(response.data[2]) : setTeamSchedule([]);
-                setTeamScheduleStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setTeamSchedule(null);
-                setTeamScheduleStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
-            });
-        axios.get('/api/teams/' + teamid + '/players/seasons/' + querySeasonId)
-            .then((response) => {
-                setTeamPlayers(response.data);
-                setTeamPlayersStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setTeamPlayers(null);
-                setTeamPlayersStatus({ errorMsg: 'An error occurred fetching players for this team!', isLoaded: true });
-            });
-        axios.get('/api/teams/' + teamid + '/results/seasons/' + querySeasonId)
-            .then((response) => {
-                response.data[2] ? setTeamResults(response.data[2]) : setTeamResults([]);
-                setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setTeamResults(null);
-                setTeamResultsStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
-            });
+        if (querySeasonId) {
+            axios.get('/api/seasons/' + querySeasonId + '/name')
+                .then((response) => {
+                    response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setSeasonName(null);
+                });
+            axios.get('/api/teams/' + teamid + '/seasons/' + querySeasonId)
+                .then((response) => {
+                    if (response.data[2][0]) {
+                        setTeamStats([
+                            { text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties },
+                            { text: 'Total Points:', data: response.data[2][0].total_points },
+                            { text: '1-Game Low:', data: response.data[2][0].one_game_low },
+                            { text: '1-Game Avg:', data: Number(response.data[2][0].one_game_avg).toFixed(1) },
+                            { text: '1-Game High:', data: response.data[2][0].one_game_high },
+                            { text: '10-Game Low:', data: response.data[2][0].ten_game_low },
+                            { text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) },
+                            { text: '10-Game High:', data: response.data[2][0].ten_game_high },
+                        ]);
+                    } else {
+                        setTeamStats([]);
+                    }
+                    setTeamStatsStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setTeamStats(null);
+                    setTeamStatsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
+                });
+            axios.get('/api/teams/' + teamid + '/current-schedule/seasons/' + querySeasonId)
+                .then((response) => {
+                    response.data[2] ? setTeamSchedule(response.data[2]) : setTeamSchedule([]);
+                    setTeamScheduleStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setTeamSchedule(null);
+                    setTeamScheduleStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+                });
+            axios.get('/api/teams/' + teamid + '/players/seasons/' + querySeasonId)
+                .then((response) => {
+                    setTeamPlayers(response.data);
+                    setTeamPlayersStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setTeamPlayers(null);
+                    setTeamPlayersStatus({ errorMsg: 'An error occurred fetching players for this team!', isLoaded: true });
+                });
+            axios.get('/api/teams/' + teamid + '/results/seasons/' + querySeasonId)
+                .then((response) => {
+                    response.data[2] ? setTeamResults(response.data[2]) : setTeamResults([]);
+                    setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setTeamResults(null);
+                    setTeamResultsStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+                });
+        }
     }, [teamid, querySeasonId]);
 
     return (

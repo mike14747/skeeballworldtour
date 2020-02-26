@@ -46,36 +46,38 @@ const Results = () => {
     }, [storeid, divisionid]);
 
     useEffect(() => {
-        axios.get('/api/seasons/' + querySeasonId + '/name')
-            .then((response) => {
-                response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
-            })
-            .catch((error) => {
-                console.log(error);
-                setSeasonName(null);
-            });
-        axios.get('/api/stores/' + storeid + '/divisions/' + divisionid)
-            .then((response) => {
-                response.data[0] ? setStore(response.data[0]) : setStore(null);
-                setStoreStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setStore(null);
-                setStoreStatus({ errorMsg: 'An error occurred fetching the store name!', isLoaded: true });
-            });
-        axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
-            .then((response) => {
-                if (response.data[3]) {
-                    setResults(response.data[3]);
-                }
-                setResultsStatus({ errorMsg: undefined, isLoaded: true });
-            })
-            .catch((error) => {
-                console.log(error);
-                setResults(null);
-                setResultsStatus({ errorMsg: 'An error occurred fetching results!', isLoaded: true });
-            });
+        if (querySeasonId) {
+            axios.get('/api/seasons/' + querySeasonId + '/name')
+                .then((response) => {
+                    response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setSeasonName(null);
+                });
+            axios.get('/api/stores/' + storeid + '/divisions/' + divisionid)
+                .then((response) => {
+                    response.data[0] ? setStore(response.data[0]) : setStore(null);
+                    setStoreStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setStore(null);
+                    setStoreStatus({ errorMsg: 'An error occurred fetching the store name!', isLoaded: true });
+                });
+            axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
+                .then((response) => {
+                    if (response.data[3]) {
+                        setResults(response.data[3]);
+                    }
+                    setResultsStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setResults(null);
+                    setResultsStatus({ errorMsg: 'An error occurred fetching results!', isLoaded: true });
+                });
+        }
     }, [storeid, divisionid, querySeasonId]);
 
     return (

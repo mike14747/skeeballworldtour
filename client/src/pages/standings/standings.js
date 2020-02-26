@@ -55,21 +55,23 @@ export default function Standings() {
     }, []);
 
     useEffect(() => {
-        axios.get('/api/seasons/' + querySeasonId + '/name')
-            .then((response) => {
-                response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
-            })
-            .catch((error) => {
-                console.log(error);
-                setSeasonName(null);
-            });
-        axios.get('/api/standings/season/' + querySeasonId)
-            .then(response => groupStandings(response.data))
-            .catch((error) => {
-                console.log(error);
-                setStandingsArr(null);
-                setStandingsArrStatus({ errorMsg: 'An error occurred fetching the standings!', isLoaded: true });
-            });
+        if (querySeasonId) {
+            axios.get('/api/seasons/' + querySeasonId + '/name')
+                .then((response) => {
+                    response.data[0] ? setSeasonName({ season_id: querySeasonId, season_name: response.data[0].season_name, season_year: response.data[0].year }) : setSeasonName(null);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setSeasonName(null);
+                });
+            axios.get('/api/standings/season/' + querySeasonId)
+                .then(response => groupStandings(response.data))
+                .catch((error) => {
+                    console.log(error);
+                    setStandingsArr(null);
+                    setStandingsArrStatus({ errorMsg: 'An error occurred fetching the standings!', isLoaded: true });
+                });
+        }
     }, [querySeasonId]);
 
     return (
