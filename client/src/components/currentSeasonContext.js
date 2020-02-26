@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const CurrentSeasonContext = createContext({});
+const CurrentSeasonContext = createContext(null);
 
 export default CurrentSeasonContext;

@@ -7,11 +7,11 @@ function NumLeadersDropdown({ numLeaders, numLeadersArray, setNumLeaders }) {
             {numLeadersArray && numLeadersArray.length > 0 &&
                 <span className="small">Currently showing top:</span>
             }
-            <select className="ml-2">
+            <select className="ml-2" defaultValue={numLeaders}>
                 {numLeadersArray.map(leaders => (
                     <Fragment key={leaders}>
                         {numLeaders === leaders
-                            ? <option selected="selected">{leaders}</option>
+                            ? <option>{leaders}</option>
                             : <option value={leaders} onClick={() => setNumLeaders(leaders)}>{leaders}</option>
                         }
                     </Fragment>

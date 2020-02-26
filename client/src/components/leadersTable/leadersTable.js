@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const LeadersTable = ({ heading, subHeading, columnName, format, href, leadersObj }) => {
+const LeadersTable = ({ heading, subHeading, columnName, columnData, format, href, leadersObj }) => {
     return (
         <Fragment>
             <div className="text-center mb-4">
@@ -14,8 +14,8 @@ const LeadersTable = ({ heading, subHeading, columnName, format, href, leadersOb
                 <thead>
                     <tr className="bg-gray6">
                         <th className="text-center">Rank</th>
-                        <th>Player</th>
-                        <th className="text-center">{columnName}</th>
+                        <th className="text-left">{columnName}</th>
+                        <th className="text-center">{columnData}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +48,7 @@ LeadersTable.propTypes = {
     heading: PropTypes.string,
     subHeading: PropTypes.string,
     columnName: PropTypes.string,
+    columnData: PropTypes.string,
     format: PropTypes.string,
     href: PropTypes.string,
     leadersObj: PropTypes.object,

@@ -20,7 +20,7 @@ import './css/style.css';
 import './css/my_style.css';
 
 export default function App() {
-    const [currentSeasonId, setCurrentSeasonId] = useState(0);
+    const [currentSeasonId, setCurrentSeasonId] = useState(null);
 
     useEffect(() => {
         axios.get('/api/settings/current-season')
