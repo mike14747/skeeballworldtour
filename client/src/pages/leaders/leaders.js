@@ -192,7 +192,7 @@ const Leaders = () => {
                             {!indAvgLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : indAvgLeaders.leaders && indAvgLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Player, high season average / game" subHeading="(must play in a minimum of 50% of your team's games to qualify)" format="decimal" href="/players/" leadersObj={indAvgLeaders} />
+                                    ? <LeadersTable heading="Player, high season average / game" subHeading="(must play in a minimum of 50% of your team's games to qualify)" columnName="Player" columnData="Average" format="decimal" href="/players/" leadersObj={indAvgLeaders} />
                                     : indAvgLeaders.leaders
                                         ? <span className="empty-result">There are no player average leaders for this season!</span>
                                         : <span className="empty-result">{indAvgLeadersStatus.errorMsg}</span>
@@ -200,7 +200,7 @@ const Leaders = () => {
                             {!indOneGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : indOneGameLeaders.leaders && indOneGameLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Player, 1-game high" columnName="Score" format="integer" href="/players/" leadersObj={indOneGameLeaders} />
+                                    ? <LeadersTable heading="Player, 1-game high" columnName="Player" columnData="Score" format="integer" href="/players/" leadersObj={indOneGameLeaders} />
                                     : indOneGameLeaders.leaders
                                         ? <span className="empty-result">There are no player 1-game leaders for this season!</span>
                                         : <span className="empty-result">{indOneGameLeadersStatus.errorMsg}</span>
@@ -208,7 +208,7 @@ const Leaders = () => {
                             {!indTenGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : indTenGameLeaders.leaders && indTenGameLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Player, 10-game high" columnName="Points" format="integer" href="/players/" leadersObj={indTenGameLeaders} />
+                                    ? <LeadersTable heading="Player, 10-game high" columnName="Player" columnData="Score" format="integer" href="/players/" leadersObj={indTenGameLeaders} />
                                     : indTenGameLeaders.leaders
                                         ? <span className="empty-result">There are no player 10-game leaders for this season!</span>
                                         : <span className="empty-result">{indTenGameLeadersStatus.errorMsg}</span>
@@ -223,7 +223,7 @@ const Leaders = () => {
                             {!teamAvgLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamAvgLeaders.leaders && teamAvgLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Team, 10-game high average" columnName="Score" format="decimal" href="/teams/" leadersObj={teamAvgLeaders} />
+                                    ? <LeadersTable heading="Team, 10-game high average" columnName="Team" columnData="Average" format="decimal" href="/teams/" leadersObj={teamAvgLeaders} />
                                     : teamAvgLeaders.leaders
                                         ? <span className="empty-result">There are no team average leaders for this season!</span>
                                         : <span className="empty-result">{teamAvgLeadersStatus.errorMsg}</span>
@@ -231,7 +231,7 @@ const Leaders = () => {
                             {!teamOneGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamOneGameLeaders.leaders && teamOneGameLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Team, 1-game high" columnName="Team" columnData="Points" format="integer" href="/teams/" leadersObj={teamOneGameLeaders} />
+                                    ? <LeadersTable heading="Team, 1-game high" columnName="Team" columnData="Score" format="integer" href="/teams/" leadersObj={teamOneGameLeaders} />
                                     : teamOneGameLeaders.leaders
                                         ? <span className="empty-result">There are no team 1-game leaders for this season!</span>
                                         : <span className="empty-result">{teamOneGameLeadersStatus.errorMsg}</span>
@@ -239,7 +239,7 @@ const Leaders = () => {
                             {!teamTenGameLeadersStatus.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                                 : teamTenGameLeaders.leaders && teamTenGameLeaders.leaders.length > 0
-                                    ? <LeadersTable heading="Team, 10-game high" columnName="Score" format="integer" href="/teams/" leadersObj={teamTenGameLeaders} />
+                                    ? <LeadersTable heading="Team, 10-game high" columnName="Team" columnData="Score" format="integer" href="/teams/" leadersObj={teamTenGameLeaders} />
                                     : teamTenGameLeaders.leaders
                                         ? <span className="empty-result">There are no team 10-game leaders for this season!</span>
                                         : <span className="empty-result">{teamTenGameLeadersStatus.errorMsg}</span>
