@@ -1,5 +1,10 @@
 const router = require('express').Router();
 
+router.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 const storesController = require('./storesController');
 router.use('/stores', storesController);
 
