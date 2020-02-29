@@ -32,7 +32,7 @@ export default function Search() {
                 <div className="col-6">
                     <p className="text-success"><b>Player Matches:</b> {playerArray.length}</p>
                     {playerArray.map(player => (
-                        <p key={player.player_id}><a href={'/players/' + player.player_id}>{player.full_name}</a></p>
+                        <p key={player.player_id}><a href={'/players/' + player.player_id}>{player.full_name}</a> ({player.cities})</p>
                     ))}
                 </div>
                 <div className="col-6">

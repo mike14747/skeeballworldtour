@@ -3,7 +3,7 @@ const pool = require('../config/pool.js');
 const Player = {
     searchPlayers: async (paramsObj) => {
         try {
-            const queryString = 'SELECT p.player_id, p.full_name, s.store_id, s.store_city FROM players AS p JOIN stores AS s ON (p.store_id=s.store_id) WHERE p.full_name LIKE ? ORDER BY p.full_name ASC;';
+            const queryString = 'SELECT pl.player_id, pl.full_name, pl.store_id, GROUP_CONCAT(s.store_city ORDER BY s.store_city SEPARATOR", ") AS cities FROM (SELECT DISTINCT r.store_id, p.* FROM (SELECT player_id, full_name FROM players WHERE full_name LIKE ?) AS p INNER JOIN results AS r ON (p.player_id=r.player_id)) AS pl INNER JOIN stores AS s ON (s.store_id=pl.store_id) GROUP BY pl.player_id ORDER BY pl.full_name;';
             const queryParams = [
                 '%' + paramsObj.criteria + '%',
             ];
@@ -28,7 +28,7 @@ const Player = {
     },
     getPlayerNameAndStore: async (paramsObj) => {
         try {
-            const queryString = 'SELECT s.store_name, p.full_name FROM players AS p JOIN stores AS s ON (p.store_id=s.store_id) WHERE p.player_id=? LIMIT 1;';
+            const queryString = 'SELECT pl.full_name, pl.store_id, GROUP_CONCAT(pl.store_city ORDER BY pl.store_city SEPARATOR", ") AS cities FROM (SELECT r.store_id, s.store_city, p.full_name FROM players AS p INNER JOIN results AS r ON (p.player_id=r.player_id) INNER JOIN stores AS s ON (r.store_id=s.store_id) WHERE p.player_id=? GROUP BY r.store_id) AS pl;';
             const queryParams = [
                 paramsObj.id,
             ];

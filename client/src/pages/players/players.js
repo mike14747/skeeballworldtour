@@ -128,8 +128,8 @@ const Players = () => {
             <div className="row mb-4">
                 <div className="col-6 text-left p-2">
                     {playerNameStoreStatus.isLoaded && playerNameStore &&
-                        <div className="mb-3 bigger">
-                            {playerNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Player: </span>{playerNameStore.full_name}
+                        <div className="mb-3">
+                            <span className="bigger font-weight-bolder"><span className="text-danger">Player: </span>{playerNameStore.full_name}</span><br />Career Stores: {playerNameStore.cities}
                         </div>
                     }
                 </div>
