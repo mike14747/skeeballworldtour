@@ -15,8 +15,11 @@ const Players = () => {
 
     const [seasonName, setSeasonName] = useState(null);
 
-    const [playerNameStore, setPlayerNameStore] = useState(null);
-    const [playerNameStoreStatus, setPlayerNameStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [playerNameStores, setPlayerNameStores] = useState(null);
+    const [playerNameStoresStatus, setPlayerNameStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [currentViewStores, setCurrentViewStores] = useState(null);
+    const [currentViewStoresStatus, setCurrentViewStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [playerSeasons, setPlayerSeasons] = useState(null);
     const [playerSeasonsStatus, setPlayerSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -34,13 +37,13 @@ const Players = () => {
     useEffect(() => {
         axios.get('/api/players/' + playerid + '/name-store')
             .then((response) => {
-                response.data[0] ? setPlayerNameStore(response.data[0]) : setPlayerNameStore([]);
-                setPlayerNameStoreStatus({ errorMsg: undefined, isLoaded: true });
+                response.data[0] ? setPlayerNameStores(response.data[0]) : setPlayerNameStores([]);
+                setPlayerNameStoresStatus({ errorMsg: undefined, isLoaded: true });
             })
             .catch((error) => {
                 console.log(error);
-                setPlayerNameStore(null);
-                setPlayerNameStoreStatus({ errorMsg: 'An error occurred fetching info for this Player!', isLoaded: true });
+                setPlayerNameStores(null);
+                setPlayerNameStoresStatus({ errorMsg: 'An error occurred fetching info for this Player!', isLoaded: true });
             });
         axios.get('/api/players/' + playerid + '/seasons-list')
             .then((response) => {
@@ -70,6 +73,16 @@ const Players = () => {
                     console.log(error);
                     setSeasonName(null);
                 });
+            axios.get('/api/players/' + playerid + '/current-stores/season/' + querySeasonId)
+                .then((response) => {
+                    response.data[0] ? setCurrentViewStores({ stores: response.data[0].stores }) : setCurrentViewStores(null);
+                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setCurrentViewStores(null);
+                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
+                });
             axios.get('/api/players/' + playerid + '/results/seasons/' + querySeasonId)
                 .then((response) => {
                     if (response.data.length > 0) {
@@ -87,7 +100,16 @@ const Players = () => {
                             tempObj.total = tempObj.scores.reduce((accumulator, currentValue) => accumulator + currentValue);
                             return tempObj;
                         });
-                        const [totalGames, games800, games700, games600, games500, games400, games300, highGame, lowGame] = [allScores.length, allScores.filter(score => score >= 800).length, allScores.filter(score => score >= 700).length, allScores.filter(score => score >= 600).length, allScores.filter(score => score >= 500).length, allScores.filter(score => score >= 400).length, allScores.filter(score => score >= 300).length, Math.max(...allScores), Math.min(...allScores)];
+                        const [totalGames, games800, games700, games600, games500, games400, games300, highGame, lowGame] = [
+                            allScores.length,
+                            allScores.filter(score => score >= 800).length,
+                            allScores.filter(score => score >= 700).length,
+                            allScores.filter(score => score >= 600).length,
+                            allScores.filter(score => score >= 500).length,
+                            allScores.filter(score => score >= 400).length,
+                            allScores.filter(score => score >= 300).length,
+                            Math.max(...allScores), Math.min(...allScores),
+                        ];
                         const [averageScore, highGameCount, lowGameCount] = [allScores.reduce((accumulator, currentValue) => accumulator + currentValue) / totalGames, allScores.filter(score => score === highGame).length, allScores.filter(score => score === lowGame).length];
                         const matchesArray = formattedResults.map(match => match.scores.reduce((accumulator, currentValue) => accumulator + currentValue));
                         const bestTenGameSeries = Math.max(...matchesArray);
@@ -127,9 +149,13 @@ const Players = () => {
             <PageHeading text="Player Stats" />
             <div className="row mb-4">
                 <div className="col-6 text-left p-2">
-                    {playerNameStoreStatus.isLoaded && playerNameStore &&
+                    {playerNameStoresStatus.isLoaded && playerNameStores &&
                         <div className="mb-3">
-                            <span className="bigger font-weight-bolder"><span className="text-danger">Player: </span>{playerNameStore.full_name}</span><br />Career Stores: {playerNameStore.cities}
+                            <div className="bigger font-weight-bolder"><span className="text-danger">Player: </span>{playerNameStores.full_name}</div>
+                            <div><span className="small">Career Store(s):</span> {playerNameStores.cities}</div>
+                            {currentViewStoresStatus.isLoaded && currentViewStores.stores &&
+                                <div><span className="small">Current View:</span> <span className="font-weight-bolder">{currentViewStores.stores}</span></div>
+                            }
                         </div>
                     }
                 </div>

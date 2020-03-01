@@ -7,7 +7,7 @@ function Dropdown({ currentSeason, buttonText, listItems, handleSeasonId }) {
         <Fragment>
             {currentSeason &&
                 <Fragment>
-                    <span className="small">Current View:</span> {currentSeason.season_name}, {currentSeason.season_year}
+                    <span className="small">Current View:</span> <span className="font-weight-bolder">{currentSeason.season_name}, {currentSeason.season_year}</span>
                 </Fragment>
             }
             <div className="dropdown ml-2">

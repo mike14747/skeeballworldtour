@@ -17,7 +17,7 @@ router.get('/:teamid/seasons/:seasonid', async (req, res, next) => {
 router.get('/:teamid/seasons-list', async (req, res, next) => {
     try {
         const data = await Team.getSeasonsListByTeamId({
-            id: req.params.teamid,
+            team_id: req.params.teamid,
         });
         data[0] ? res.json(data[1]) : next(data[1]);
     } catch (error) {
@@ -28,7 +28,19 @@ router.get('/:teamid/seasons-list', async (req, res, next) => {
 router.get('/:teamid/store-name', async (req, res, next) => {
     try {
         const data = await Team.getTeamNameAndStoreName({
-            id: req.params.teamid,
+            team_id: req.params.teamid,
+        });
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/:teamid/current-stores/season/:seasonid', async (req, res, next) => {
+    try {
+        const data = await Team.getCurrentStores({
+            team_id: req.params.teamid,
+            season_id: req.params.seasonid,
         });
         data[0] ? res.json(data[1]) : next(data[1]);
     } catch (error) {

@@ -38,7 +38,7 @@ export default function Search() {
                 <div className="col-6">
                     <p className="text-success"><b>Team Matches:</b> {teamArray.length}</p>
                     {teamArray.map(team => (
-                        <p key={team.team_id}><a href={'/teams/' + team.team_id}>{team.team_name}</a></p>
+                        <p key={team.team_id}><a href={'/teams/' + team.team_id}>{team.team_name}</a> ({team.cities})</p>
                     ))}
                 </div>
             </div>

@@ -16,8 +16,11 @@ export default function Teams() {
 
     const [seasonName, setSeasonName] = useState(null);
 
-    const [teamNameStore, setTeamNameStore] = useState(null);
-    const [teamNameStoreStatus, setTeamNameStoreStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamNameStores, setTeamNameStores] = useState(null);
+    const [teamNameStoresStatus, setTeamNameStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [currentViewStores, setCurrentViewStores] = useState(null);
+    const [currentViewStoresStatus, setCurrentViewStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [teamSeasons, setTeamSeasons] = useState(null);
     const [teamSeasonsStatus, setTeamSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
@@ -39,13 +42,13 @@ export default function Teams() {
     useEffect(() => {
         axios.get('/api/teams/' + teamid + '/store-name')
             .then((response) => {
-                response.data[0] ? setTeamNameStore(response.data[0]) : setTeamNameStore([]);
-                setTeamNameStoreStatus({ errorMsg: undefined, isLoaded: true });
+                response.data[0] ? setTeamNameStores(response.data[0]) : setTeamNameStores([]);
+                setTeamNameStoresStatus({ errorMsg: undefined, isLoaded: true });
             })
             .catch((error) => {
                 console.log(error);
-                setTeamNameStore(null);
-                setTeamNameStoreStatus({ errorMsg: 'An error occurred fetching info for this team!', isLoaded: true });
+                setTeamNameStores(null);
+                setTeamNameStoresStatus({ errorMsg: 'An error occurred fetching info for this team!', isLoaded: true });
             });
         axios.get('/api/teams/' + teamid + '/seasons-list')
             .then((response) => {
@@ -74,6 +77,16 @@ export default function Teams() {
                 .catch((error) => {
                     console.log(error);
                     setSeasonName(null);
+                });
+            axios.get('/api/teams/' + teamid + '/current-stores/season/' + querySeasonId)
+                .then((response) => {
+                    response.data[0] ? setCurrentViewStores({ stores: response.data[0].stores }) : setCurrentViewStores(null);
+                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setCurrentViewStores(null);
+                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
                 });
             axios.get('/api/teams/' + teamid + '/seasons/' + querySeasonId)
                 .then((response) => {
@@ -136,9 +149,13 @@ export default function Teams() {
             <PageHeading text="Team Stats" />
             <div className="row mb-4">
                 <div className="col-6 text-left p-2">
-                    {teamNameStoreStatus.isLoaded && teamNameStore &&
-                        <div className="mb-3 bigger">
-                            {teamNameStore.store_name} <span className="mx-2">|</span> <span className="text-danger">Team: </span>{teamNameStore.team_name}
+                    {teamNameStoresStatus.isLoaded && teamNameStores &&
+                        <div className="mb-3 ">
+                            <div className="bigger font-weight-bolder"><span className="text-danger">Team: </span>{teamNameStores.team_name}</div>
+                            <div><span className="small">Career Store(s):</span> {teamNameStores.cities}</div>
+                            {currentViewStoresStatus.isLoaded && currentViewStores.stores &&
+                                <div><span className="small">Current View:</span> <span className="font-weight-bolder">{currentViewStores.stores}</span></div>
+                            }
                         </div>
                     }
                 </div>

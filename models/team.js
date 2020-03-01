@@ -1,6 +1,18 @@
 const pool = require('../config/pool.js');
 
 const Team = {
+    searchTeams: async (paramsObj) => {
+        try {
+            const queryString = 'SELECT te.team_id, te.team_name, GROUP_CONCAT(s.store_city ORDER BY s.store_city SEPARATOR", ") AS cities FROM (SELECT DISTINCT r.store_id, t.team_id, t.team_name FROM (SELECT team_id, team_name FROM teams WHERE team_name LIKE ?) AS t INNER JOIN results AS r ON (t.team_id=r.team_id)) AS te INNER JOIN stores AS s ON (s.store_id=te.store_id) GROUP BY te.team_id ORDER BY te.team_name;';
+            const queryParams = [
+                '%' + paramsObj.criteria + '%',
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [true, result];
+        } catch (error) {
+            return [false, error];
+        }
+    },
     getTeamStatsByTeamSeasonId: async (paramsObj) => {
         try {
             let subQueryString = '';
@@ -10,7 +22,8 @@ const Team = {
                     subQueryString += ' UNION ALL ';
                 }
             }
-            const queryString = 'SET @team_id=?;SET @season_id=?;SELECT tg1.team_id, s.wins, s.losses, s.ties, s.total_points, ROUND((s.total_points/(s.wins+s.losses+s.ties)),1) AS one_game_avg, ROUND((s.total_points/((s.wins+s.losses+s.ties)/10)),1) AS ten_game_avg, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgh FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgh DESC LIMIT 1) AS ten_game_high, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgl FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgl ASC LIMIT 1) AS ten_game_low, tg1.one_game_low, tg1.one_game_high FROM standings AS s JOIN (SELECT season_id, team_id, MIN(tg.team_game) AS one_game_low, MAX(tg.team_game) AS one_game_high FROM (' + subQueryString + ') AS tg) AS tg1 ON (s.season_id=tg1.season_id AND s.team_id=tg1.team_id) WHERE s.season_id=@season_id && s.team_id=@team_id GROUP BY tg1.team_id;';
+            const queryString = 'SET @team_id=?;SET @season_id=?;SELECT tg1.team_id, s.wins, s.losses, s.ties, s.total_points, ROUND((s.total_points/(s.wins+s.losses+s.ties)),1) AS one_game_avg, ROUND((s.total_points/((s.wins+s.losses+s.ties)/10)),1) AS ten_game_avg, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgh FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgh DESC LIMIT 1) AS ten_game_high, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgl FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgl ASC LIMIT 1) AS ten_game_low, tg1.one_game_low, tg1.one_game_high FROM standings AS s INNER JOIN (SELECT season_id, team_id, MIN(tg.team_game) AS one_game_low, MAX(tg.team_game) AS one_game_high FROM (' + subQueryString + ') AS tg) AS tg1 ON (s.season_id=tg1.season_id AND s.team_id=tg1.team_id) WHERE s.season_id=@season_id && s.team_id=@team_id GROUP BY tg1.team_id;';
+            // console.log(queryString);
             const queryParams = [
                 paramsObj.team_id,
                 paramsObj.season_id,
@@ -23,9 +36,22 @@ const Team = {
     },
     getTeamNameAndStoreName: async (paramsObj) => {
         try {
-            const queryString = 'SELECT s.store_name, t.team_name FROM teams AS t JOIN stores AS s ON (t.store_id=s.store_id) WHERE t.team_id=? LIMIT 1;';
+            const queryString = 'SELECT te.team_name, te.store_id, GROUP_CONCAT(te.store_city ORDER BY te.store_city SEPARATOR", ") AS cities FROM (SELECT r.store_id, s.store_city, t.team_name FROM teams AS t INNER JOIN results AS r ON (t.team_id=r.team_id) INNER JOIN stores AS s ON (r.store_id=s.store_id) WHERE t.team_id=? GROUP BY r.store_id) AS te;';
             const queryParams = [
-                paramsObj.id,
+                paramsObj.team_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [true, result];
+        } catch (error) {
+            return [false, error];
+        }
+    },
+    getCurrentStores: async (paramsObj) => {
+        try {
+            const queryString = 'SELECT GROUP_CONCAT(te.store_division ORDER BY te.store_division SEPARATOR", ") AS stores FROM (SELECT CONCAT(s.store_city, " (", d.day_name, ")") AS store_division FROM results AS r INNER JOIN stores AS s ON (r.store_id=s.store_id) INNER JOIN divisions AS d ON (r.division_id=d.division_id) WHERE r.team_id=? && r.season_id=? GROUP BY r.store_id, r.division_id) AS te;';
+            const queryParams = [
+                paramsObj.team_id,
+                paramsObj.season_id,
             ];
             const [result] = await pool.query(queryString, queryParams);
             return [true, result];
@@ -35,9 +61,9 @@ const Team = {
     },
     getSeasonsListByTeamId: async (paramsObj) => {
         try {
-            const queryString = 'SELECT DISTINCT(r.season_id), se.season_id, se.season_name, se.year FROM results AS r JOIN seasons AS se ON (r.season_id=se.season_id) WHERE r.team_id=? ORDER BY se.season_id DESC;';
+            const queryString = 'SELECT DISTINCT(r.season_id), se.season_id, se.season_name, se.year FROM results AS r INNER JOIN seasons AS se ON (r.season_id=se.season_id) WHERE r.team_id=? ORDER BY se.season_id DESC;';
             const queryParams = [
-                paramsObj.id,
+                paramsObj.team_id,
             ];
             const [result] = await pool.query(queryString, queryParams);
             return [true, result];
@@ -76,7 +102,6 @@ const Team = {
             let hA;
             let homeAway;
             let innerString = '';
-
             for (let i = 1; i <= 2; i++) {
                 let playerNum = 1;
                 let gameNum = 1;
@@ -106,22 +131,11 @@ const Team = {
                     }
                 }
             }
-            const queryString = 'SET @team_id=?;SET @season_id=?;SELECT s.week_id, s.week_date1, s.away_team_id, s.home_team_id, s.alley, s.start_time, ' + innerString + ' FROM results AS r JOIN players AS p ON (r.player_id=p.player_id) JOIN teams AS t ON (r.team_id=t.team_id) JOIN (SELECT week_id, DATE_FORMAT(week_date, "%b-%d, %Y") AS week_date1, away_team_id, home_team_id, alley, start_time FROM schedule WHERE season_id=@season_id && (away_team_id=@team_id || home_team_id=@team_id) ORDER BY week_id DESC, start_time ASC, alley ASC) AS s ON (r.week_id=s.week_id AND (r.team_id=s.away_team_id || r.team_id=s.home_team_id)) WHERE r.season_id=@season_id GROUP BY r.week_id, s.start_time, s.alley ORDER BY r.week_id DESC, s.start_time ASC, s.alley ASC, r.team_id ASC, r.player_num ASC;';
+            const queryString = 'SET @team_id=?;SET @season_id=?;SELECT s.week_id, s.week_date1, s.away_team_id, s.home_team_id, s.alley, s.start_time, ' + innerString + ' FROM results AS r INNER JOIN players AS p ON (r.player_id=p.player_id) INNER JOIN teams AS t ON (r.team_id=t.team_id) INNER JOIN (SELECT week_id, DATE_FORMAT(week_date, "%b-%d, %Y") AS week_date1, away_team_id, home_team_id, alley, start_time FROM schedule WHERE season_id=@season_id && (away_team_id=@team_id || home_team_id=@team_id) ORDER BY week_id DESC, start_time ASC, alley ASC) AS s ON (r.week_id=s.week_id AND (r.team_id=s.away_team_id || r.team_id=s.home_team_id)) WHERE r.season_id=@season_id GROUP BY r.week_id, s.start_time, s.alley ORDER BY r.week_id DESC, s.start_time ASC, s.alley ASC, r.team_id ASC, r.player_num ASC;';
+            // console.log(queryString);
             const queryParams = [
                 paramsObj.team_id,
                 paramsObj.season_id,
-            ];
-            const [result] = await pool.query(queryString, queryParams);
-            return [true, result];
-        } catch (error) {
-            return [false, error];
-        }
-    },
-    searchTeams: async (paramsObj) => {
-        try {
-            const queryString = 'SELECT t.team_id, t.team_name, s.store_city FROM teams AS t JOIN stores AS s ON (t.store_id=s.store_id) WHERE t.team_name LIKE ? ORDER BY t.team_name ASC;';
-            const queryParams = [
-                '%' + paramsObj.criteria + '%',
             ];
             const [result] = await pool.query(queryString, queryParams);
             return [true, result];
