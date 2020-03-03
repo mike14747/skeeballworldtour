@@ -11,6 +11,7 @@ import Results from './pages/results/results';
 import Schedule from './pages/schedule/schedule';
 import AllTime from './pages/allTime/allTime';
 import Leaders from './pages/leaders/leaders';
+import Qualifiers from './pages/qualifiers/qualifiers';
 import Header from './components/header/header';
 import NavBar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
@@ -48,6 +49,7 @@ export default function App() {
                         <Route path="/schedule/:storeid/:divisionid/:seasonid?" component={Schedule} />
                         <Route exact path="/leaders" component={Leaders} />
                         <Route exact path="/all-time" component={AllTime} />
+                        <Route exact path="/qualifiers" component={Qualifiers} />
                         <Route path="/champions" component={Champions} />
                         <Route path="/search/:searchstring" component={Search} />
                     </CurrentSeasonContext.Provider>
