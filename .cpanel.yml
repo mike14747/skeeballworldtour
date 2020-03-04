@@ -1,0 +1,11 @@
+---
+deployment:
+    tasks:
+        - export DEPLOYPATH=/home/user/public_html/skeeballworldtour
+        - /bin/cp -R client/build $DEPLOYPATH
+        - /bin/cp -R config $DEPLOYPATH
+        - /bin/cp -R controllers $DEPLOYPATH
+        - /bin/cp -R models $DEPLOYPATH
+        - /bin/cp -R pdf $DEPLOYPATH
+        - /bin/cp -R package.json $DEPLOYPATH
+        - /bin/cp -R server.js $DEPLOYPATH
