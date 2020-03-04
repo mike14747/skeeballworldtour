@@ -12,6 +12,10 @@ if (NODE_ENV === 'production') {
     app.use(express.static('./client/build'));
 }
 
+app.get('/pdf/:filename', function (req, res) {
+    res.sendFile('pdf/' + req.params.filename, { root: __dirname });
+});
+
 const controllers = require('./controllers');
 app.use('/api', controllers);
 
