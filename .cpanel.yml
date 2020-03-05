@@ -11,5 +11,5 @@ deployment:
         - /bin/mkdir DEPLOYPATHCLIENT
         - /bin/cp -r ./client/build $DEPLOYPATHCLIENT
         - export DEPLOYPATHCONFIG=/home/mikeqsgc/skeeballworldtour/config/
-        - /bin/mkdir DEPLOYPATHCONFIG
+        - /bin/mkdir /home/mikeqsgc/skeeballworldtour/config
         - /bin/cp ./config/pool.js $DEPLOYPATHCONFIG
