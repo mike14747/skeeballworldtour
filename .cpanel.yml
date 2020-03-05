@@ -8,4 +8,4 @@ deployment:
         - /bin/cp -R models $DEPLOYPATH
         - /bin/cp -R pdf $DEPLOYPATH
         - /bin/cp -R package.json $DEPLOYPATH
-	- /bin/cp -R server.js $DEPLOYPATH
+        - /bin/cp -R server.js $DEPLOYPATH
