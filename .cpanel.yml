@@ -1,7 +1,7 @@
 ---
 deployment:
     tasks:
-        - export DEPLOYPATH=/home/user/public_html/skeeballworldtour
+        - export DEPLOYPATH=/home/mikeqsgc/public_html/skeeballworldtour
         - /bin/cp -R client/build $DEPLOYPATH
         - /bin/cp -R config $DEPLOYPATH
         - /bin/cp -R controllers $DEPLOYPATH
