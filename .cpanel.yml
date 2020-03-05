@@ -8,6 +8,8 @@ deployment:
         - /bin/cp -R package.json $DEPLOYPATH
         - /bin/cp -R server.js $DEPLOYPATH
         - export DEPLOYPATHCLIENT=/home/mikeqsgc/skeeballworldtour/client/build/
+        - /bin/mkdir DEPLOYPATHCLIENT
         - /bin/cp -r ./client/build $DEPLOYPATHCLIENT
         - export DEPLOYPATHCONFIG=/home/mikeqsgc/skeeballworldtour/config/
+        - /bin/mkdir DEPLOYPATHCONFIG
         - /bin/cp ./config/pool.js $DEPLOYPATHCONFIG
