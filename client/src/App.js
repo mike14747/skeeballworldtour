@@ -12,10 +12,11 @@ import Schedule from './pages/schedule/schedule';
 import AllTime from './pages/allTime/allTime';
 import Leaders from './pages/leaders/leaders';
 import Qualifiers from './pages/qualifiers/qualifiers';
+import NoMatch from './pages/noMatch/noMatch';
 import Header from './components/header/header';
 import NavBar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
-import CurrentSeasonContext from './components/currentSeasonContext';
+import CurrentSeasonContext from './context/currentSeasonContext';
 import axios from 'axios';
 import './css/style.css';
 import './css/my_style.css';
@@ -39,20 +40,19 @@ export default function App() {
                 <Header />
                 <NavBar />
                 <Switch>
-                    <CurrentSeasonContext.Provider value={currentSeasonId}>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/rules" component={Rules} />
-                        <Route path="/standings" component={Standings} />
-                        <Route path="/teams/:teamid" component={Teams} />
-                        <Route path="/players/:playerid" component={Players} />
-                        <Route path="/results/:storeid/:divisionid/:seasonid?" component={Results} />
-                        <Route path="/schedule/:storeid/:divisionid/:seasonid?" component={Schedule} />
-                        <Route exact path="/leaders" component={Leaders} />
-                        <Route exact path="/all-time" component={AllTime} />
-                        <Route exact path="/qualifiers" component={Qualifiers} />
-                        <Route path="/champions" component={Champions} />
-                        <Route path="/search/:searchstring" component={Search} />
-                    </CurrentSeasonContext.Provider>
+                    <Route exact path="/"><CurrentSeasonContext.Provider value={currentSeasonId}><Home /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/rules" component={Rules} />
+                    <Route exact path="/standings"><CurrentSeasonContext.Provider value={currentSeasonId}><Standings /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/teams/:teamid"><CurrentSeasonContext.Provider value={currentSeasonId}><Teams /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/players/:playerid"><CurrentSeasonContext.Provider value={currentSeasonId}><Players /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/results/:storeid/:divisionid/:seasonid?"><CurrentSeasonContext.Provider value={currentSeasonId}><Results /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/schedule/:storeid/:divisionid/:seasonid?"><CurrentSeasonContext.Provider value={currentSeasonId}><Schedule /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/leaders"><CurrentSeasonContext.Provider value={currentSeasonId}><Leaders /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/all-time" component={AllTime} />
+                    <Route exact path="/qualifiers"><CurrentSeasonContext.Provider value={currentSeasonId}><Qualifiers /></CurrentSeasonContext.Provider></Route>
+                    <Route exact path="/champions" component={Champions} />
+                    <Route path="/search/:searchstring" component={Search} />
+                    <Route component={NoMatch} />
                 </Switch>
                 <Footer />
             </div>

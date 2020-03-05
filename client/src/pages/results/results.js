@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CurrentSeasonContext from '../../components/currentSeasonContext';
+import CurrentSeasonContext from '../../context/currentSeasonContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
