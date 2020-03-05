@@ -2,7 +2,7 @@
 deployment:
     tasks:
         - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour/
-        - /bin/cp -R /config/pool.js $DEPLOYPATH
+        - /bin/cp -R config $DEPLOYPATH
         - /bin/cp -R controllers $DEPLOYPATH
         - /bin/cp -R models $DEPLOYPATH
         - /bin/cp -R pdf $DEPLOYPATH
