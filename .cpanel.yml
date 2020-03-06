@@ -2,4 +2,4 @@
 deployment:
     tasks:
         - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour/
-        - /bin/rm -Rf ${DEPLOYPATH}/test
+        - /bin/rm -rf ${DEPLOYPATH}/test
