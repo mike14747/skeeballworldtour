@@ -1,4 +1,4 @@
 ---
 deployment:
     tasks:
-        - /bin/rm /home/mikeqsgc/skeeballworldtour/test
+        - /bin/rm -Rf /home/mikeqsgc/skeeballworldtour/test
