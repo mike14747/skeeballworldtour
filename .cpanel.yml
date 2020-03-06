@@ -2,7 +2,6 @@
 deployment:
     tasks:
         - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour/
-        - /bin/rm -rf ${DEPLOYPATH}/test2
         - /bin/rm -rf ${DEPLOYPATH}/client
         - /bin/rm -rf ${DEPLOYPATH}/config
         - /bin/rm -rf ${DEPLOYPATH}/controllers
