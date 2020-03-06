@@ -7,3 +7,9 @@ body {
     font-weight: 600;
     font-size: 120%;
 }
+
+.table-wrapper {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}

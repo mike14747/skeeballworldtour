@@ -92,7 +92,7 @@ export default function Standings() {
                             <div key={index}>
                                 <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
                                 <div className="d-flex justify-content-center mb-4">
-                                    <div className="min-w-50 mx-auto">
+                                    <div className="min-w-50 mx-auto table-wrapper">
                                         <table className="table table-bordered mb-4 text-center">
                                             <thead>
                                                 <tr className="bg-gray6">
