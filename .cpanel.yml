@@ -2,5 +2,18 @@
 deployment:
     tasks:
         - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour/
-        - /bin/rm -rf ${DEPLOYPATH}/test
-        - /bin/mkdir ${DEPLOYPATH}/test2
+        - /bin/rm -rf ${DEPLOYPATH}/test2
+        - /bin/rm -rf ${DEPLOYPATH}/client
+        - /bin/rm -rf ${DEPLOYPATH}/config
+        - /bin/rm -rf ${DEPLOYPATH}/controllers
+        - /bin/rm -rf ${DEPLOYPATH}/models
+        - /bin/rm -rf ${DEPLOYPATH}/pdf
+        - /bin/cp -r controllers $DEPLOYPATH
+        - /bin/cp -r models $DEPLOYPATH
+        - /bin/cp -r pdf $DEPLOYPATH
+        - /bin/cp package.json $DEPLOYPATH
+        - /bin/cp server.js $DEPLOYPATH
+        - /bin/mkdir ${DEPLOYPATH}/client
+        - /bin/cp -r ./client/build ${DEPLOYPATH}/client
+        - /bin/mkdir ${DEPLOYPATH}/config
+        - /bin/cp ./config/pool.js ${DEPLOYPATH}/config
