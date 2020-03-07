@@ -1,32 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import NavDropdown from '../navDropdown/navDropdown';
-import NavButton from '../navButton/navButton';
+import CurrentSeasonContext from '../../context/currentSeasonContext';
+import NavDropdown from './subcomponents/navDropdown/navDropdown';
+import NavButton from './subcomponents/navButton/navButton';
 
 function NavBar() {
+    const currentSeasonId = useContext(CurrentSeasonContext);
+    console.log(currentSeasonId);
+
     const [displaySchedule, setDisplaySchedule] = useState(0);
     const [storeDivisionArr, setStoreDivisionArr] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            try {
-                const response1 = await axios.get('/api/settings/navbar');
-                const currentSeasonId = (response1.data[0].current_season_id);
-                setDisplaySchedule(response1.data[0].display_schedule);
-                const response2 = await axios.get('/api/schedules/navbar/' + currentSeasonId);
-                const storeDivArray = response2.data.map((storeDiv) => {
-                    return {
-                        id: storeDiv.store_division,
-                        text: storeDiv.store_city + ' (' + storeDiv.day_name + ')',
-                        href: '/' + storeDiv.store_id + '/' + storeDiv.division_id,
-                    };
-                });
-                setStoreDivisionArr(storeDivArray);
-            } catch (err) {
-                console.log(err);
-            }
-        })();
+        axios.get('/api/settings/navbar')
+            .then(response => response.data[0] ? setDisplaySchedule(response.data[0].display_schedule) : setDisplaySchedule(0))
+            .catch(error => console.log(error));
     }, []);
+
+    useEffect(() => {
+        if (currentSeasonId) {
+            axios.get('/api/schedules/navbar/' + currentSeasonId)
+                .then((response) => {
+                    const storeDivArray = response.data.map((storeDiv) => {
+                        return {
+                            id: storeDiv.store_division,
+                            text: storeDiv.store_city + ' (' + storeDiv.day_name + ')',
+                            href: '/' + storeDiv.store_id + '/' + storeDiv.division_id,
+                        };
+                    });
+                    setStoreDivisionArr(storeDivArray);
+                })
+                .catch(error => console.log(error));
+        }
+    }, [currentSeasonId]);
 
     return (
         <div className="row mb-4">

@@ -38,7 +38,7 @@ export default function App() {
         <Router>
             <div className="container border bg-white">
                 <Header />
-                <NavBar />
+                <CurrentSeasonContext.Provider value={currentSeasonId}><NavBar /></CurrentSeasonContext.Provider>
                 <Switch>
                     <Route exact path="/"><CurrentSeasonContext.Provider value={currentSeasonId}><Home /></CurrentSeasonContext.Provider></Route>
                     <Route exact path="/rules" component={Rules} />

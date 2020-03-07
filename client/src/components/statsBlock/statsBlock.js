@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StatsBlockItem from '../../components/statsBlockItem/statsBlockItem';
+import StatsBlockItem from './subcomponents/statsBlockItem/statsBlockItem';
 
 const StatsBlock = (props) => {
     return (

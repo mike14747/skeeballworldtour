@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ScheduleRow from '../../components/scheduleRow/scheduleRow';
+import ScheduleRow from './subcomponents/scheduleRow/scheduleRow';
 
 const ScheduleTable = ({ schedules }) => {
     return (

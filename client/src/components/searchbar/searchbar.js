@@ -20,8 +20,8 @@ function SearchBar() {
     return (
         <Fragment>
             <form className="form-searchbar" onSubmit={handleSubmit}>
-                <input type="text" maxLength="20" placeholder="Find a Player or Team" className="input-searchbar" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
-                <button type="submit" name="submit" className="search-button">Submit</button>
+                <input type="text" maxLength="20" placeholder="Find Player/Team" className="input-searchbar" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
+                <button type="submit" name="submit" className="search-button">Go</button>
             </form>
             {submitted && <Redirect to={'/search/' + searchInput} />}
         </Fragment>

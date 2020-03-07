@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ResultsThead from '../resultsThead/resultsThead';
-import ResultsTbody from '../resultsTbody/resultsTbody';
-import ResultsTfoot from '../resultsTfoot/resultsTfoot';
+import ResultsThead from './subcomponents/resultsThead/resultsThead';
+import ResultsTbody from './subcomponents/resultsTbody/resultsTbody';
+import ResultsTfoot from './subcomponents/resultsTfoot/resultsTfoot';
 
 const formatResults = (results) => {
     const resultsArray = results.map((result, index) => {
