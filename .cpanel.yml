@@ -1,7 +1,7 @@
 ---
 deployment:
     tasks:
-        - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour/
+        - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour.mikegullo.com/
         - /bin/rm -rf ${DEPLOYPATH}/client
         - /bin/rm -rf ${DEPLOYPATH}/config
         - /bin/rm -rf ${DEPLOYPATH}/controllers
