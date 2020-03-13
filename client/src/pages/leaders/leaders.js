@@ -39,19 +39,6 @@ const Leaders = () => {
 
     const handleSeasonId = season => setSeasonId(season);
 
-    function rankLeaders(leaders) {
-        let rank = 0;
-        let lastData = 0;
-        const newLeaders = leaders.map((leader, index) => {
-            (leader.data !== lastData) && (rank = index + 1);
-            leader.key = `${leader.player_id}${index}`;
-            leader.rank = rank;
-            lastData = leader.data;
-            return leader;
-        });
-        return newLeaders;
-    }
-
     useEffect(() => {
         axios.get('/api/leaders/seasons-list')
             .then((response) => {
@@ -86,7 +73,7 @@ const Leaders = () => {
                     setIndAvgLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setIndAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
@@ -100,7 +87,7 @@ const Leaders = () => {
                     setIndOneGameLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setIndOneGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
@@ -114,7 +101,7 @@ const Leaders = () => {
                     setIndTenGameLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setIndTenGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
@@ -128,7 +115,7 @@ const Leaders = () => {
                     setTeamAvgLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setTeamAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
@@ -142,7 +129,7 @@ const Leaders = () => {
                     setTeamOneGameLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setTeamOneGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
@@ -156,7 +143,7 @@ const Leaders = () => {
                     setTeamTenGameLeaders({
                         numAtTieValue: response.data[0][0].num_at_tie_value,
                         tieValue: response.data[0][0].tie_value,
-                        leaders: rankLeaders(response.data[1]),
+                        leaders: response.data[1],
                     });
                     setTeamTenGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
                 })
