@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Schedule = require('../models/schedule');
+const SchedulesFunctions = require('./utils/schedulesFunctions');
 
 router.get('/navbar/:id', async (req, res, next) => {
     try {
@@ -31,7 +32,7 @@ router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, 
             division_id: req.params.divisionid,
             season_id: req.params.seasonid,
         });
-        data[0] ? res.json(data[1]) : next(data[1]);
+        data[0] ? res.json(SchedulesFunctions.formatScheduleArray(data[1])) : next(data[1]);
     } catch (error) {
         next(error);
     }

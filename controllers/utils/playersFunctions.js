@@ -1,4 +1,4 @@
-const formatPlayerStats = (unformattedStats) => {
+function formatPlayerStats(unformattedStats) {
     const allScores = [];
     const formattedResults = unformattedStats.map((result, index) => {
         const tempObj = {

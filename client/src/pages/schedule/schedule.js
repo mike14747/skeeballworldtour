@@ -26,27 +26,6 @@ const Schedule = () => {
 
     const handleSeasonId = season => setSeasonId(season);
 
-    function formatScheduleArray(schedules) {
-        const formattedArray = [];
-        let tempObj = {};
-        let counter = 0;
-        schedules.map((schedule) => {
-            const { week_id: weekId, week_date1: weekDate, ...rest } = schedule;
-            if (schedule.week_id !== counter) {
-                tempObj = {
-                    week_id: weekId,
-                    week_date1: weekDate,
-                    matchups: [],
-                };
-                formattedArray.push(tempObj);
-                counter = schedule.week_id;
-            }
-            return formattedArray[counter - 1].matchups.push({ ...rest });
-        });
-        setScheduleArray(formattedArray);
-        setScheduleArrayStatus({ errorMsg: undefined, isLoaded: true });
-    }
-
     useEffect(() => {
         axios.get('/api/schedules/store/' + storeid + '/division/' + divisionid + '/seasons-list')
             .then((response) => {
@@ -62,7 +41,7 @@ const Schedule = () => {
             .catch((error) => {
                 console.log(error);
                 setScheduleSeasons(null);
-                setScheduleSeasonsStatus({ errorMsg: 'An error occurred fetching the schedule for this store!', isLoaded: true });
+                setScheduleSeasonsStatus({ errorMsg: 'An error occurred fetching the season list for this store!', isLoaded: true });
             });
     }, [storeid, divisionid]);
 
@@ -88,8 +67,15 @@ const Schedule = () => {
                 });
 
             axios('/api/schedules/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
-                .then(response => formatScheduleArray(response.data))
-                .catch(err => console.log(err));
+                .then((response) => {
+                    setScheduleArray(response.data);
+                    setScheduleArrayStatus({ errorMsg: undefined, isLoaded: true });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setScheduleArray(null);
+                    setScheduleArrayStatus({ errorMsg: 'An error occurred fetching the schedule for this store!', isLoaded: true });
+                });
         }
     }, [storeid, divisionid, querySeasonId]);
 
