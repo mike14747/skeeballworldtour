@@ -133,7 +133,7 @@ export default function Teams() {
                 });
             axios.get('/api/teams/' + teamid + '/results/seasons/' + querySeasonId)
                 .then((response) => {
-                    response.data[2] ? setTeamResults(response.data[2]) : setTeamResults([]);
+                    response.data ? setTeamResults(response.data) : setTeamResults([]);
                     setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
                 })
                 .catch((error) => {

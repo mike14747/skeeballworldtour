@@ -67,9 +67,7 @@ const Results = () => {
                 });
             axios.get('/api/results/store/' + storeid + '/division/' + divisionid + '/season/' + querySeasonId)
                 .then((response) => {
-                    if (response.data[3]) {
-                        setResults(response.data[3]);
-                    }
+                    response.data ? setResults(response.data) : setResults(null);
                     setResultsStatus({ errorMsg: undefined, isLoaded: true });
                 })
                 .catch((error) => {

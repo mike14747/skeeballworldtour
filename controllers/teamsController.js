@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Team = require('../models/team');
 const Player = require('../models/player');
+const ResultsFunctions = require('./utils/resultsFunctions');
 
 router.get('/:teamid/seasons/:seasonid', async (req, res, next) => {
     try {
@@ -78,7 +79,7 @@ router.get('/:teamid/results/seasons/:seasonid', async (req, res, next) => {
             team_id: req.params.teamid,
             season_id: req.params.seasonid,
         });
-        data[0] ? res.json(data[1]) : next(data[1]);
+        data[0] ? res.json(ResultsFunctions.formatResults(data[1][2])) : next(data[1]);
     } catch (error) {
         next(error);
     }

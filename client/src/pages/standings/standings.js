@@ -11,29 +11,13 @@ export default function Standings() {
 
     const [seasonName, setSeasonName] = useState(null);
 
-    const [standingsArr, setStandingsArr] = useState();
+    const [standingsArr, setStandingsArr] = useState(null);
     const [standingsArrStatus, setStandingsArrStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const [standingsSeasons, setStandingsSeasons] = useState(null);
     const [standingsSeasonsStatus, setStandingsSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     const handleSeasonId = season => setSeasonId(season);
-
-    function groupStandings(standings) {
-        const standingsArray = [];
-        let curStoreDivision = 0;
-        let index = -1;
-        standings.forEach(standing => {
-            if (index === -1 || curStoreDivision !== standing.store_division) {
-                standingsArray.push([]);
-                index++;
-                curStoreDivision = standing.store_division;
-            }
-            standingsArray[index].push(standing);
-        });
-        setStandingsArr(standingsArray);
-        setStandingsArrStatus({ errorMsg: undefined, isLoaded: true });
-    }
 
     useEffect(() => {
         axios.get('/api/standings/seasons-list')
@@ -65,7 +49,10 @@ export default function Standings() {
                     setSeasonName(null);
                 });
             axios.get('/api/standings/season/' + querySeasonId)
-                .then(response => groupStandings(response.data))
+                .then((response) => {
+                    setStandingsArr(response.data);
+                    setStandingsArrStatus({ errorMsg: undefined, isLoaded: true });
+                })
                 .catch((error) => {
                     console.log(error);
                     setStandingsArr(null);

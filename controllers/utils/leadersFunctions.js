@@ -8,7 +8,6 @@ function rankLeaders(leaders) {
         lastData = leader.data;
         return leader;
     });
-    console.log(newLeaders);
     return newLeaders;
 }
 
