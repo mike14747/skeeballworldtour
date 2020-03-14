@@ -142,7 +142,7 @@ const Players = () => {
                 </div>
             </div>
             <div className="d-flex justify-content-center mb-4">
-                <div className="mx-auto">
+                <div className="mx-auto table-wrapper">
                     {!playerResultsStatus.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                         : playerResults && playerResults.length > 0
