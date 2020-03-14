@@ -6,7 +6,6 @@ import NavButton from './subcomponents/navButton/navButton';
 
 function NavBar() {
     const currentSeasonId = useContext(CurrentSeasonContext);
-    console.log(currentSeasonId);
 
     const [displaySchedule, setDisplaySchedule] = useState(0);
     const [storeDivisionArr, setStoreDivisionArr] = useState([]);
