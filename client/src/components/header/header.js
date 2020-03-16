@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/header.css';
 import skeeballLogo from './images/skeeball_logo.png';
-import SearchBar from '../searchbar/searchbar';
+import SearchBar from './subcomponents/searchbar/searchbar';
+import HeaderNav from './subcomponents/headerNav/headerNav';
 
 function Header() {
     return (
@@ -14,7 +15,7 @@ function Header() {
                 <SearchBar />
             </div>
             <div className="col-3 p-2 my-auto text-right">
-                testing
+                <HeaderNav />
             </div>
         </div>
     );

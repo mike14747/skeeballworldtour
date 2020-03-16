@@ -1,14 +1,12 @@
 .form-searchbar {
-    padding: 0.25rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.25;
     color: #495057;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
     border: 1px #999999 solid;
-    border-radius: 5px;
     text-align: center;
     box-sizing: border-box;
 }
@@ -17,13 +15,13 @@
     display: inline-block;
     border: 1px #999999 solid;
     border-radius: 5px;
-    padding: 0.5rem;
+    padding: 0.35rem;
     margin: 0.25rem;
     color: #333333;
     background-color: #ffffff;
     vertical-align: middle;
     width: 180px;
-    max-width: calc(2.5vw + 2.5vh + 1vmin + 100px);
+    max-width: calc(2.5vw + 2.5vh + .5vmin + 70px);
     box-sizing: border-box;
 }
 
@@ -38,7 +36,7 @@
     background-color: #d9d9d9;
     vertical-align: middle;
     border: 1px solid #999999;
-    padding: 0.5rem;
+    padding: 0.35rem;
     margin: 0.25rem;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
@@ -61,5 +59,8 @@
     .input-searchbar {
         padding: 0.25rem;
         margin: 0.15rem;
+    }
+    .form-searchbar {
+        font-size: .75rem;
     }
 }

@@ -41,9 +41,9 @@ function NavBar() {
                 {displaySchedule === 1 &&
                     <NavDropdown buttonText="Schedule +" urlPrefix="/schedule" listItems={storeDivisionArr} />
                 }
-                <NavDropdown buttonText="Stores +" urlPrefix="/stores" listItems={storeDivisionArr} />
-                <NavButton buttonText="Champions" url="/champions" />
-                <NavButton buttonText="Rules" url="/rules" />
+                {/* <NavDropdown buttonText="Stores +" urlPrefix="/stores" listItems={storeDivisionArr} /> */}
+                {/* <NavButton buttonText="Champions" url="/champions" /> */}
+                {/* <NavButton buttonText="Rules" url="/rules" /> */}
             </div >
         </div >
     );
