@@ -8,7 +8,7 @@ export default function NavDropdown(props) {
             <div className="navdropbtn">{props.buttonText}</div>
             <div className="navdropdown-content">
                 {props.listItems.map(item => (
-                    <div key={item.id}>
+                    <div className="item" key={item.id}>
                         <a href={props.urlPrefix + item.href}>{item.text}</a>
                     </div>
                 ))}

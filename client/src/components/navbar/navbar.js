@@ -35,7 +35,7 @@ function NavBar() {
 
     return (
         <div className="row mb-4">
-            <div className="col-sm-12 justify-content-center text-center">
+            <div className="col-12 justify-content-center text-center">
                 <NavButton buttonText="Standings" url="/standings" />
                 <NavDropdown buttonText="Results +" urlPrefix="/results" listItems={storeDivisionArr} />
                 {displaySchedule === 1 &&

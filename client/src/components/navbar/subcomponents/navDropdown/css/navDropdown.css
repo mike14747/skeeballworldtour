@@ -2,9 +2,10 @@
     background-color: #d5eff4;
     color: #006699;
     padding: 0.3rem 0.5rem;
-    margin: 0.3rem;
+    margin: 0 0.3rem;
     font-size: 1rem;
-    border: none;
+    border: 1px #999999 solid;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
@@ -26,6 +27,7 @@
     min-width: 200px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    margin: 0 0 0 -50px;
 }
 
 .navdropdown-content a {
@@ -38,6 +40,7 @@
 .navdropdown-content a:hover {
     background-color: #d5eff4;
     color: #006699;
+    text-decoration: none;
 }
 
 .navdropdown:hover .navdropdown-content {
@@ -47,4 +50,10 @@
 .navdropdown:hover .navdropbtn {
     background-color: #f3e3c0;
     color: #cc0000;
+}
+
+.item {
+    border-top: 1px #cccccc solid;
+    border-right: 1px #cccccc solid;
+    border-left: 1px #cccccc solid;
 }
