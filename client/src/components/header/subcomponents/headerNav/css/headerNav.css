@@ -1,64 +1,35 @@
-/* .h-nav {
-    
-}
-
-label {
-    font-size: calc(2vw + 2vh + .5vmin);
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 1px #999999 solid;
-    padding: 0 .5rem;
-}
-
-.menu {
-    margin: 0 30px 0 0;
-    display: none;
-}
-
-.menu a {
-    text-decoration: none;
-    margin: 0 10px;
-    border-bottom: 1px #999999 solid;
-    display: block;
-    line-height: 50px;
-}
-
-#toggle {
-    display: none;
-}
-
-#toggle:checked + .menu {
-    display: block;
-} */
-
-.h-nav-btn {
-    font-size: calc(2vw + 2vh + .5vmin);
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 1px #999999 solid;
-    padding: 0 .5rem;
-}
-
-.h-nav {
+.h-nav-container {
     position: relative;
-    display: block;
+    display: inline-block;
+}
+
+.h-nav-burger {
+    font-size: calc(1vw + 1vh + .5vmin + 12px);
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px #999999 solid;
+    padding: .25rem .50rem;
 }
 
 .h-nav-content {
+    font-size: 1.25rem;
+    font-weight: 500;
     display: none;
     position: absolute;
     text-align: left;
-    width: 100%;
-    background-color: #e3e3e3;
+    width: calc(100% + 100px);
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    margin: 0;
+    margin: 0 0 0 -100px;
     padding: 0;
     cursor: pointer;
+}
+
+.h-nav-content a {
+    text-decoration: none;
 }
 
 .h-nav-content li {
@@ -74,20 +45,17 @@ label {
     border-bottom: 1px #cccccc solid;
 }
 
-.h-nav-content li:hover {
-    background-color: #d5eff4;
-    color: #006699;
-}
-
-.h-nav:hover .h-nav-content {
+.h-nav-container:hover, .h-nav-container:hover .h-nav-content {
     display: block;
 }
 
-.current {
+.nav-item {
+    background-color: #f3e3c0 !important;
+    color: #cc0000;
     cursor: pointer;
-    color: #333333 !important;
 }
 
-.current:hover {
-    background-color: #f3e3c0 !important;
+.nav-item:hover {
+    background-color: #d5eff4 !important;
+    color: #006699;
 }
