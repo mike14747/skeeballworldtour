@@ -11,7 +11,8 @@ function Header() {
             <div className="col-3 p-2 my-auto text-left">
                 <Link to="/"><img className="img-fluid" src={skeeballLogo} alt="Skeeball World Tour" /></Link>
             </div>
-            <div className="col-6 d-flex justify-content-center align-items-end mb-1 p-0">
+            <div className="col-6 d-flex flex-column justify-content-center align-items-center mb-2 p-0">
+                <div className="join-fun">Come join the fun!</div>
                 <SearchBar />
             </div>
             <div className="col-3 p-2 my-auto text-right">

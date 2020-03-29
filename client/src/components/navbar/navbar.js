@@ -34,16 +34,13 @@ function NavBar() {
     }, [currentSeasonId]);
 
     return (
-        <div className="row mb-4">
+        <div className="row mt-1 mb-4">
             <div className="col-12 justify-content-center text-center">
                 <NavButton buttonText="Standings" url="/standings" />
                 <NavDropdown buttonText="Results +" urlPrefix="/results" listItems={storeDivisionArr} />
                 {displaySchedule === 1 &&
                     <NavDropdown buttonText="Schedule +" urlPrefix="/schedule" listItems={storeDivisionArr} />
                 }
-                {/* <NavDropdown buttonText="Stores +" urlPrefix="/stores" listItems={storeDivisionArr} /> */}
-                {/* <NavButton buttonText="Champions" url="/champions" /> */}
-                {/* <NavButton buttonText="Rules" url="/rules" /> */}
             </div >
         </div >
     );

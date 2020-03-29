@@ -9,6 +9,7 @@
     border: 1px #999999 solid;
     text-align: center;
     box-sizing: border-box;
+    display: inline-block;
 }
 
 .input-searchbar {
