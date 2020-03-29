@@ -1,0 +1,15 @@
+.join-fun {
+    text-align: center;
+    margin-bottom: auto;
+    text-shadow: 2px 2px 3px #666666;
+    font-size: 2rem;
+    font-style: italic;
+    color: #dc3545;
+    font-weight: bolder;
+}
+
+@media (max-width: 767.98px) {
+    .join-fun {
+        font-size: 1.15rem;
+    }
+}

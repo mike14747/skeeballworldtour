@@ -4,6 +4,7 @@ import './css/header.css';
 import skeeballLogo from './images/skeeball_logo.png';
 import SearchBar from './subcomponents/searchbar/searchbar';
 import HeaderNav from './subcomponents/headerNav/headerNav';
+import JoinFun from './subcomponents/joinFun/joinFun';
 
 function Header() {
     return (
@@ -12,7 +13,7 @@ function Header() {
                 <Link to="/"><img className="img-fluid" src={skeeballLogo} alt="Skeeball World Tour" /></Link>
             </div>
             <div className="col-6 d-flex flex-column justify-content-center align-items-center mb-2 p-0">
-                <div className="join-fun">Come join the fun!</div>
+                <JoinFun />
                 <SearchBar />
             </div>
             <div className="col-3 p-2 my-auto text-right">
