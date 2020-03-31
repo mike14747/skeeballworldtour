@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import axios from 'axios';
-import CurrentSeasonContext from '../../context/currentSeasonContext';
+import SettingsContext from '../../context/settingsContext';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import LeadersTable from '../../components/leadersTable/leadersTable';
@@ -8,7 +8,8 @@ import NumLeadersDropdown from '../../components/numLeadersDropdown/numLeadersDr
 
 const Leaders = () => {
     const [seasonId, setSeasonId] = useState(null);
-    const currentSeasonId = useContext(CurrentSeasonContext);
+    const settings = useContext(SettingsContext);
+    const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 
     const [seasonName, setSeasonName] = useState(null);

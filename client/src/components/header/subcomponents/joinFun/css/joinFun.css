@@ -1,4 +1,4 @@
-.join-fun {
+.join {
     text-align: center;
     margin-bottom: auto;
     text-shadow: 2px 2px 3px #666666;
@@ -9,7 +9,7 @@
 }
 
 @media (max-width: 767.98px) {
-    .join-fun {
+    .join {
         font-size: 1.15rem;
     }
 }

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import axios from 'axios';
-import CurrentSeasonContext from '../../context/currentSeasonContext';
+import SettingsContext from '../../context/settingsContext';
 import PageHeading from '../../components/pageHeading/pageHeading';
 
 const Qualifers = () => {
-    const currentSeasonId = useContext(CurrentSeasonContext);
+    const settings = useContext(SettingsContext);
+    const currentSeasonId = settings.current_season_id;
     const querySeasonId = currentSeasonId;
 
     const [seasonName, setSeasonName] = useState(null);

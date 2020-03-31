@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+// import SettingsContext from '../../context/settingsContext';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 

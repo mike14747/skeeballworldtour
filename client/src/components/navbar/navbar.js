@@ -1,20 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import CurrentSeasonContext from '../../context/currentSeasonContext';
+import SettingsContext from '../../context/settingsContext';
 import NavDropdown from './subcomponents/navDropdown/navDropdown';
 import NavButton from './subcomponents/navButton/navButton';
 
 function NavBar() {
-    const currentSeasonId = useContext(CurrentSeasonContext);
+    const settings = useContext(SettingsContext);
+    const currentSeasonId = settings.current_season_id;
+    const displaySchedule = settings.display_schedule;
 
-    const [displaySchedule, setDisplaySchedule] = useState(0);
     const [storeDivisionArr, setStoreDivisionArr] = useState([]);
-
-    useEffect(() => {
-        axios.get('/api/settings/navbar')
-            .then(response => response.data[0] ? setDisplaySchedule(response.data[0].display_schedule) : setDisplaySchedule(0))
-            .catch(error => console.log(error));
-    }, []);
 
     useEffect(() => {
         if (currentSeasonId) {

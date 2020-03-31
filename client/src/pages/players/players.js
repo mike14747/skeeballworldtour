@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CurrentSeasonContext from '../../context/currentSeasonContext';
 import SettingsContext from '../../context/settingsContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import PageHeading from '../../components/pageHeading/pageHeading';
@@ -9,7 +8,8 @@ import StatsBlock from '../../components/statsBlock/statsBlock';
 
 const Players = () => {
     const [seasonId, setSeasonId] = useState(null);
-    const currentSeasonId = useContext(CurrentSeasonContext);
+    const settings = useContext(SettingsContext);
+    const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 
     const { playerid } = useParams();
