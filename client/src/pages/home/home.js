@@ -1,25 +1,19 @@
-import React, { useState, useEffect, Fragment } from 'react';
-// import SettingsContext from '../../context/settingsContext';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
+import SettingsContext from '../../context/settingsContext';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 
 function Home() {
-    const [showRegButton, setShowRegButton] = useState(0);
-    const [regButtonUrl, setregButtonUrl] = useState(null);
-    const [regButtonText, setregButtonText] = useState(null);
+    const settings = useContext(SettingsContext);
+
+    const showRegButton = settings.show_reg_button;
+    const regButtonUrl = settings.reg_button_url;
+    const regButtonText = settings.reg_button_text;
+
     const [newsArr, setNewsArr] = useState([]);
     const [newsStatus, setNewsStatus] = useState({ errorMsg: undefined, isLoaded: false });
 
     useEffect(() => {
-        axios.get('/api/settings/homepage')
-            .then((response) => {
-                setShowRegButton(response.data[0].show_reg_button);
-                setregButtonUrl(response.data[0].reg_button_url);
-                setregButtonText(response.data[0].reg_button_text);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
         axios.get('/api/pages/homepage-news')
             .then((response) => {
                 setNewsArr(response.data);

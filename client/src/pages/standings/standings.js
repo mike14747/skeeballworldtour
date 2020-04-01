@@ -5,8 +5,9 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 
 export default function Standings() {
-    const [seasonId, setSeasonId] = useState(null);
     const settings = useContext(SettingsContext);
+
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 

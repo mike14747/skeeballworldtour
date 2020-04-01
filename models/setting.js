@@ -12,36 +12,6 @@ const Setting = {
             return [false, error];
         }
     },
-    getNavbarSettings: async () => {
-        try {
-            const queryString = 'SELECT current_season_id, display_schedule FROM settings WHERE setting_id=1';
-            const queryParams = [];
-            const [result] = await pool.query(queryString, queryParams);
-            return [true, result];
-        } catch (error) {
-            return [false, error];
-        }
-    },
-    getHomepageSettings: async () => {
-        try {
-            const queryString = 'SELECT show_reg_button, reg_button_url, reg_button_text FROM settings WHERE setting_id=1';
-            const queryParams = [];
-            const [result] = await pool.query(queryString, queryParams);
-            return [true, result];
-        } catch (error) {
-            return [false, error];
-        }
-    },
-    getCurrentSeasonId: async () => {
-        try {
-            const queryString = 'SELECT current_season_id FROM settings WHERE setting_id=1';
-            const queryParams = [];
-            const [result] = await pool.query(queryString, queryParams);
-            return [true, result];
-        } catch (error) {
-            return [false, error];
-        }
-    },
 };
 
 module.exports = Setting;

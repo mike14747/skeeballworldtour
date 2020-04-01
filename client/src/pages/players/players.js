@@ -7,8 +7,9 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
 
 const Players = () => {
-    const [seasonId, setSeasonId] = useState(null);
     const settings = useContext(SettingsContext);
+
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 
@@ -60,7 +61,7 @@ const Players = () => {
             .catch((error) => {
                 console.log(error);
                 setPlayerSeasons(null);
-                setPlayerSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this player!', isLoaded: true });
+                setPlayerSeasonsStatus({ errorMsg: 'An error occurred fetching the season list for this player!', isLoaded: true });
             });
     }, [playerid]);
 

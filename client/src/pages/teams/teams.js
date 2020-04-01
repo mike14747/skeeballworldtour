@@ -8,8 +8,9 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
 
 export default function Teams() {
-    const [seasonId, setSeasonId] = useState(null);
     const settings = useContext(SettingsContext);
+
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 

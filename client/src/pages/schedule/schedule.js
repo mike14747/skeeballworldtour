@@ -7,8 +7,9 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import ScheduleTable from '../../components/scheduleTable/scheduleTable';
 
 const Schedule = () => {
-    const [seasonId, setSeasonId] = useState(null);
     const settings = useContext(SettingsContext);
+
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 

@@ -7,8 +7,9 @@ import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
 
 const Results = () => {
-    const [seasonId, setSeasonId] = useState(null);
     const settings = useContext(SettingsContext);
+
+    const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 

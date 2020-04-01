@@ -1,4 +1,7 @@
 function rankLeaders(leaders) {
+    if (leaders.length < 1) {
+        return [];
+    }
     let rank = 0;
     let lastData = 0;
     const newLeaders = leaders.map((leader, index) => {
