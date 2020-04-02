@@ -7,7 +7,7 @@ router.get('/individual/average/num-leaders/:numleaders', async (req, res, next)
         const data = await Leader.getIndividualAverage({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -19,7 +19,7 @@ router.get('/individual/average/num-leaders/:numleaders/season/:seasonid', async
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -33,7 +33,7 @@ router.get('/individual/average/num-leaders/:numleaders/season/:seasonid/store/:
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -44,7 +44,7 @@ router.get('/individual/one-game/num-leaders/:numleaders', async (req, res, next
         const data = await Leader.getIndividualOneGame({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -56,7 +56,7 @@ router.get('/individual/one-game/num-leaders/:numleaders/season/:seasonid', asyn
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -70,7 +70,7 @@ router.get('/individual/one-game/num-leaders/:numleaders/season/:seasonid/store/
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -81,7 +81,7 @@ router.get('/individual/ten-game/num-leaders/:numleaders', async (req, res, next
         const data = await Leader.getIndividualTenGame({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -93,7 +93,7 @@ router.get('/individual/ten-game/num-leaders/:numleaders/season/:seasonid', asyn
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -107,7 +107,7 @@ router.get('/individual/ten-game/num-leaders/:numleaders/season/:seasonid/store/
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -118,7 +118,7 @@ router.get('/team/average/num-leaders/:numleaders', async (req, res, next) => {
         const data = await Leader.getTeamAverage({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], data[1][3]]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -130,7 +130,7 @@ router.get('/team/average/num-leaders/:numleaders/season/:seasonid', async (req,
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -144,7 +144,7 @@ router.get('/team/average/num-leaders/:numleaders/season/:seasonid/store/:storei
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -155,7 +155,7 @@ router.get('/team/one-game/num-leaders/:numleaders', async (req, res, next) => {
         const data = await Leader.getTeamOneGame({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -167,7 +167,7 @@ router.get('/team/one-game/num-leaders/:numleaders/season/:seasonid', async (req
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -181,7 +181,7 @@ router.get('/team/one-game/num-leaders/:numleaders/season/:seasonid/store/:store
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -192,7 +192,7 @@ router.get('/team/ten-game/num-leaders/:numleaders', async (req, res, next) => {
         const data = await Leader.getTeamTenGame({
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -204,7 +204,7 @@ router.get('/team/ten-game/num-leaders/:numleaders/season/:seasonid', async (req
             season_id: Number(req.params.seasonid),
             num_leaders: Number(req.params.numleaders),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -218,7 +218,7 @@ router.get('/team/ten-game/num-leaders/:numleaders/season/:seasonid/store/:store
             store_id: Number(req.params.storeid),
             division_id: Number(req.params.divisionid),
         });
-        data[0] ? res.json([data[1][2], LeadersFunctions.rankLeaders(data[1][3])]) : next(data[1]);
+        data[0] ? res.json(LeadersFunctions.rankLeaders(data[1][2], data[1][3])) : next(data[1]);
     } catch (error) {
         next(error);
     }
