@@ -2,44 +2,33 @@ const router = require('express').Router();
 
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
 
-const storesController = require('./storesController');
-router.use('/stores', storesController);
+router.use('/stores', require('./storesController'));
 
-const settingsController = require('./settingsController');
-router.use('/settings', settingsController);
+router.use('/settings', require('./settingsController'));
 
-const pagesController = require('./pagesController');
-router.use('/pages', pagesController);
+router.use('/pages', require('./pagesController'));
 
-const teamsController = require('./teamsController');
-router.use('/teams', teamsController);
+router.use('/teams', require('./teamsController'));
 
-const playersController = require('./playersController');
-router.use('/players', playersController);
+router.use('/players', require('./playersController'));
 
-const standingsController = require('./standingsController');
-router.use('/standings', standingsController);
+router.use('/standings', require('./standingsController'));
 
-const schedulesController = require('./schedulesController');
-router.use('/schedules', schedulesController);
+router.use('/schedules', require('./schedulesController'));
 
-const searchesController = require('./searchesController');
-router.use('/searches', searchesController);
+router.use('/searches', require('./searchesController'));
 
-const resultsController = require('./resultsController');
-router.use('/results', resultsController);
+router.use('/results', require('./resultsController'));
 
-const seasonsController = require('./seasonsController');
-router.use('/seasons', seasonsController);
+router.use('/seasons', require('./seasonsController'));
 
-const leadersController = require('./leadersController');
-router.use('/leaders', leadersController);
+router.use('/leaders', require('./leadersController'));
 
-const allTimeController = require('./allTimeController');
-router.use('/all-time', allTimeController);
+router.use('/all-time', require('./allTimeController'));
 
 router.use((req, res, next) => {
     const error = new Error('Route not found');

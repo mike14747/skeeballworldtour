@@ -12,12 +12,15 @@ if (NODE_ENV === 'production') {
     app.use(express.static('./client/build'));
 }
 
+// app.get('/pdf/:filename', function (req, res) {
+//     res.sendFile('pdf/' + req.params.filename, { root: __dirname });
+// });
+
 app.get('/pdf/:filename', function (req, res) {
-    res.sendFile('pdf/' + req.params.filename, { root: __dirname });
+    res.sendFile(path.join(__dirname, 'pdf/' + req.params.filename));
 });
 
-const controllers = require('./controllers');
-app.use('/api', controllers);
+app.use('/api', require('./controllers'));
 
 app.get('*', (req, res) => {
     if (NODE_ENV === 'production') {
