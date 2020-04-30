@@ -1,4 +1,4 @@
-const pool = require('../config/pool.js');
+const pool = require('../config/connectionPool.js').getDb();
 
 const Page = {
     getHomepageNews: async () => {

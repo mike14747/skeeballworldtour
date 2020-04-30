@@ -1,4 +1,4 @@
-const pool = require('../config/pool.js');
+const pool = require('../config/connectionPool.js').getDb();
 
 const Setting = {
     // find all settings for use both on the homepage, in the navbar and current season info
