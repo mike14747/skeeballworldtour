@@ -12,7 +12,13 @@
         "client": "cd client && npm run start",
         "install": "if-env NODE_ENV=production || npm run install:dev",
         "install:dev": "cd client && npm install",
-        "build": "cd client && npm run build"
+        "build": "cd client && npm run build",
+        "start-admin": "if-env NODE_ENV=production && npm run start:prod || npm run start-admin:dev",
+        "start-admin:dev": "concurrently \"nodemon --ignore 'admin/*'\" \"npm run admin\"",
+        "admin": "cd admin && npm run start",
+        "install-admin": "if-env NODE_ENV=production || npm run install-admin:dev",
+        "install-admin:dev": "cd admin && npm install",
+        "build-admin": "cd admin && npm run build"
     },
     "devDependencies": {
         "babel-eslint": "^10.0.3",
@@ -39,9 +45,14 @@
         "url": "https://github.com/mike14747/skeeballworldtour/issues"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "express-mysql-session": "^2.1.4",
+        "express-session": "^1.17.1",
         "if-env": "^1.0.4",
-        "mysql2": "^1.7.0"
+        "mysql2": "^1.7.0",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0"
     }
 }
