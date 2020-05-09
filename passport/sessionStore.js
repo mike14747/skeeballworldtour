@@ -1,4 +1,4 @@
-const pool = require('./connectionPool').getDb();
+const pool = require('../config/connectionPool').getDb();
 
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);

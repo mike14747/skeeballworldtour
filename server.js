@@ -7,32 +7,30 @@ const path = require('path');
 
 const connectionPool = require('./config/connectionPool');
 
-const passport = require('passport');
-const session = require('express-session');
-const sessionStore = require('./config/sessionStore');
+app.use(require('./passport/expressSession'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use(session({
-    key: 'swt',
-    secret: process.env.SESSION_SECRET,
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: true, // setting this to true creates a cookie and session before anyone is logged in
-    cookie: {
-        maxAge: 2592000000, // maxAge: 2592000000 is 30 days
-    },
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.get('/pdf/:filename', function (req, res) {
     res.sendFile(path.join(__dirname, 'pdf/' + req.params.filename));
 });
 
+function checkAuthenticatedAdmin(req, res, next) {
+    if (req.isAuthenticated() && req.user.access_level >= 3) {
+        return next();
+    } else {
+        return res.status(401).json({ message: 'User needs admin priviledges!' });
+        // return next();
+    }
+}
+
 connectionPool.mysqlConnect()
     .then(() => {
+        const passport = require('./passport/passportFunctions');
+        app.use(passport.initialize());
+        app.use(passport.session());
+        app.use('/api/admin', checkAuthenticatedAdmin, require('./controllers/adminController'));
         app.use('/api', require('./controllers'));
     })
     .catch((error) => {
@@ -44,6 +42,10 @@ connectionPool.mysqlConnect()
     .finally(() => {
         if (NODE_ENV === 'production') {
             app.use(express.static('./client/build'));
+            app.use(express.static('./admin/build'));
+            app.get('/admin', (req, res) => {
+                res.sendFile(path.join(__dirname, './admin/build/index.html'));
+            });
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, './client/build/index.html'));
             });
