@@ -3,8 +3,8 @@ const passport = require('../passport/passportFunctions');
 
 router.get('/logout', (req, res) => {
     req.logOut();
-    req.session = null;
-    res.status(200).json({ message: 'User has been logged out', user: null });
+    // res.status(200).json({ message: 'User has been logged out', user: null });
+    res.status(200).end();
 });
 
 router.post('/login', (req, res, next) => {
@@ -12,7 +12,7 @@ router.post('/login', (req, res, next) => {
         // console.log('authenticate user argument:', user);
         // the user argument is the full deserialized user object
         if (error) return next(error);
-        if (!user) return res.status(400).json(info);
+        if (!user) return res.status(299).json(info);
         // at this point, a valid users object must have been found
         req.login(user, function (error) {
             // if there isn't an error, passport will write the user object into req.user at this point
