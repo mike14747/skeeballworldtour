@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import axios from 'axios';
 import UserContext from '../../context/userContext';
 import { Redirect } from 'react-router-dom';
@@ -23,7 +23,6 @@ const Login = () => {
                             id: response.data.user.id,
                             username: response.data.user.username,
                         });
-                        return <Redirect to={{ pathname: '/' }} />;
                     } else {
                         setUser(null);
                         setMessage(response.data.message);
@@ -36,25 +35,28 @@ const Login = () => {
         } else {
             setMessage('Username and Password must be in the proper format!');
         }
+        return true;
     }
 
     return (
         <div>
-            {user &&
-                <Redirect to={{ pathname: '/' }} />
-            }
-            <h1>Login Page</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Username</label>
-                <input type="text" value={username} name="username" onChange={event => setUsername(event.target.value)} />
-                <label>Password</label>
-                <input type="password" value={password} name="password" onChange={event => setPassword(event.target.value)} />
-                <button>Submit</button>
-            </form>
-            {message &&
-                <div className="text-danger font-weight-bolder">
-                    {message}
-                </div>
+            {user
+                ? <Redirect to={{ pathname: '/' }} />
+                : (<Fragment>
+                    <h1>Login Page</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label>Username</label>
+                        <input type="text" value={username} name="username" onChange={event => setUsername(event.target.value)} />
+                        <label>Password</label>
+                        <input type="password" value={password} name="password" onChange={event => setPassword(event.target.value)} />
+                        <button>Submit</button>
+                    </form>
+                    {message &&
+                        <div className="text-danger font-weight-bolder">
+                            {message}
+                        </div>
+                    }
+                </Fragment>)
             }
         </div>
     );

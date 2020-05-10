@@ -16,8 +16,8 @@ app.get('/pdf/:filename', function (req, res) {
     res.sendFile(path.join(__dirname, 'pdf/' + req.params.filename));
 });
 
-function checkAuthenticatedAdmin(req, res, next) {
-    if (req.isAuthenticated() && req.user.access_level >= 3) {
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
         return next();
     } else {
         return res.status(401).json({ message: 'User needs admin priviledges!' });
@@ -30,7 +30,7 @@ connectionPool.mysqlConnect()
         const passport = require('./passport/passportFunctions');
         app.use(passport.initialize());
         app.use(passport.session());
-        app.use('/api/admin', checkAuthenticatedAdmin, require('./controllers/adminController'));
+        app.use('/api/admin', checkAuthenticated, require('./controllers/adminController'));
         app.use('/api', require('./controllers'));
     })
     .catch((error) => {

@@ -10,15 +10,15 @@ router.post('/login', (req, res, next) => {
     passport.authenticate('login', (error, user, info) => {
         if (error) return next(error);
         if (!user) return res.status(299).json(info);
-        req.login(user, function (error) {
+        req.logIn(user, function (error) {
             if (error) return next(error);
         });
-        return res.status(200).json({ user: user });
+        return res.status(200).json({ user: user, message: 'successful login' });
     })(req, res, next);
 });
 
 router.get('/status', (req, res) => {
-    if (req.isAuthenticated) {
+    if (req.isAuthenticated()) {
         res.status(200).json({ user: req.user });
     } else {
         res.status(299).json({ error: 'User is not logged in!' });
