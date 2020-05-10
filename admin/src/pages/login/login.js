@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import UserContext from '../../context/userContext';
+import { Redirect } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -22,6 +23,7 @@ const Login = () => {
                             id: response.data.user.id,
                             username: response.data.user.username,
                         });
+                        return <Redirect to={{ pathname: '/' }} />;
                     } else {
                         setUser(null);
                         setMessage(response.data.message);
@@ -38,6 +40,9 @@ const Login = () => {
 
     return (
         <div>
+            {user &&
+                <Redirect to={{ pathname: '/' }} />
+            }
             <h1>Login Page</h1>
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
@@ -49,11 +54,6 @@ const Login = () => {
             {message &&
                 <div className="text-danger font-weight-bolder">
                     {message}
-                </div>
-            }
-            {user && user.username &&
-                <div className="text-success">
-                    {user.username}
                 </div>
             }
         </div>

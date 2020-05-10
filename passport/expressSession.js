@@ -8,6 +8,7 @@ const session = (
             saveUninitialized: true, // setting this to true creates a cookie and session before anyone is logged in
             cookie: {
                 maxAge: 2592000000, // 2592000000 is 30 days
+                sameSite: true,
             },
         },
     )
