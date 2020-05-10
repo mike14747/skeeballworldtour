@@ -43,7 +43,7 @@ const Login = () => {
             {user
                 ? <Redirect to={{ pathname: '/' }} />
                 : (<Fragment>
-                    <h1>Login Page</h1>
+                    <h1>Login</h1>
                     <form onSubmit={handleSubmit}>
                         <label>Username</label>
                         <input type="text" value={username} name="username" onChange={event => setUsername(event.target.value)} />
