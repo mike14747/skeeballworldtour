@@ -30,6 +30,8 @@ router.use('/leaders', require('./leadersController'));
 
 router.use('/all-time', require('./allTimeController'));
 
+router.use('/auth', require('./authController'));
+
 router.use((req, res, next) => {
     const error = new Error('Route not found');
     error.status = 404;
