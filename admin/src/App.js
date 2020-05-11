@@ -9,6 +9,8 @@ import NoMatch from './pages/noMatch/noMatch';
 import axios from 'axios';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
+import AddStore from './pages/addStore/addStore';
+import EditStore from './pages/editStore/editStore';
 
 function App() {
     const [user, setUser] = useState(null);
@@ -34,10 +36,11 @@ function App() {
                     <Header />
                     <Switch>
                         <ProtectedRoute exact path="/" component={AdminCentral} user={user} />
+                        <ProtectedRoute exact path='/add-store' component={AddStore} user={user} />
+                        <ProtectedRoute exact path='/edit-store' component={EditStore} user={user} />
                         <Route exact path="/login">
                             {user ? <Redirect to="/" /> : <Login />}
                         </Route>
-                        {/* <Route exact path="/login" component={Login} /> */}
                         <Route exact path="/unprotected" component={UnprotectedPage} />
                         <Route component={NoMatch} />
                     </Switch>
@@ -50,9 +53,7 @@ function App() {
 
 function UnprotectedPage() {
     return (
-        <div>
-            <h1>Unprotected Page</h1>
-        </div>
+        <h1 className="text-center">Unprotected Page</h1>
     );
 }
 

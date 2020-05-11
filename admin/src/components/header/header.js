@@ -13,6 +13,8 @@ const Header = () => {
                         <li><Link to='/unprotected'>Unprotected Page</Link></li>
                         <li><Link to='login'>Login</Link></li>
                         <li><Link to='blah'>Bad Route</Link></li>
+                        <li><Link to='add-store'>Add Store</Link></li>
+                        <li><Link to='edit-store'>Edit Store</Link></li>
                     </ul>
                 </nav>
             </div>
