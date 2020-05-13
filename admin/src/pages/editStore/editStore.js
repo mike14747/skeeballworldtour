@@ -1,8 +1,9 @@
 import React from 'react';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 const EditStore = () => {
     return (
-        <h1 className="text-center">Edit / Delete a Store</h1>
+        <PageHeading text="Edit / Delete a Store" />
     );
 };
 

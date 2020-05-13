@@ -1,8 +1,9 @@
 import React from 'react';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 const AddStore = () => {
     return (
-        <h1 className="text-center">Add a New Store</h1>
+        <PageHeading text="Add a New Store" />
     );
 };
 

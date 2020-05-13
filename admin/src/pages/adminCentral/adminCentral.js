@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
+import PageHeading from '../../components/pageHeading/pageHeading';
 
 const AdminCentral = () => {
     return (
         <Fragment>
-            <h1 className="text-center">Welcome to Admin Central</h1>
+            <PageHeading text="Welcome to Admin Central" />
         </Fragment>
     );
 };
