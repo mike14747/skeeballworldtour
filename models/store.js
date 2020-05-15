@@ -36,6 +36,60 @@ const Store = {
             return [false, error];
         }
     },
+    getAllStores: async (paramsObj) => {
+        try {
+            const queryString = 'SELECT store_id, store_name, store_address, store_city, store_state, store_zip, store_phone, map_url, active FROM stores ORDER BY store_name ASC;';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    getStoreById: async (paramsObj) => {
+        try {
+            const queryString = 'SELECT store_id, store_name, store_address, store_city, store_state, store_zip, store_phone, map_url, active FROM stores WHERE store_id=? ORDER BY store_name ASC;';
+            const queryParams = [
+                paramsObj.store_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    updateStore: async (paramsObj) => {
+        try {
+            const queryString = 'UPDATE stores SET store_name=?, store_address=?, store_city=?, store_zip=?, store_phone=?, map_url=?, active=? WHERE store_id=?;';
+            const queryParams = [
+                paramsObj.store_name,
+                paramsObj.store_address,
+                paramsObj.store_city,
+                paramsObj.store_state,
+                paramsObj.store_zip,
+                paramsObj.store_phone,
+                paramsObj.map_url,
+                paramsObj.active,
+                paramsObj.store_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    deleteStore: async (paramsObj) => {
+        try {
+            const queryString = 'DELETE FROM stores WHERE store_id=?;';
+            const queryParams = [
+                paramsObj.store_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
 };
 
 module.exports = Store;
