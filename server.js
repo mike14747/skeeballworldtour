@@ -30,7 +30,7 @@ connectionPool.mysqlConnect()
         const passport = require('./passport/passportFunctions');
         app.use(passport.initialize());
         app.use(passport.session());
-        app.use('/api/admin', checkAuthenticated, require('./controllers/adminController'));
+        app.use('/api/admin', checkAuthenticated, require('./controllers/adminControllers'));
         app.use('/api', require('./controllers'));
     })
     .catch((error) => {

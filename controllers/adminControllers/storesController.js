@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Store = require('../models/store');
+const Store = require('../../models/store');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -8,7 +8,6 @@ router.get('/', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 });
 
 router.get('/storeid', async (req, res, next) => {
@@ -16,7 +15,7 @@ router.get('/storeid', async (req, res, next) => {
         store_id: req.params.store_id,
     };
     try {
-        const data = Store.getStoreById(paramsObj);
+        const data = await Store.getStoreById(paramsObj);
         data[0] ? res.json(data[0]) : next(data[1]);
     } catch (error) {
         next(error);
@@ -66,7 +65,7 @@ router.delete('/storeid', async (req, res, next) => {
         store_id: req.params.store_id,
     };
     try {
-        const data = Store.deleteStore(paramsObj);
+        const data = await Store.deleteStore(paramsObj);
         data[0] ? res.json(data[0]) : next(data[1]);
     } catch (error) {
         next(error);
