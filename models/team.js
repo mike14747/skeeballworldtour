@@ -143,6 +143,16 @@ const Team = {
             return [false, error];
         }
     },
+    getAllTeams: async () => {
+        try {
+            const queryString = 'SELECT t.team_id, t.team_name FROM teams AS t ORDER BY t.team_name ASC';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
 };
 
 module.exports = Team;

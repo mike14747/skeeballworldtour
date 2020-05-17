@@ -3,7 +3,7 @@ const Store = require('../../models/store');
 
 router.get('/', async (req, res, next) => {
     try {
-        const data = Store.getAllStores();
+        const data = await Store.getAllStores();
         data[0] ? res.json(data[0]) : next(data[1]);
     } catch (error) {
         next(error);

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import AdminCentral from './pages/adminCentral/adminCentral';
 import Login from './pages/login/login';
 import './css/my_style.css';
+import './css/style.css';
 import UserContext from './context/userContext';
 import ProtectedRoute from './utils/protectedRoute';
 import NoMatch from './pages/noMatch/noMatch';
