@@ -19,6 +19,24 @@ const EditStore = () => {
             });
     }, []);
 
+    function updateStore() {
+
+    }
+
+    function deleteStore() {
+
+    }
+
+    const handleChange = (event) => {
+        // console.log(event.target.name, event.target.value, event.target.id);
+        const { name, value } = event.target;
+        console.group(name, value);
+        // const newStores = stores.map(store => store.store_id === parseInt(event.target.id) ? { ...store, name } : { store });
+        // const newStores = stores.map(store => console.log('test', store.store_id, parseInt(event.target.id), 3));
+        // console.log(newStores);
+        // setStores(newStores);
+    };
+
     return (
         <Fragment>
             <PageHeading text="Edit / Delete a Store" />
@@ -31,6 +49,8 @@ const EditStore = () => {
                                 <table className="table table-bordered table-hover">
                                     <thead>
                                         <tr className="bg-gray6">
+                                            <th></th>
+                                            <th></th>
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Address</th>
@@ -45,8 +65,10 @@ const EditStore = () => {
                                     <tbody>
                                         {stores.map((store) => (
                                             <tr key={store.store_id}>
+                                                <td><button onClick={() => updateStore}>Update</button></td>
+                                                <td><button onClick={() => deleteStore}>Delete</button></td>
                                                 <td>{store.store_id}</td>
-                                                <td>{store.store_name}</td>
+                                                <td><input onChange={handleChange} id={store.store_id} name="store_name" value={store.store_name} /></td>
                                                 <td>{store.store_address}</td>
                                                 <td>{store.store_city}</td>
                                                 <td>{store.store_state}</td>

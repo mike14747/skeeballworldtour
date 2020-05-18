@@ -28,7 +28,7 @@ function App() {
             .catch(error => console.log(error));
     }, []);
 
-    console.log('App.js re-render: ', user);
+    // console.log('App.js re-render: ', user);
 
     return (
         <Router>
