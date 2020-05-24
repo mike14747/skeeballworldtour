@@ -10,8 +10,8 @@ import NoMatch from './pages/noMatch/noMatch';
 import axios from 'axios';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
-import AddStore from './pages/addStore/addStore';
-import EditStore from './pages/editStore/editStore';
+import AddStore from './pages/stores/addStore/addStore';
+import EditStore from './pages/stores/editStore/editStore';
 
 function App() {
     const [user, setUser] = useState(null);

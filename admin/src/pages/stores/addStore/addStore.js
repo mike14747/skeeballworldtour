@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeading from '../../components/pageHeading/pageHeading';
+import PageHeading from '../../../components/pageHeading/pageHeading';
 
 const AddStore = () => {
     return (

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import PageHeading from '../../components/pageHeading/pageHeading';
-const axios = require('axios');
+import PageHeading from '../../../components/pageHeading/pageHeading';
+import axios from 'axios';
+import StoreSelected from '../subcomponents/storesSelected';
+import StoreUnselected from '../subcomponents/storesUnselected';
 
 const EditStore = () => {
     const [stores, setStores] = useState(null);
     const [storesStatus, setStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
+
+    const [selectedStore, setSelectedStore] = useState(null);
 
     useEffect(() => {
         axios.get('/api/admin/stores')
@@ -19,22 +23,16 @@ const EditStore = () => {
             });
     }, []);
 
-    function updateStore() {
-
-    }
-
     function deleteStore() {
 
     }
 
-    const handleChange = (event) => {
-        // console.log(event.target.name, event.target.value, event.target.id);
-        const { name, value } = event.target;
-        console.group(name, value);
-        // const newStores = stores.map(store => store.store_id === parseInt(event.target.id) ? { ...store, name } : { store });
-        // const newStores = stores.map(store => console.log('test', store.store_id, parseInt(event.target.id), 3));
-        // console.log(newStores);
-        // setStores(newStores);
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setSelectedStore(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     return (
@@ -50,7 +48,6 @@ const EditStore = () => {
                                     <thead>
                                         <tr className="bg-gray6">
                                             <th></th>
-                                            <th></th>
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Address</th>
@@ -65,17 +62,8 @@ const EditStore = () => {
                                     <tbody>
                                         {stores.map((store) => (
                                             <tr key={store.store_id}>
-                                                <td><button onClick={() => updateStore}>Update</button></td>
-                                                <td><button onClick={() => deleteStore}>Delete</button></td>
-                                                <td>{store.store_id}</td>
-                                                <td><input onChange={handleChange} id={store.store_id} name="store_name" value={store.store_name} /></td>
-                                                <td>{store.store_address}</td>
-                                                <td>{store.store_city}</td>
-                                                <td>{store.store_state}</td>
-                                                <td>{store.store_zip}</td>
-                                                <td>{store.store_phone}</td>
-                                                <td>{store.map_url}</td>
-                                                <td>{store.active}</td>
+                                                <td><button onClick={() => setSelectedStore(store)}>Update</button><button onClick={() => deleteStore}>Delete</button></td>
+                                                {(selectedStore && selectedStore.store_id === store.store_id) ? <StoreSelected selectedStore={selectedStore} handleChange={handleChange} /> : <StoreUnselected store={store} />}
                                             </tr>
                                         ))}
                                     </tbody>
