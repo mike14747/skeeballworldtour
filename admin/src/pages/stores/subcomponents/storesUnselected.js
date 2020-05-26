@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-const StoresUnselected = ({ store }) => {
+const StoresUnselected = ({ store, setSelectedStore }) => {
     return (
         <Fragment>
+            <td><button onClick={() => setSelectedStore(store)}>Select</button></td>
             <td>{store.store_id}</td>
             <td>{store.store_name}</td>
             <td>{store.store_address}</td>
@@ -19,6 +20,7 @@ const StoresUnselected = ({ store }) => {
 
 StoresUnselected.propTypes = {
     store: PropTypes.object,
+    setSelectedStore: PropTypes.func,
 };
 
 export default StoresUnselected;

@@ -47,7 +47,7 @@ const EditStore = () => {
                                 <table className="table table-bordered table-hover">
                                     <thead>
                                         <tr className="bg-gray6">
-                                            <th></th>
+                                            <th>Action</th>
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Address</th>
@@ -62,8 +62,8 @@ const EditStore = () => {
                                     <tbody>
                                         {stores.map((store) => (
                                             <tr key={store.store_id}>
-                                                <td><button onClick={() => setSelectedStore(store)}>Update</button><button onClick={() => deleteStore}>Delete</button></td>
-                                                {(selectedStore && selectedStore.store_id === store.store_id) ? <StoreSelected selectedStore={selectedStore} handleChange={handleChange} /> : <StoreUnselected store={store} />}
+                                                {/* <td><button onClick={() => setSelectedStore(store)}>Update</button><button onClick={() => deleteStore}>Delete</button></td> */}
+                                                {(selectedStore && selectedStore.store_id === store.store_id) ? <StoreSelected selectedStore={selectedStore} handleChange={handleChange} setSelectedStore={setSelectedStore} /> : <StoreUnselected store={store} setSelectedStore={setSelectedStore} />}
                                             </tr>
                                         ))}
                                     </tbody>
