@@ -35,7 +35,7 @@ connectionPool.mysqlConnect()
     })
     .catch((error) => {
         console.error('Failed to connect to the database!\n' + error);
-        app.get('/api', (req, res) => {
+        app.get('/api/*', (req, res) => {
             res.status(500).send('There is no connection to MySQL!');
         });
     })

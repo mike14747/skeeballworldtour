@@ -50,7 +50,7 @@ export default function Standings() {
                     console.log(error);
                     setSeasonName(null);
                 });
-            axios.get('/api/standings/season/' + querySeasonId)
+            axios.get('/api/standings/seasons/' + querySeasonId)
                 .then((response) => {
                     setStandingsArr(response.data);
                     setStandingsArrStatus({ errorMsg: undefined, isLoaded: true });
