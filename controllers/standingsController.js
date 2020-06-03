@@ -23,7 +23,7 @@ router.get('/seasons-list', async (req, res, next) => {
     }
 });
 
-router.get('stores/:storeid/divisions/:divisionid/seasons/:seasonid', async (req, res, next) => {
+router.get('/stores/:storeid/divisions/:divisionid/seasons/:seasonid', async (req, res, next) => {
     const paramsObj = {
         store_id: req.params.storeid,
         division_id: req.params.divisionid,
