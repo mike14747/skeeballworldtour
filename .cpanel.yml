@@ -18,4 +18,4 @@ deployment:
         - /bin/cp -r ./admin/build ${DEPLOYPATH}/admin
         - /bin/cp -r ./client/build ${DEPLOYPATH}/client
         - /bin/mkdir ${DEPLOYPATH}/config
-        - /bin/cp ./config/pool.js ${DEPLOYPATH}/config
+        - /bin/cp ./config/connectionPool.js ${DEPLOYPATH}/config
