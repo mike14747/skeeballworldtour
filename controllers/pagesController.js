@@ -4,7 +4,7 @@ const Page = require('../models/page');
 router.get('/rules', async (req, res, next) => {
     try {
         const data = await Page.getRules();
-        data[0] ? res.json(data[1]) : next(data[1]);
+        data[0] ? res.json(data[0]) : next(data[1]);
     } catch (error) {
         next(error);
     }
@@ -13,7 +13,7 @@ router.get('/rules', async (req, res, next) => {
 router.get('/homepage-news', async (req, res, next) => {
     try {
         const data = await Page.getHomepageNews();
-        data[0] ? res.json(data[1]) : next(data[1]);
+        data[0] ? res.json(data[0]) : next(data[1]);
     } catch (error) {
         next(error);
     }
