@@ -1830,3 +1830,35 @@ And even somehow remove these from the team objects (and place them by themselve
 
 ---
 
+```
+const groupBy = function (unGroupedArray) {
+    let storeDiv, index, storeObj, standingObj;
+    return unGroupedArray.reduce((acc, obj) => {
+        storeDiv = obj['store_division'];
+        standingObj = {
+            teamId: obj.team_id,
+            teamName: obj.team_name,
+            wins: obj.wins,
+            losses: obj.losses,
+            ties: obj.ties,
+            totalPoints: obj.total_points,
+        };
+        let index = acc.findIndex(item => item['storeDivision'] === storeDiv);
+        if (index === -1) {
+            acc.push({
+                storeDivision: obj.store_division,
+                storeId: obj.store_id,
+                storeCity: obj.store_city,
+                divisionId: obj.division_id,
+                dayName: obj.day_name,
+                standingsList: [standingObj],
+            });
+        } else {
+            acc[index].standingsList.push(standingObj);
+        }
+        return acc;
+    }, []);
+};
+
+console.log(groupBy(standingsArray));
+```
