@@ -1,7 +1,7 @@
 The raw standings data from the database:
 
 ```
-[
+const standingsArray = [
     {
         "standings_id": 2088,
         "store_division": "121",
@@ -898,7 +898,7 @@ The raw standings data from the database:
         "division_id": 4,
         "day_name": "Thursday"
     }
-]
+];
 ```
 
 That needs to be converted into this:
@@ -1830,35 +1830,204 @@ And even somehow remove these from the team objects (and place them by themselve
 
 ---
 
+This is a standings array with only 2 teams per store_division... with the order all mixed up
 ```
-const groupBy = function (unGroupedArray) {
-    let storeDiv, index, storeObj, standingObj;
-    return unGroupedArray.reduce((acc, obj) => {
-        storeDiv = obj['store_division'];
-        standingObj = {
-            teamId: obj.team_id,
-            teamName: obj.team_name,
-            wins: obj.wins,
-            losses: obj.losses,
-            ties: obj.ties,
-            totalPoints: obj.total_points,
-        };
-        let index = acc.findIndex(item => item['storeDivision'] === storeDiv);
-        if (index === -1) {
-            acc.push({
-                storeDivision: obj.store_division,
-                storeId: obj.store_id,
-                storeCity: obj.store_city,
-                divisionId: obj.division_id,
-                dayName: obj.day_name,
-                standingsList: [standingObj],
-            });
-        } else {
-            acc[index].standingsList.push(standingObj);
-        }
-        return acc;
-    }, []);
-};
-
-console.log(groupBy(standingsArray));
+const standingsArray = [
+    {
+        "standings_id": 2088,
+        "store_division": "121",
+        "store_id": 12,
+        "store_city": "Brunswick",
+        "team_id": 853,
+        "team_name": "Milk Duds",
+        "wins": 70,
+        "losses": 20,
+        "ties": 0,
+        "total_points": 99460,
+        "division_id": 1,
+        "day_name": "Monday"
+    },
+	{
+        "standings_id": 2156,
+        "store_division": "114",
+        "store_id": 11,
+        "store_city": "Mentor",
+        "team_id": 545,
+        "team_name": "Balls of Fury",
+        "wins": 50,
+        "losses": 40,
+        "ties": 0,
+        "total_points": 71120,
+        "division_id": 4,
+        "day_name": "Thursday"
+    },
+	{
+        "standings_id": 2122,
+        "store_division": "123",
+        "store_id": 12,
+        "store_city": "Brunswick",
+        "team_id": 157,
+        "team_name": "The GRP",
+        "wins": 67,
+        "losses": 23,
+        "ties": 0,
+        "total_points": 96310,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+    {
+        "standings_id": 2084,
+        "store_division": "121",
+        "store_id": 12,
+        "store_city": "Brunswick",
+        "team_id": 154,
+        "team_name": "MT Nesters",
+        "wins": 61,
+        "losses": 29,
+        "ties": 0,
+        "total_points": 93500,
+        "division_id": 1,
+        "day_name": "Monday"
+    },
+    {
+        "standings_id": 2127,
+        "store_division": "123",
+        "store_id": 12,
+        "store_city": "Brunswick",
+        "team_id": 806,
+        "team_name": "The Skeemers",
+        "wins": 49,
+        "losses": 41,
+        "ties": 0,
+        "total_points": 84780,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+    {
+        "standings_id": 2130,
+        "store_division": "143",
+        "store_id": 14,
+        "store_city": "Copley",
+        "team_id": 579,
+        "team_name": "Whiskee Shots",
+        "wins": 67,
+        "losses": 22,
+        "ties": 1,
+        "total_points": 89420,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+	{
+        "standings_id": 2172,
+        "store_division": "164",
+        "store_id": 16,
+        "store_city": "Lakewood",
+        "team_id": 565,
+        "team_name": "Skeeterrifics",
+        "wins": 81,
+        "losses": 9,
+        "ties": 0,
+        "total_points": 101930,
+        "division_id": 4,
+        "day_name": "Thursday"
+    },
+    {
+        "standings_id": 2135,
+        "store_division": "143",
+        "store_id": 14,
+        "store_city": "Copley",
+        "team_id": 842,
+        "team_name": "Triple H",
+        "wins": 61,
+        "losses": 27,
+        "ties": 2,
+        "total_points": 82320,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+    {
+        "standings_id": 2173,
+        "store_division": "164",
+        "store_id": 16,
+        "store_city": "Lakewood",
+        "team_id": 683,
+        "team_name": "Sweet Baby Skeesus",
+        "wins": 72,
+        "losses": 18,
+        "ties": 0,
+        "total_points": 92330,
+        "division_id": 4,
+        "day_name": "Thursday"
+    },
+    {
+        "standings_id": 2116,
+        "store_division": "173",
+        "store_id": 17,
+        "store_city": "Macedonia",
+        "team_id": 777,
+        "team_name": "UnbeSKEEvable",
+        "wins": 78,
+        "losses": 10,
+        "ties": 2,
+        "total_points": 111580,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+	{
+        "standings_id": 2105,
+        "store_division": "112",
+        "store_id": 11,
+        "store_city": "Mentor",
+        "team_id": 760,
+        "team_name": "Scoopskee Potatoes",
+        "wins": 72,
+        "losses": 18,
+        "ties": 0,
+        "total_points": 97170,
+        "division_id": 2,
+        "day_name": "Tuesday"
+    },
+    {
+        "standings_id": 2118,
+        "store_division": "173",
+        "store_id": 17,
+        "store_city": "Macedonia",
+        "team_id": 854,
+        "team_name": "PB&J",
+        "wins": 53,
+        "losses": 35,
+        "ties": 2,
+        "total_points": 89840,
+        "division_id": 3,
+        "day_name": "Wednesday"
+    },
+    {
+        "standings_id": 2106,
+        "store_division": "112",
+        "store_id": 11,
+        "store_city": "Mentor",
+        "team_id": 787,
+        "team_name": "Rule #7Skee6",
+        "wins": 60,
+        "losses": 29,
+        "ties": 1,
+        "total_points": 84650,
+        "division_id": 2,
+        "day_name": "Tuesday"
+    },
+    {
+        "standings_id": 2153,
+        "store_division": "114",
+        "store_id": 11,
+        "store_city": "Mentor",
+        "team_id": 104,
+        "team_name": "Team Polycoat",
+        "wins": 81,
+        "losses": 9,
+        "ties": 0,
+        "total_points": 101680,
+        "division_id": 4,
+        "day_name": "Thursday"
+    }
+];
 ```

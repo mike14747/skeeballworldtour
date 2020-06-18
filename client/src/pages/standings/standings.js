@@ -77,9 +77,9 @@ export default function Standings() {
                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : standingsArr && standingsArr.length > 0
                     ? <Fragment>
-                        {standingsArr.map((storeDiv, index) => (
-                            <div key={index}>
-                                <h5 className="text-center">{storeDiv[0].store_city} - {storeDiv[0].day_name}</h5>
+                        {standingsArr.map(storeDiv => (
+                            <div key={storeDiv.storeDiv}>
+                                <h5 className="text-center">{storeDiv.storeCity} - {storeDiv.dayName}</h5>
                                 <div className="d-flex justify-content-center mb-4">
                                     <div className="min-w-50 mx-auto table-wrapper">
                                         <table className="table table-bordered mb-4 text-center">
@@ -93,13 +93,13 @@ export default function Standings() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {standingsArr[index].map((standing) => (
-                                                    <tr key={standing.standings_id}>
-                                                        <td className="text-left"><a href={'/teams/' + standing.team_id}>{standing.team_name}</a></td>
+                                                {storeDiv.standingsList.map((standing) => (
+                                                    <tr key={standing.standingsId}>
+                                                        <td className="text-left"><a href={'/teams/' + standing.teamId}>{standing.teamName}</a></td>
                                                         <td>{standing.wins}</td>
                                                         <td>{standing.losses}</td>
                                                         <td>{standing.ties}</td>
-                                                        <td>{standing.total_points}</td>
+                                                        <td>{standing.totalPoints}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
