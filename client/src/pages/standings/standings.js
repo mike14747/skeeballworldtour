@@ -3,6 +3,7 @@ import axios from 'axios';
 import SettingsContext from '../../context/settingsContext';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
+import StandingsTables from '../../components/standingsTables/standingsTables';
 
 export default function Standings() {
     const settings = useContext(SettingsContext);
@@ -76,39 +77,7 @@ export default function Standings() {
             {!standingsArrStatus.isLoaded
                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
                 : standingsArr && standingsArr.length > 0
-                    ? <Fragment>
-                        {standingsArr.map(storeDiv => (
-                            <div key={storeDiv.storeDiv}>
-                                <h5 className="text-center">{storeDiv.storeCity} - {storeDiv.dayName}</h5>
-                                <div className="d-flex justify-content-center mb-4">
-                                    <div className="min-w-50 mx-auto table-wrapper">
-                                        <table className="table table-bordered mb-4 text-center">
-                                            <thead>
-                                                <tr className="bg-gray6">
-                                                    <th className="text-left">TEAM</th>
-                                                    <th>W</th>
-                                                    <th>L</th>
-                                                    <th>T</th>
-                                                    <th>TOTAL POINTS</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {storeDiv.standingsList.map((standing) => (
-                                                    <tr key={standing.standingsId}>
-                                                        <td className="text-left"><a href={'/teams/' + standing.teamId}>{standing.teamName}</a></td>
-                                                        <td>{standing.wins}</td>
-                                                        <td>{standing.losses}</td>
-                                                        <td>{standing.ties}</td>
-                                                        <td>{standing.totalPoints}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Fragment>
+                    ? <StandingsTables standingsArr={standingsArr} />
                     : standingsArr
                         ? <span className="empty-result">There are no standings for this season!</span>
                         : <span className="empty-result">{standingsArrStatus.errorMsg}</span>

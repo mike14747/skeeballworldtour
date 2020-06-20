@@ -48,7 +48,7 @@ function formatPlayerStats(unformattedStats) {
         formattedPlayerStats: tempPlayerStats,
         formattedPlayerResults: formattedResults,
     };
-};
+}
 
 module.exports = {
     formatPlayerStats,
