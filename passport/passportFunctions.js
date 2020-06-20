@@ -10,14 +10,13 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const data = await User.getUserById({ id: id });
-        if (data[0] && data[0].length > 0) {
-            const user = { id: data[0][0].user_id, username: data[0][0].username };
+        const [data, error] = await User.getUserById({ id: id });
+        if (!data) return done(error);
+        if (data.length === 1) {
+            const user = { id: data[0].user_id, username: data[0].username };
             return done(null, user);
-        } else if (data[0] && data[0].length === 0) {
-            return done(null, false, { message: 'Could not find a valid user!' });
         } else {
-            return done(data[1]);
+            return done(null, false, { message: 'Could not find a valid user!' });
         }
     } catch (error) {
         return done(error);
