@@ -5,9 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-const connectionPool = require('./config/connectionPool');
-
-app.use(require('./passport/expressSession'));
+const { mysqlConnect } = require('./config/connectionPool');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -25,8 +23,9 @@ function checkAuthenticated(req, res, next) {
     }
 }
 
-connectionPool.mysqlConnect()
+mysqlConnect()
     .then(() => {
+        app.use(require('./passport/expressSession'));
         const passport = require('./passport/passportFunctions');
         app.use(passport.initialize());
         app.use(passport.session());
@@ -34,9 +33,9 @@ connectionPool.mysqlConnect()
         app.use('/api', require('./controllers'));
     })
     .catch((error) => {
-        console.error('Failed to connect to the database!\n' + error);
+        console.log('An error occurred connecting to the database!\n', error.message);
         app.get('/api/*', (req, res) => {
-            res.status(500).send('There is no connection to MySQL!');
+            res.status(500).send('There is no connection to the database!');
         });
     })
     .finally(() => {
