@@ -61,8 +61,6 @@ export default function Standings() {
                     setStandingsArr(null);
                     setStandingsArrStatus({ errorMsg: 'An error occurred fetching the standings!', isLoaded: true });
                 });
-        } else {
-            setStandingsArrStatus({ errorMsg: 'An error occurred fetching the standings!', isLoaded: true });
         }
     }, [querySeasonId]);
 

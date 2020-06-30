@@ -29,9 +29,7 @@ export default function App() {
             .then((response) => {
                 response.data[0] ? setSettings(response.data[0]) : setSettings({});
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(error => console.log(error));
     }, []);
 
     return (
