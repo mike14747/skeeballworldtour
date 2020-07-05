@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 describe('Standings API', () => {
     describe('GET /api/standings/seasons/24', () => {
-        it('should get all standings by season id 24', (done) => {
+        it('should get all standings by seasonid 24', (done) => {
             chai.request(server)
                 .get('/api/standings/seasons/24')
                 .end((error, response) => {
@@ -39,7 +39,7 @@ describe('Standings API', () => {
     });
 
     describe('GET /api/standings/stores/12/divisions/3/seasons/24', () => {
-        it('should get all standings by store id 12, division id 3 and season id 24', (done) => {
+        it('should get all standings by storeid 12, divisionid 3 and seasonid 24', (done) => {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24')
                 .end((error, response) => {
@@ -83,6 +83,19 @@ describe('Standings API', () => {
                         element.year.should.be.a('number');
                     });
                     response.body.should.have.lengthOf.at.least(24);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /api/standings/seasons/0', () => {
+        it('should get an empty array of standings by non-existent seasonid 0', (done) => {
+            chai.request(server)
+                .get('/api/standings/seasons/0')
+                .end((error, response) => {
+                    if (error) console.log(error);
+                    response.should.have.status(200);
+                    response.body.should.be.a('array').and.have.lengthOf(0);
                     done();
                 });
         });
