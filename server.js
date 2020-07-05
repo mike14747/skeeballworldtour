@@ -40,16 +40,19 @@ mysqlConnect()
     })
     .finally(() => {
         if (NODE_ENV === 'production') {
-            app.use(express.static('./client/build'));
-            app.use(express.static('./admin/build'));
+            app.use(express.static(path.join(__dirname, 'admin/build')));
             app.get('/admin', (req, res) => {
-                res.sendFile(path.join(__dirname, './admin/build/index.html'));
+                res.sendFile(path.join(__dirname, 'admin/build/index.html'));
             });
+            app.use(express.static(path.join(__dirname, 'client/build')));
             app.get('*', (req, res) => {
-                res.sendFile(path.join(__dirname, './client/build/index.html'));
+                res.sendFile(path.join(__dirname, 'client/build/index.html'));
             });
         }
-        app.listen(PORT, () => {
-            console.log('Server is listening on port ' + PORT);
-        });
     });
+
+const server = app.listen(PORT, () => {
+    console.log('Server is listening on port ' + PORT);
+});
+
+module.exports = server;

@@ -18,10 +18,12 @@
         "admin": "cd admin && npm run start",
         "install-admin": "if-env NODE_ENV=production || npm run install-admin:dev",
         "install-admin:dev": "cd admin && npm install",
-        "build-admin": "cd admin && npm run build"
+        "build-admin": "cd admin && npm run build",
+        "test": "mocha"
     },
     "devDependencies": {
         "chai": "^4.2.0",
+        "chai-http": "^4.3.0",
         "concurrently": "^5.0.0",
         "eslint": "^6.7.2",
         "eslint-config-standard": "^14.1.0",

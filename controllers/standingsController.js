@@ -2,9 +2,9 @@ const router = require('express').Router();
 const Standing = require('../models/standing');
 const { groupStandings } = require('./utils/standingsFunctions');
 
-router.get('/seasons/:seasonid', async (req, res, next) => {
+router.get('/seasons/:seasonid([0-9]+)', async (req, res, next) => {
     const paramsObj = {
-        season_id: parseInt(req.params.seasonid),
+        seasonId: parseInt(req.params.seasonid),
     };
     try {
         const data = await Standing.getStandingsBySeasonId(paramsObj);
@@ -23,11 +23,11 @@ router.get('/seasons-list', async (req, res, next) => {
     }
 });
 
-router.get('/stores/:storeid/divisions/:divisionid/seasons/:seasonid', async (req, res, next) => {
+router.get('/stores/:storeid([0-9]+)/divisions/:divisionid([0-9]+)/seasons/:seasonid([0-9]+)', async (req, res, next) => {
     const paramsObj = {
-        store_id: req.params.storeid,
-        division_id: req.params.divisionid,
-        season_id: req.params.seasonid,
+        storeId: parseInt(req.params.storeid),
+        divisionId: parseInt(req.params.divisionid),
+        seasonId: parseInt(req.params.seasonid),
     };
     try {
         const data = await Standing.getStandingsByStoreDivisionSeasonIds(paramsObj);
