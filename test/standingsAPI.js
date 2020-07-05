@@ -6,7 +6,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Standings API', () => {
-    describe('GET /api/standings/seasons/:seasonid', () => {
+    describe('GET /api/standings/seasons/24', () => {
         it('should get all standings by season id 24', (done) => {
             chai.request(server)
                 .get('/api/standings/seasons/24')
@@ -38,7 +38,7 @@ describe('Standings API', () => {
         });
     });
 
-    describe('GET /api/standings/stores/:storeid/divisions/:divisionid/seasons/:seasonid', () => {
+    describe('GET /api/standings/stores/12/divisions/3/seasons/24', () => {
         it('should get all standings by store id 12, division id 3 and season id 24', (done) => {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24')
@@ -88,10 +88,46 @@ describe('Standings API', () => {
         });
     });
 
-    describe('GET /api/standings/seasons/:seasonid', () => {
-        it('should get a status 404 because the season id param is not an integer', (done) => {
+    describe('GET /api/standings/seasons/12a', () => {
+        it('should get a status 404 because the seasonid param is not an integer', (done) => {
             chai.request(server)
                 .get('/api/standings/seasons/12a')
+                .end((error, response) => {
+                    if (error) console.log(error);
+                    response.should.have.status(404);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /api/standings/stores/1a2/divisions/3/seasons/24', () => {
+        it('should get a status 404 because the storeid param is not an integer', (done) => {
+            chai.request(server)
+                .get('/api/standings/stores/1a2/divisions/3/seasons/24')
+                .end((error, response) => {
+                    if (error) console.log(error);
+                    response.should.have.status(404);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /api/standings/stores/12/divisions/b3/seasons/24', () => {
+        it('should get a status 404 because the divisionid param is not an integer', (done) => {
+            chai.request(server)
+                .get('/api/standings/stores/12/divisions/b3/seasons/24')
+                .end((error, response) => {
+                    if (error) console.log(error);
+                    response.should.have.status(404);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /api/standings/stores/12/divisions/3/seasons/24c', () => {
+        it('should get a status 404 because the seasonid param is not an integer', (done) => {
+            chai.request(server)
+                .get('/api/standings/stores/12/divisions/3/seasons/24c')
                 .end((error, response) => {
                     if (error) console.log(error);
                     response.should.have.status(404);
