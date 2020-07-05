@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { PORT, NODE_ENV } = process.env;
+const { NODE_ENV } = process.env;
+const PORT = process.env.PORT || 3001;
 
 const express = require('express');
 const app = express();
@@ -40,10 +41,10 @@ mysqlConnect()
     })
     .finally(() => {
         if (NODE_ENV === 'production') {
-            app.use(express.static(path.join(__dirname, 'admin/build')));
-            app.get('/admin', (req, res) => {
-                res.sendFile(path.join(__dirname, 'admin/build/index.html'));
-            });
+            // app.use(express.static(path.join(__dirname, 'admin/build')));
+            // app.get('/admin', (req, res) => {
+            //     res.sendFile(path.join(__dirname, 'admin/build/index.html'));
+            // });
             app.use(express.static(path.join(__dirname, 'client/build')));
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, 'client/build/index.html'));
