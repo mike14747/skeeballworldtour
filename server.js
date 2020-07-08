@@ -11,7 +11,7 @@ const { mysqlConnect } = require('./config/connectionPool');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/pdf/:filename', function (req, res) {
+app.get('/pdf/:filename', (req, res) => {
     res.sendFile(path.join(__dirname, 'pdf/' + req.params.filename));
 });
 
@@ -52,8 +52,6 @@ mysqlConnect()
         }
     });
 
-const server = app.listen(PORT, () => {
-    console.log('Server is listening on port ' + PORT);
-});
+const server = app.listen(PORT, () => console.log('Server is listening on port ' + PORT));
 
 module.exports = server;
