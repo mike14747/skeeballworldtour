@@ -2,33 +2,52 @@ import React, { useState, useEffect, Fragment } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import Loading from '../../components/loading/loading';
 
 const Rules = () => {
-    const [rules, setRules] = useState(null);
-    const [rulesStatus, setRulesStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [rules, setRules] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
     useEffect(() => {
         axios.get('/api/pages/rules')
             .then((response) => {
-                response.data[0] && setRules(response.data[0]);
-                setRulesStatus({ errorMsg: undefined, isLoaded: true });
+                setRules({
+                    data: response.data[0],
+                    status: {
+                        errorMsg: undefined,
+                        isLoaded: true,
+                    },
+                });
             })
             .catch((error) => {
                 console.log(error);
-                setRulesStatus({ errorMsg: 'An error occurred fetching league rules!', isLoaded: true });
+                setRules({
+                    data: null,
+                    status: {
+                        errorMsg: 'An error occurred fetching league rules!',
+                        isLoaded: true,
+                    },
+                });
             });
     }, []);
 
     return (
         <Fragment>
-            {!rulesStatus.isLoaded
-                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                : rules
+            {!rules.status.isLoaded
+                ? <Loading />
+                : rules.data
                     ? <Fragment>
-                        <PageHeading text={rules.content_heading} />
-                        {ReactHtmlParser(rules.page_content)}
+                        <PageHeading text={rules.data.content_heading} />
+                        {ReactHtmlParser(rules.data.page_content)}
                     </Fragment>
-                    : <div className="text-center empty-result">Please check back again soon to see the rules!</div>
+                    : !rules.status.errorMsg
+                        ? <div className="text-center empty-result">Please check back again soon to see the rules!</div>
+                        : <span className="empty-result">{rules.status.errorMsg}</span>
 
             }
         </Fragment>
