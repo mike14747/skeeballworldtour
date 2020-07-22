@@ -16,7 +16,7 @@ router.get('/seasons/:seasonid([0-9]+)', async (req, res, next) => {
 
 router.get('/seasons-list', async (req, res, next) => {
     try {
-        const [data, error]  = await Standing.getSeasonsList();
+        const [data, error] = await Standing.getSeasonsList();
         data ? res.json(data) : next(error);
     } catch (error) {
         next(error);
@@ -30,7 +30,7 @@ router.get('/stores/:storeid([0-9]+)/divisions/:divisionid([0-9]+)/seasons/:seas
         seasonId: parseInt(req.params.seasonid),
     };
     try {
-        const [data, error]  = await Standing.getStandingsByStoreDivisionSeasonIds(paramsObj);
+        const [data, error] = await Standing.getStandingsByStoreDivisionSeasonIds(paramsObj);
         data ? res.json(data) : next(error);
     } catch (error) {
         next(error);
