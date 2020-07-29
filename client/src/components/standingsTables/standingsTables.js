@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import StandingsRow from './standingsRow/standingsRow';
+import StandingsRow from './subcomponents/standingsRow/standingsRow';
 
 const StandingsTables = ({ standingsArr }) => {
     return (

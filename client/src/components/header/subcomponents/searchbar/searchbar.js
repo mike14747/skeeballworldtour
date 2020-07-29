@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import './css/searchbar.css';
+import './css/searchBar.css';
 
 function SearchBar() {
     const [searchInput, setSearchInput] = useState('');

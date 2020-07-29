@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/header.css';
 import skeeballLogo from './images/skeeball_logo.png';
-import SearchBar from './subcomponents/searchbar/searchbar';
+import SearchBar from './subcomponents/searchBar/searchBar';
 import HeaderNav from './subcomponents/headerNav/headerNav';
 import JoinFun from './subcomponents/joinFun/joinFun';
 
