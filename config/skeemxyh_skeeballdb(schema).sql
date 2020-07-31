@@ -193,6 +193,10 @@ CREATE TABLE teams (
 
 CREATE TABLE users (
   user_id smallint(2) UNSIGNED NOT NULL AUTO_INCREMENT,
+  store_id tinyint(2) UNSIGNED NOT NULL,
+  FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  division_id tinyint(2) UNSIGNED NOT NULL,
+  FOREIGN KEY (division_id) REFERENCES divisions(division_id) ON DELETE RESTRICT ON UPDATE CASCADE,
   username varchar(20) DEFAULT NULL,
   hashed_password char(64) DEFAULT NULL,
   PRIMARY KEY (user_id)
