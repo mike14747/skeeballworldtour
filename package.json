@@ -19,7 +19,7 @@
         "install-admin": "if-env NODE_ENV=production || npm run install-admin:dev",
         "install-admin:dev": "cd admin && npm install",
         "build-admin": "cd admin && npm run build",
-        "test": "mocha"
+        "test": "mocha --exit"
     },
     "devDependencies": {
         "chai": "^4.2.0",
