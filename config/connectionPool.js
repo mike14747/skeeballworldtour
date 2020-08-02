@@ -17,11 +17,6 @@ const dbTest = () => {
         pool.query('SELECT 1', (error, result) => {
             error ? reject(error) : resolve(result);
         });
-        // setTimeout(() => {
-        //     pool.query('SELECT 1', (error, result) => {
-        //         error ? reject(error) : resolve(result);
-        //     });
-        // }, 1900);
     });
 };
 
