@@ -10,7 +10,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/seasons/24')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(7);
                     response.body.forEach(function (element1) {
@@ -42,7 +42,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(200);
                     response.body.should.be.a('array');
                     if (response.body.length > 0) {
@@ -72,7 +72,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/seasons-list')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(200);
                     response.body.should.be.a('array');
                     response.body.forEach(function (element) {
@@ -92,7 +92,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/seasons/0')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(0);
                     done();
@@ -105,7 +105,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/seasons/12a')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(404);
                     done();
                 });
@@ -117,7 +117,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/stores/1a2/divisions/3/seasons/24')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(404);
                     done();
                 });
@@ -129,7 +129,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/b3/seasons/24')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(404);
                     done();
                 });
@@ -141,7 +141,7 @@ describe('Standings API', function () {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24c')
                 .end(function (error, response) {
-                    if (error) console.log(error);
+                    if (error) done(error);
                     response.should.have.status(404);
                     done();
                 });

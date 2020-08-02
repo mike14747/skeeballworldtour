@@ -5,12 +5,6 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Test public API routes', function () {
-    before(function (done) {
-        setTimeout(() => {
-            done();
-        }, 1000);
-    });
-
     const runTests = () => {
         require('./tests/standingsAPI');
     };
