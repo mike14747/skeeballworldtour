@@ -9,8 +9,7 @@ describe('Standings API', function () {
         it('should get all standings by seasonid 24', function (done) {
             chai.request(server)
                 .get('/api/standings/seasons/24')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(7);
                     response.body.forEach(function (element1) {
@@ -33,7 +32,8 @@ describe('Standings API', function () {
                         });
                     });
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -41,8 +41,7 @@ describe('Standings API', function () {
         it('should get all standings by storeid 12, divisionid 3 and seasonid 24', function (done) {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
                     if (response.body.length > 0) {
@@ -63,7 +62,8 @@ describe('Standings API', function () {
                         });
                     }
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -71,8 +71,7 @@ describe('Standings API', function () {
         it('should get a list of seasons that have standings data', function (done) {
             chai.request(server)
                 .get('/api/standings/seasons-list')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
                     response.body.forEach(function (element) {
@@ -83,7 +82,8 @@ describe('Standings API', function () {
                     });
                     response.body.should.have.lengthOf.at.least(24);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -91,12 +91,12 @@ describe('Standings API', function () {
         it('should get an empty array of standings by non-existent seasonid 0', function (done) {
             chai.request(server)
                 .get('/api/standings/seasons/0')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(0);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -104,11 +104,11 @@ describe('Standings API', function () {
         it('should get a status 404 because the seasonid param is not an integer', function (done) {
             chai.request(server)
                 .get('/api/standings/seasons/12a')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(404);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -116,11 +116,11 @@ describe('Standings API', function () {
         it('should get a status 404 because the storeid param is not an integer', function (done) {
             chai.request(server)
                 .get('/api/standings/stores/1a2/divisions/3/seasons/24')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(404);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -128,11 +128,11 @@ describe('Standings API', function () {
         it('should get a status 404 because the divisionid param is not an integer', function (done) {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/b3/seasons/24')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(404);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 
@@ -140,11 +140,11 @@ describe('Standings API', function () {
         it('should get a status 404 because the seasonid param is not an integer', function (done) {
             chai.request(server)
                 .get('/api/standings/stores/12/divisions/3/seasons/24c')
-                .end(function (error, response) {
-                    if (error) done(error);
+                .then(response => {
                     response.should.have.status(404);
                     done();
-                });
+                })
+                .catch(error => done(error));
         });
     });
 });

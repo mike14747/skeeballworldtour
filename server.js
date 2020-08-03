@@ -1,5 +1,4 @@
 require('dotenv').config();
-const { NODE_ENV } = process.env;
 const PORT = process.env.PORT || 3001;
 
 const express = require('express');
@@ -41,7 +40,7 @@ dbTest()
         });
     })
     .finally(() => {
-        if (NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'production') {
             // app.use(express.static(path.join(__dirname, 'admin/build')));
             // app.get('/admin', (req, res) => {
             //     res.sendFile(path.join(__dirname, 'admin/build/index.html'));
