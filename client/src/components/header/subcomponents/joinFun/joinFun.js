@@ -7,10 +7,9 @@ const JoinFun = () => {
     const settings = useContext(SettingsContext);
 
     return (
-        // <div className="join">
-        <div>
+        <div className="join">
             {settings.text_box_heading &&
-                <div>{settings.text_box_heading}</div>
+                <div className="join-heading">{settings.text_box_heading}</div>
             }
             {settings.text_box_text &&
                 <div>{ReactHtmlParser(settings.text_box_text)}</div>

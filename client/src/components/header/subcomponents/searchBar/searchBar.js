@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import './css/searchBar.css';
 
@@ -18,13 +18,13 @@ function SearchBar() {
     };
 
     return (
-        <Fragment>
+        <div className="mt-auto">
             <form className="form-searchbar" onSubmit={handleSubmit}>
                 <input type="text" maxLength="20" placeholder="Find Player/Team" className="input-searchbar" value={searchInput} onChange={event => setSearchInput(event.target.value)} />
                 <button type="submit" name="submit" className="search-button">Go</button>
             </form>
             {submitted && <Redirect to={'/search/' + searchInput} />}
-        </Fragment>
+        </div>
     );
 }
 

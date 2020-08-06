@@ -44,7 +44,7 @@ const Leaders = () => {
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
-        axios.get('/api/leaders/seasons-list')
+        axios.get('//api/leaders/seasons-list')
             .then((response) => {
                 const seasonArray = response.data.map((season) => {
                     return {
@@ -72,7 +72,7 @@ const Leaders = () => {
                     console.log(error);
                     setSeasonName(null);
                 });
-            axios.get('api/leaders/individual/average/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/individual/average/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setIndAvgLeaders(response.data);
                     setIndAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
@@ -82,7 +82,7 @@ const Leaders = () => {
                     setIndAvgLeaders(null);
                     setIndAvgLeadersStatus({ errorMsg: 'An error occurred fetching player best average leaders!', isLoaded: true });
                 });
-            axios.get('api/leaders/individual/one-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/individual/one-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setIndOneGameLeaders(response.data);
                     setIndOneGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
@@ -92,7 +92,7 @@ const Leaders = () => {
                     setIndOneGameLeaders(null);
                     setIndOneGameLeadersStatus({ errorMsg: 'An error occurred fetching player 1-game leaders!', isLoaded: true });
                 });
-            axios.get('api/leaders/individual/ten-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/individual/ten-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setIndTenGameLeaders(response.data);
                     setIndTenGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
@@ -102,7 +102,7 @@ const Leaders = () => {
                     setIndTenGameLeaders(null);
                     setIndTenGameLeadersStatus({ errorMsg: 'An error occurred fetching player 10-game leaders!', isLoaded: true });
                 });
-            axios.get('api/leaders/team/average/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/team/average/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setTeamAvgLeaders(response.data);
                     setTeamAvgLeadersStatus({ errorMsg: undefined, isLoaded: true });
@@ -112,7 +112,7 @@ const Leaders = () => {
                     setTeamAvgLeaders(null);
                     setTeamAvgLeadersStatus({ errorMsg: 'An error occurred fetching team best average leaders!', isLoaded: true });
                 });
-            axios.get('api/leaders/team/one-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/team/one-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setTeamOneGameLeaders(response.data);
                     setTeamOneGameLeadersStatus({ errorMsg: undefined, isLoaded: true });
@@ -122,7 +122,7 @@ const Leaders = () => {
                     setTeamOneGameLeaders(null);
                     setTeamOneGameLeadersStatus({ errorMsg: 'An error occurred fetching team 1-game leaders!', isLoaded: true });
                 });
-            axios.get('api/leaders/team/ten-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
+            axios.get('/api/leaders/team/ten-game/num-leaders/' + queryNumLeaders + '/season/' + querySeasonId)
                 .then((response) => {
                     setTeamTenGameLeaders(response.data);
                     setTeamTenGameLeadersStatus({ errorMsg: undefined, isLoaded: true });

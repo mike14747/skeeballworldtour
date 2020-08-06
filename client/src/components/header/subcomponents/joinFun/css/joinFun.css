@@ -1,15 +1,25 @@
 .join {
-    text-align: center;
+    padding: 5px;
     margin-bottom: auto;
-    text-shadow: 2px 2px 3px #666666;
-    font-size: 2rem;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
     font-style: italic;
+    color: #333333;
+    font-size: .90rem;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.join-heading {
+    text-align: center;
     color: #dc3545;
+    font-size: 1.0rem;
     font-weight: bolder;
 }
 
 @media (max-width: 767.98px) {
     .join {
-        font-size: 1.15rem;
+        font-size: .75rem;
+    }
+    .join-heading {
+        font-size: .85rem;
     }
 }
