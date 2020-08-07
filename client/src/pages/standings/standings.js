@@ -54,7 +54,7 @@ export default function Standings() {
                 setSeasons({
                     data: null,
                     status: {
-                        errorMsg: 'An error occurred fetching the standings!',
+                        errorMsg: 'An error occurred fetching the standings season list!',
                         isLoaded: true,
                     },
                 });
