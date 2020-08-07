@@ -8,49 +8,94 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
 
 export default function Teams() {
-    const settings = useContext(SettingsContext);
+    const { current_season_id: currentSeasonId } = useContext(SettingsContext);
 
     const [seasonId, setSeasonId] = useState(null);
-    const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
 
     const { teamid } = useParams();
 
     const [seasonName, setSeasonName] = useState(null);
 
-    const [teamNameStores, setTeamNameStores] = useState(null);
-    const [teamNameStoresStatus, setTeamNameStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamNameStores, setTeamNameStores] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [currentViewStores, setCurrentViewStores] = useState(null);
-    const [currentViewStoresStatus, setCurrentViewStoresStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [currentViewStores, setCurrentViewStores] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [teamSeasons, setTeamSeasons] = useState(null);
-    const [teamSeasonsStatus, setTeamSeasonsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [seasons, setSeasons] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [teamStats, setTeamStats] = useState(null);
-    const [teamStatsStatus, setTeamStatsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamStats, setTeamStats] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [teamSchedule, setTeamSchedule] = useState(null);
-    const [teamScheduleStatus, setTeamScheduleStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamSchedule, setTeamSchedule] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [teamPlayers, setTeamPlayers] = useState(null);
-    const [teamPlayersStatus, setTeamPlayersStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamPlayers, setTeamPlayers] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
-    const [teamResults, setTeamResults] = useState(null);
-    const [teamResultsStatus, setTeamResultsStatus] = useState({ errorMsg: undefined, isLoaded: false });
+    const [teamResults, setTeamResults] = useState({
+        data: null,
+        status: {
+            errorMsg: undefined,
+            isLoaded: false,
+        },
+    });
 
     const handleSeasonId = season => setSeasonId(season);
 
     useEffect(() => {
         axios.get('/api/teams/' + teamid + '/store-name')
             .then((response) => {
-                response.data[0] ? setTeamNameStores(response.data[0]) : setTeamNameStores([]);
-                setTeamNameStoresStatus({ errorMsg: undefined, isLoaded: true });
+                const data = response.data[0] || [];
+                setTeamNameStores({
+                    data: data,
+                    status: {
+                        errorMsg: undefined,
+                        isLoaded: true,
+                    },
+                });
             })
             .catch((error) => {
                 console.log(error);
-                setTeamNameStores(null);
-                setTeamNameStoresStatus({ errorMsg: 'An error occurred fetching info for this team!', isLoaded: true });
+                setTeamNameStores({
+                    data: null,
+                    status: {
+                        errorMsg: 'An error occurred fetching info for this team!',
+                        isLoaded: true,
+                    },
+                });
             });
         axios.get('/api/teams/' + teamid + '/seasons-list')
             .then((response) => {
@@ -60,13 +105,23 @@ export default function Teams() {
                         text: season.season_name + ' - ' + season.year,
                     };
                 });
-                setTeamSeasons(seasonArray);
-                setTeamSeasonsStatus({ errorMsg: undefined, isLoaded: true });
+                setSeasons({
+                    data: seasonArray,
+                    status: {
+                        errorMsg: undefined,
+                        isLoaded: true,
+                    },
+                });
             })
             .catch((error) => {
                 console.log(error);
-                setTeamSeasons(null);
-                setTeamSeasonsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
+                setSeasons({
+                    data: null,
+                    status: {
+                        errorMsg: 'An error occurred fetching the season list for this team!',
+                        isLoaded: true,
+                    },
+                });
             });
     }, [teamid]);
 
@@ -82,18 +137,30 @@ export default function Teams() {
                 });
             axios.get('/api/teams/' + teamid + '/current-stores/season/' + querySeasonId)
                 .then((response) => {
-                    response.data[0] ? setCurrentViewStores({ stores: response.data[0].stores }) : setCurrentViewStores(null);
-                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
+                    const data = response.data[0] ? { stores: response.data[0].stores } : null;
+                    setCurrentViewStores({
+                        data: data,
+                        status: {
+                            errorMsg: undefined,
+                            isLoaded: true,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
-                    setCurrentViewStores(null);
-                    setCurrentViewStoresStatus({ errorMsg: undefined, isLoaded: true });
+                    setCurrentViewStores({
+                        data: null,
+                        status: {
+                            errorMsg: 'An error occurred fetching the current view store info!',
+                            isLoaded: true,
+                        },
+                    });
                 });
             axios.get('/api/teams/' + teamid + '/seasons/' + querySeasonId)
                 .then((response) => {
+                    let data = [];
                     if (response.data[2][0]) {
-                        setTeamStats([
+                        data = [
                             { text: 'Record:', data: response.data[2][0].wins + '-' + response.data[2][0].losses + '-' + response.data[2][0].ties },
                             { text: 'Total Points:', data: response.data[2][0].total_points },
                             { text: '1-Game Low:', data: response.data[2][0].one_game_low },
@@ -102,46 +169,86 @@ export default function Teams() {
                             { text: '10-Game Low:', data: response.data[2][0].ten_game_low },
                             { text: '10-Game Avg:', data: Number(response.data[2][0].ten_game_avg).toFixed(1) },
                             { text: '10-Game High:', data: response.data[2][0].ten_game_high },
-                        ]);
-                    } else {
-                        setTeamStats([]);
+                        ];
                     }
-                    setTeamStatsStatus({ errorMsg: undefined, isLoaded: true });
+                    setTeamStats({
+                        data: data,
+                        status: {
+                            errorMsg: undefined,
+                            isLoaded: true,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
-                    setTeamStats(null);
-                    setTeamStatsStatus({ errorMsg: 'An error occurred fetching stats for this team!', isLoaded: true });
+                    setTeamStats({
+                        data: null,
+                        status: {
+                            errorMsg: 'An error occurred fetching stats for this team!',
+                            isLoaded: true,
+                        },
+                    });
                 });
             axios.get('/api/teams/' + teamid + '/current-schedule/seasons/' + querySeasonId)
                 .then((response) => {
-                    response.data[2] ? setTeamSchedule(response.data[2]) : setTeamSchedule([]);
-                    setTeamScheduleStatus({ errorMsg: undefined, isLoaded: true });
+                    const data = response.data[2] || [];
+                    setTeamSchedule({
+                        data: data,
+                        status: {
+                            errorMsg: undefined,
+                            isLoaded: true,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
-                    setTeamSchedule(null);
-                    setTeamScheduleStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+                    setTeamSchedule({
+                        data: null,
+                        status: {
+                            errorMsg: 'An error occurred fetching the schedule for this team!',
+                            isLoaded: true,
+                        },
+                    });
                 });
             axios.get('/api/teams/' + teamid + '/players/seasons/' + querySeasonId)
                 .then((response) => {
-                    setTeamPlayers(response.data);
-                    setTeamPlayersStatus({ errorMsg: undefined, isLoaded: true });
+                    setTeamPlayers({
+                        data: response.data,
+                        status: {
+                            errorMsg: undefined,
+                            isLoaded: true,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
-                    setTeamPlayers(null);
-                    setTeamPlayersStatus({ errorMsg: 'An error occurred fetching players for this team!', isLoaded: true });
+                    setTeamPlayers({
+                        data: null,
+                        status: {
+                            errorMsg: 'An error occurred fetching players for this team!',
+                            isLoaded: true,
+                        },
+                    });
                 });
             axios.get('/api/teams/' + teamid + '/results/seasons/' + querySeasonId)
                 .then((response) => {
-                    response.data ? setTeamResults(response.data) : setTeamResults([]);
-                    setTeamResultsStatus({ errorMsg: undefined, isLoaded: true });
+                    setTeamResults({
+                        data: response.data,
+                        status: {
+                            errorMsg: undefined,
+                            isLoaded: true,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
-                    setTeamResults(null);
-                    setTeamResultsStatus({ errorMsg: 'An error occurred fetching the schedule for this team!', isLoaded: true });
+                    setTeamResults({
+                        data: null,
+                        status: {
+                            errorMsg: 'An error occurred fetching results for this team!',
+                            isLoaded: true,
+                        },
+                    });
                 });
         }
     }, [teamid, querySeasonId]);
@@ -151,19 +258,19 @@ export default function Teams() {
             <PageHeading text="Team Stats" />
             <div className="row mb-4">
                 <div className="col-6 text-left p-2">
-                    {teamNameStoresStatus.isLoaded && teamNameStores &&
+                    {teamNameStores.status.isLoaded && teamNameStores.data &&
                         <div className="mb-3 ">
-                            <div className="bigger font-weight-bolder"><span className="text-danger">Team: </span>{teamNameStores.team_name}</div>
-                            <div><span className="small">Career Store(s):</span> {teamNameStores.cities}</div>
-                            {currentViewStoresStatus.isLoaded && currentViewStores.stores &&
-                                <div><span className="small">Current View:</span> <span className="font-weight-bolder">{currentViewStores.stores}</span></div>
+                            <div className="bigger font-weight-bolder"><span className="text-danger">Team: </span>{teamNameStores.data.team_name}</div>
+                            <div><span className="small">Career Store(s):</span> {teamNameStores.data.cities}</div>
+                            {currentViewStores.status.isLoaded && currentViewStores.data.stores &&
+                                <div><span className="small">Current View:</span> <span className="font-weight-bolder">{currentViewStores.data.stores}</span></div>
                             }
                         </div>
                     }
                 </div>
                 <div className="col-6 text-right p-2">
-                    {teamSeasonsStatus.isLoaded && teamSeasons && teamSeasons.length > 0 &&
-                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From" listItems={teamSeasons} handleSeasonId={handleSeasonId} />
+                    {seasons.status.isLoaded && seasons.data && seasons.data.length > 0 &&
+                        <SeasonDropdown currentSeason={seasonName} buttonText="View Stats From" listItems={seasons.data} handleSeasonId={handleSeasonId} />
                     }
                 </div>
             </div>
@@ -171,9 +278,9 @@ export default function Teams() {
                 <div className="col-sm-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
-                            {!teamPlayersStatus.isLoaded
+                            {!teamPlayers.status.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : teamPlayers && teamPlayers.length > 0
+                                : teamPlayers.data && teamPlayers.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Players</h5>
                                         <table className="table table-bordered table-hover">
@@ -185,7 +292,7 @@ export default function Teams() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {teamPlayers.map((player) => (
+                                                {teamPlayers.data.map((player) => (
                                                     <tr key={player.player_id}>
                                                         <td><a href={'/players/' + player.player_id}>{player.full_name}</a></td>
                                                         <td className="text-center">{player.games_played}</td>
@@ -195,9 +302,9 @@ export default function Teams() {
                                             </tbody>
                                         </table>
                                     </Fragment>
-                                    : teamPlayers
+                                    : teamPlayers.data
                                         ? <span className="empty-result">There are no players on this team in the selected season!</span>
-                                        : <span className="empty-result">{teamPlayersStatus.errorMsg}</span>
+                                        : <span className="empty-result">{teamPlayers.status.errorMsg}</span>
                             }
                         </div>
                     </div>
@@ -205,16 +312,16 @@ export default function Teams() {
                 <div className="col-sm-6">
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
-                            {!teamStatsStatus.isLoaded
+                            {!teamStats.status.isLoaded
                                 ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                                : teamStats && teamStats.length > 0
+                                : teamStats.data && teamStats.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Detailed Breakdown</h5>
-                                        <StatsBlock stats={teamStats} />
+                                        <StatsBlock stats={teamStats.data} />
                                     </Fragment>
-                                    : teamStats
+                                    : teamStats.data
                                         ? <span className="empty-result">There are no team stats for the selected season!</span>
-                                        : <span className="empty-result">{teamStatsStatus.errorMsg}</span>
+                                        : <span className="empty-result">{teamStats.status.errorMsg}</span>
                             }
                         </div>
                     </div>
@@ -222,9 +329,9 @@ export default function Teams() {
             </div>
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
-                    {!teamScheduleStatus.isLoaded
+                    {!teamSchedule.status.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : teamSchedule && teamSchedule.length > 0
+                        : teamSchedule.data && teamSchedule.data.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Schedule</h5>
                                 <table className="table table-bordered table-hover">
@@ -239,7 +346,7 @@ export default function Teams() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {teamSchedule.map((schedule) => (
+                                        {teamSchedule.data.map((schedule) => (
                                             <tr key={schedule.week_id} className="bg-white">
                                                 <td className="text-center">{schedule.week_id}</td>
                                                 <td><a href={'/teams/' + schedule.away_team_id}>{schedule.away_team_name}</a></td>
@@ -252,24 +359,24 @@ export default function Teams() {
                                     </tbody>
                                 </table>
                             </Fragment>
-                            : teamSchedule
+                            : teamSchedule.data
                                 ? <span className="empty-result">There is no schedule for this team in the selected season!</span>
-                                : <span className="empty-result">{teamScheduleStatus.errorMsg}</span>
+                                : <span className="empty-result">{teamSchedule.status.errorMsg}</span>
                     }
                 </div>
             </div>
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
-                    {!teamResultsStatus.isLoaded
+                    {!teamResults.status.isLoaded
                         ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
-                        : teamResults && teamResults.length > 0
+                        : teamResults.data && teamResults.data.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Weekly Results</h5>
-                                <ResultsDiv results={teamResults} />
+                                <ResultsDiv results={teamResults.data} />
                             </Fragment>
-                            : teamResults
+                            : teamResults.data
                                 ? <span className="empty-result">There are no results for this team in the selected season!</span>
-                                : <span className="empty-result">{teamResultsStatus.errorMsg}</span>
+                                : <span className="empty-result">{teamResults.status.errorMsg}</span>
                     }
                 </div>
             </div>
