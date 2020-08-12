@@ -3,12 +3,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.should();
 chai.use(chaiHttp);
+const requester = chai.request(server).keepOpen();
 
 describe('Standings API', function () {
     describe('GET /api/standings/seasons/24', function () {
         it('should get all standings by seasonid 24', function (done) {
-            chai.request(server)
-                .get('/api/standings/seasons/24')
+            requester.get('/api/standings/seasons/24')
                 .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(7);
@@ -39,8 +39,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/stores/12/divisions/3/seasons/24', function () {
         it('should get all standings by storeid 12, divisionid 3 and seasonid 24', function (done) {
-            chai.request(server)
-                .get('/api/standings/stores/12/divisions/3/seasons/24')
+            requester.get('/api/standings/stores/12/divisions/3/seasons/24')
                 .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
@@ -69,8 +68,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/seasons-list', function () {
         it('should get a list of seasons that have standings data', function (done) {
-            chai.request(server)
-                .get('/api/standings/seasons-list')
+            requester.get('/api/standings/seasons-list')
                 .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array');
@@ -89,8 +87,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/seasons/0', function () {
         it('should get an empty array of standings by non-existent seasonid 0', function (done) {
-            chai.request(server)
-                .get('/api/standings/seasons/0')
+            requester.get('/api/standings/seasons/0')
                 .then(response => {
                     response.should.have.status(200);
                     response.body.should.be.a('array').and.have.lengthOf(0);
@@ -102,8 +99,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/seasons/12a', function () {
         it('should get a status 404 because the seasonid param is not an integer', function (done) {
-            chai.request(server)
-                .get('/api/standings/seasons/12a')
+            requester.get('/api/standings/seasons/12a')
                 .then(response => {
                     response.should.have.status(404);
                     done();
@@ -114,8 +110,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/stores/1a2/divisions/3/seasons/24', function () {
         it('should get a status 404 because the storeid param is not an integer', function (done) {
-            chai.request(server)
-                .get('/api/standings/stores/1a2/divisions/3/seasons/24')
+            requester.get('/api/standings/stores/1a2/divisions/3/seasons/24')
                 .then(response => {
                     response.should.have.status(404);
                     done();
@@ -126,8 +121,7 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/stores/12/divisions/b3/seasons/24', function () {
         it('should get a status 404 because the divisionid param is not an integer', function (done) {
-            chai.request(server)
-                .get('/api/standings/stores/12/divisions/b3/seasons/24')
+            requester.get('/api/standings/stores/12/divisions/b3/seasons/24')
                 .then(response => {
                     response.should.have.status(404);
                     done();
@@ -138,13 +132,17 @@ describe('Standings API', function () {
 
     describe('GET /api/standings/stores/12/divisions/3/seasons/24c', function () {
         it('should get a status 404 because the seasonid param is not an integer', function (done) {
-            chai.request(server)
-                .get('/api/standings/stores/12/divisions/3/seasons/24c')
+            requester.get('/api/standings/stores/12/divisions/3/seasons/24c')
                 .then(response => {
                     response.should.have.status(404);
                     done();
                 })
                 .catch(error => done(error));
         });
+    });
+
+    after(function (done) {
+        requester.close();
+        done();
     });
 });

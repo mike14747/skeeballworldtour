@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 
 describe('Test public API routes', function () {
     const runTests = () => {
-        require('./tests/standingsAPI');
+        require('./apiTests/standingsAPI');
     };
 
     const checkRoutes = () => {
