@@ -1,4 +1,10 @@
 {
+    "env": {
+        "browser": true,
+        "node": true,
+        "commonjs": true,
+        "es2020": true
+    },
     "extends": [
         "eslint:recommended",
         "standard",
@@ -7,23 +13,11 @@
         "plugin:import/errors",
         "plugin:import/warnings"
     ],
-    "env": {
-        "node": true,
-        "browser": true,
-        "commonjs": true,
-        "es6": true
-    },
     "parserOptions": {
-        "ecmaVersion": 2020,
+        "ecmaVersion": 11,
         "ecmaFeatures": {
             "jsx": true
         }
-    },
-    "parser": "espree",
-    "globals": {
-        "document": "readonly",
-        "navigator": "readonly",
-        "window": "readonly"
     },
     "rules": {
         "indent": [
