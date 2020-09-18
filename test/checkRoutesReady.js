@@ -1,4 +1,4 @@
-const server = require('../server');
+const app = require('../server');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.should();
@@ -11,7 +11,7 @@ describe('Test public API routes', function () {
 
     const checkRoutes = () => {
         it('should check and see if the API routes are ready', function (done) {
-            chai.request(server)
+            chai.request(app)
                 .get('/api/test')
                 .then(response => {
                     if (response.status === 200) runTests();
