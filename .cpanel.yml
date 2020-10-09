@@ -2,7 +2,6 @@
 deployment:
     tasks:
         - export DEPLOYPATH=/home/mikeqsgc/skeeballworldtour.mikegullo.com/
-        - /bin/rm -rf ${DEPLOYPATH}/admin
         - /bin/rm -rf ${DEPLOYPATH}/client
         - /bin/rm -rf ${DEPLOYPATH}/config
         - /bin/rm -rf ${DEPLOYPATH}/controllers
@@ -15,9 +14,7 @@ deployment:
         - /bin/cp -r passport $DEPLOYPATH
         - /bin/cp package.json $DEPLOYPATH
         - /bin/cp server.js $DEPLOYPATH
-        - /bin/mkdir ${DEPLOYPATH}/admin
         - /bin/mkdir ${DEPLOYPATH}/client
-        - /bin/cp -r ./admin/build ${DEPLOYPATH}/admin
         - /bin/cp -r ./client/build ${DEPLOYPATH}/client
         - /bin/mkdir ${DEPLOYPATH}/config
         - /bin/cp ./config/connectionPool.js ${DEPLOYPATH}/config
