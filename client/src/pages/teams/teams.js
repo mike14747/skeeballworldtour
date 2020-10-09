@@ -6,6 +6,7 @@ import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
+import Loading from '../../components/loading/loading';
 
 export default function Teams() {
     const { current_season_id: currentSeasonId } = useContext(SettingsContext);
@@ -279,7 +280,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!teamPlayers.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <loading />
                                 : teamPlayers.data && teamPlayers.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Players</h5>
@@ -313,7 +314,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!teamStats.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <loading />
                                 : teamStats.data && teamStats.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Detailed Breakdown</h5>
@@ -330,7 +331,7 @@ export default function Teams() {
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
                     {!teamSchedule.status.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <Loading />
                         : teamSchedule.data && teamSchedule.data.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Schedule</h5>
@@ -368,7 +369,7 @@ export default function Teams() {
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     {!teamResults.status.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <loading />
                         : teamResults.data && teamResults.data.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Weekly Results</h5>

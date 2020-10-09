@@ -5,6 +5,7 @@ import SettingsContext from '../../context/settingsContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import StatsBlock from '../../components/statsBlock/statsBlock';
+import Loading from '../../components/loading/loading';
 
 const Players = () => {
     const settings = useContext(SettingsContext);
@@ -131,7 +132,7 @@ const Players = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!playerStatsStatus.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <loading />
                         : playerStats && playerStats.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Detailed Breakdown</h5>
@@ -146,7 +147,7 @@ const Players = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto table-wrapper">
                     {!playerResultsStatus.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <Loading />
                         : playerResults && playerResults.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Week by Week Results</h5>

@@ -5,6 +5,7 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import LeadersTable from '../../components/leadersTable/leadersTable';
 import NumLeadersDropdown from '../../components/numLeadersDropdown/numLeadersDropdown';
+import Loading from '../../components/loading/loading';
 
 const Leaders = () => {
     const { current_season_id: currentSeasonId, num_leaders: defaultNumLeaders } = useContext(SettingsContext);
@@ -262,7 +263,7 @@ const Leaders = () => {
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Individual Leaders</h3>
                             {!indAvgLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : indAvgLeaders.data.leaders && indAvgLeaders.data.numAtTieValue && (indAvgLeaders.data.leaders.length > 0 || indAvgLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Player, high season average / game" subHeading="(must play in a minimum of 50% of your team's games to qualify)" columnName="Player" columnData="Average" format="decimal" href="/players/" leadersObj={indAvgLeaders.data} />
                                     : indAvgLeaders.data.leaders
@@ -270,7 +271,7 @@ const Leaders = () => {
                                         : <div className="empty-result">{indAvgLeaders.status.errorMsg}</div>
                             }
                             {!indOneGameLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : indOneGameLeaders.data.leaders && indOneGameLeaders.data.numAtTieValue && (indOneGameLeaders.data.leaders.length > 0 || indOneGameLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Player, 1-game high" columnName="Player" columnData="Score" format="integer" href="/players/" leadersObj={indOneGameLeaders.data} />
                                     : indOneGameLeaders.data.leaders
@@ -278,7 +279,7 @@ const Leaders = () => {
                                         : <div className="empty-result">{indOneGameLeaders.status.errorMsg}</div>
                             }
                             {!indTenGameLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : indTenGameLeaders.data.leaders && indTenGameLeaders.data.numAtTieValue && (indTenGameLeaders.data.leaders.length > 0 || indTenGameLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Player, 10-game high" columnName="Player" columnData="Score" format="integer" href="/players/" leadersObj={indTenGameLeaders.data} />
                                     : indTenGameLeaders.data.leaders
@@ -293,7 +294,7 @@ const Leaders = () => {
                         <div className="min-w-50 mx-auto">
                             <h3 className="text-center mb-4">Team Leaders</h3>
                             {!teamAvgLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : teamAvgLeaders.data.leaders && teamAvgLeaders.data.numAtTieValue && (teamAvgLeaders.data.leaders.length > 0 || teamAvgLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Team, 10-game high average" columnName="Team" columnData="Average" format="decimal" href="/teams/" leadersObj={teamAvgLeaders.data} />
                                     : teamAvgLeaders.data.leaders
@@ -301,7 +302,7 @@ const Leaders = () => {
                                         : <div className="empty-result">{teamAvgLeaders.status.errorMsg}</div>
                             }
                             {!teamOneGameLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : teamOneGameLeaders.data.leaders && teamOneGameLeaders.data.numAtTieValue && (teamOneGameLeaders.data.leaders.length > 0 || teamOneGameLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Team, 1-game high" columnName="Team" columnData="Score" format="integer" href="/teams/" leadersObj={teamOneGameLeaders.data} />
                                     : teamOneGameLeaders.data.leaders
@@ -309,7 +310,7 @@ const Leaders = () => {
                                         : <div className="empty-result">{teamOneGameLeaders.status.errorMsg}</div>
                             }
                             {!teamTenGameLeaders.status.isLoaded
-                                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                                ? <Loading />
                                 : teamTenGameLeaders.data.leaders && teamTenGameLeaders.data.numAtTieValue && (teamTenGameLeaders.data.leaders.length > 0 || teamTenGameLeaders.data.numAtTieValue > 1)
                                     ? <LeadersTable heading="Team, 10-game high" columnName="Team" columnData="Score" format="integer" href="/teams/" leadersObj={teamTenGameLeaders.data} />
                                     : teamTenGameLeaders.data.leaders

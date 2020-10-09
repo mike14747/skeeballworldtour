@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, Fragment } from 'react';
 import SettingsContext from '../../context/settingsContext';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
+import Loading from '../../components/loading/loading';
 
 function Home() {
     const settings = useContext(SettingsContext);
@@ -38,7 +39,7 @@ function Home() {
             }
 
             {!newsStatus.isLoaded
-                ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                ? <Loading />
                 : newsArr && newsArr.length > 0
                     ? <Fragment>
                         {newsArr.map((news, i) => (

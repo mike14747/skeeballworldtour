@@ -5,6 +5,7 @@ import SettingsContext from '../../context/settingsContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import PageHeading from '../../components/pageHeading/pageHeading';
 import ScheduleTable from '../../components/scheduleTable/scheduleTable';
+import Loading from '../../components/loading/loading';
 
 const Schedule = () => {
     const settings = useContext(SettingsContext);
@@ -101,7 +102,7 @@ const Schedule = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="min-w-50 mx-auto">
                     {!scheduleArrayStatus.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <Loading />
                         : scheduleArray && scheduleArray.length > 0
                             ? <Fragment>
                                 <ScheduleTable schedules={scheduleArray} />

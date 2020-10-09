@@ -5,6 +5,7 @@ import SettingsContext from '../../context/settingsContext';
 import SeasonDropdown from '../../components/seasonDropdown/seasonDropdown';
 import ResultsDiv from '../../components/resultsDiv/resultsDiv';
 import PageHeading from '../../components/pageHeading/pageHeading';
+import Loading from '../../components/loading/loading';
 
 const Results = () => {
     const settings = useContext(SettingsContext);
@@ -100,7 +101,7 @@ const Results = () => {
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     {!resultsStatus.isLoaded
-                        ? <div className="text-center"><img src={'/images/loading.gif'} alt={'Loading'} /></div>
+                        ? <Loading />
                         : results && results.length > 0
                             ? <ResultsDiv results={results} />
                             : results
