@@ -16,13 +16,13 @@ function NavBar() {
         if (currentSeasonId) {
             axios.get('/api/schedules/navbar/' + currentSeasonId)
                 .then((response) => {
-                    const storeDivArray = response.data.map((storeDiv) => {
-                        return {
+                    const storeDivArray = response.data.map(storeDiv => (
+                        {
                             id: storeDiv.store_division,
                             text: storeDiv.store_city + ' (' + storeDiv.day_name + ')',
                             href: '/' + storeDiv.store_id + '/' + storeDiv.division_id,
-                        };
-                    });
+                        }
+                    ));
                     setStoreDivisionArr(storeDivArray);
                 })
                 .catch(error => console.log(error));
