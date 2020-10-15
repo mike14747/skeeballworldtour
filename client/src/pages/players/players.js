@@ -132,7 +132,7 @@ const Players = () => {
             <div className="d-flex justify-content-center mb-4">
                 <div className="mx-auto">
                     {!playerStatsStatus.isLoaded
-                        ? <loading />
+                        ? <Loading />
                         : playerStats && playerStats.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Detailed Breakdown</h5>

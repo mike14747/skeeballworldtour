@@ -13,7 +13,7 @@ function Home() {
 
     const [newsArr, setNewsArr] = useState([]);
     const [newsStatus, setNewsStatus] = useState({ errorMsg: undefined, isLoaded: false });
-    const [newsCounter, setNewsCounter] = useState(0);
+    // const [newsCounter, setNewsCounter] = useState(0);
 
     useEffect(() => {
         axios.get('/api/pages/homepage-news')

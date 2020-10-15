@@ -280,7 +280,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!teamPlayers.status.isLoaded
-                                ? <loading />
+                                ? <Loading />
                                 : teamPlayers.data && teamPlayers.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Players</h5>
@@ -314,7 +314,7 @@ export default function Teams() {
                     <div className="d-flex justify-content-center">
                         <div className="min-w-50 mx-auto">
                             {!teamStats.status.isLoaded
-                                ? <loading />
+                                ? <Loading />
                                 : teamStats.data && teamStats.data.length > 0
                                     ? <Fragment>
                                         <h5 className="text-center">Detailed Breakdown</h5>
@@ -369,7 +369,7 @@ export default function Teams() {
             <div className="d-flex justify-content-center">
                 <div className="min-w-50 mx-auto">
                     {!teamResults.status.isLoaded
-                        ? <loading />
+                        ? <Loading />
                         : teamResults.data && teamResults.data.length > 0
                             ? <Fragment>
                                 <h5 className="text-center">Weekly Results</h5>
