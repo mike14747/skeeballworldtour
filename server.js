@@ -5,6 +5,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+const helmet = require('helmet');
+app.use(
+    helmet({
+        contentSecurityPolicy: false,
+    }),
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
