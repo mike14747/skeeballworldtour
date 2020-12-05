@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function NavDropdown(props) {
     return (
-        <div className="navdropdown" data-toggle="dropdown">
+        <div className="navdropdown">
             <div className="navdropbtn">{props.buttonText}</div>
             <div className="navdropdown-content">
                 {props.listItems.map(item => (
