@@ -13,12 +13,6 @@
         "install": "if-env NODE_ENV=production || npm run install:dev",
         "install:dev": "cd client && npm install",
         "build": "cd client && npm run build",
-        "start-admin": "if-env NODE_ENV=production && npm run start:prod || npm run start-admin:dev",
-        "start-admin:dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run admin\"",
-        "admin": "cd admin && npm run start",
-        "install-admin": "if-env NODE_ENV=production || npm run install-admin:dev",
-        "install-admin:dev": "cd admin && npm install",
-        "build-admin": "cd admin && npm run build",
         "test": "mocha --exit"
     },
     "devDependencies": {
