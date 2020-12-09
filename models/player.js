@@ -76,6 +76,40 @@ const Player = {
             return [false, error];
         }
     },
+    getAllPlayersForMongo: async () => {
+        try {
+            const queryString = 'SELECT p.player_id, p.full_name, st.store_id, st.store_city FROM players AS p LEFT JOIN stores AS st ON p.store_id=st.store_id ORDER BY p.player_id ASC;';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    getPlayersCareerStatsForMongo: async (paramsObj) => {
+        try {
+            const queryString = 'SET @player_id=?;SELECT r.player_id, AVG(r.score) AS avg_score, COUNT(*) AS games_played, COUNT(CASE WHEN r.score>=300 THEN 1 ELSE null END) AS games300, COUNT(CASE WHEN r.score>=400 THEN 1 ELSE null END) AS games400, COUNT(CASE WHEN r.score>=500 THEN 1 ELSE null END) AS games500, COUNT(CASE WHEN r.score>=600 THEN 1 ELSE null END) AS games600 , COUNT(CASE WHEN r.score>=700 THEN 1 ELSE null END) AS games700, COUNT(CASE WHEN r.score>=800 THEN 1 ELSE null END) AS games800, SUM(r.score) AS total_points, hlg.high_game, COUNT(CASE WHEN r.score=hlg.high_game THEN 1 ELSE null END) AS num_high_games, hlg.low_game, COUNT(CASE WHEN r.score=hlg.low_game THEN 1 ELSE null END) AS num_low_games, tg.ten_game FROM results_new AS r, (SELECT MAX(rn.score) AS high_game, MIN(score) as low_game FROM results_new AS rn WHERE player_id=@player_id) AS hlg, (SELECT SUM(score) AS ten_game FROM results_new WHERE player_id=@player_id GROUP BY season_id, week_id, team_id, player_num ORDER BY ten_game DESC LIMIT 1) AS tg WHERE r.player_id=@player_id GROUP BY r.player_id;';
+            const queryParams = [
+                paramsObj.player_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    getPlayersSeasonalStatsForMongo: async (paramsObj) => {
+        try {
+            const queryString = 'SET @player_id=?;SELECT r.season_id, se.season_name, se.year, se.season_games, r.player_id, AVG(r.score) AS avg_score, COUNT(*) AS games_played, COUNT(CASE WHEN r.score>=300 THEN 1 ELSE null END) AS games300, COUNT(CASE WHEN r.score>=400 THEN 1 ELSE null END) AS games400, COUNT(CASE WHEN r.score>=500 THEN 1 ELSE null END) AS games500, COUNT(CASE WHEN r.score>=600 THEN 1 ELSE null END) AS games600 , COUNT(CASE WHEN r.score>=700 THEN 1 ELSE null END) AS games700, COUNT(CASE WHEN r.score>=800 THEN 1 ELSE null END) AS games800, SUM(r.score) AS total_points, hlg.high_game, COUNT(CASE WHEN r.score=hlg.high_game THEN 1 ELSE null END) AS num_high_games, hlg.low_game, COUNT(CASE WHEN r.score=hlg.low_game THEN 1 ELSE null END) AS num_low_games, tg.ten_game FROM results_new AS r INNER JOIN seasons AS se ON r.season_id=se.season_id INNER JOIN (SELECT tgs.season_id, MAX(tgs.ten_game) AS ten_game FROM (SELECT season_id, SUM(score) AS ten_game FROM results_new WHERE player_id=@player_id GROUP BY season_id, week_id, team_id, player_num ORDER BY season_id ASC) AS tgs GROUP BY tgs.season_id) AS tg ON r.season_id=tg.season_id INNER JOIN (SELECT rn.season_id, MAX(rn.score) AS high_game, MIN(rn.score) as low_game FROM results_new AS rn WHERE rn.player_id=@player_id GROUP BY rn.season_id) AS hlg ON r.season_id=hlg.season_id WHERE r.player_id=@player_id GROUP BY r.player_id, r.season_id;';
+            const queryParams = [
+                paramsObj.player_id,
+            ];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
 };
 
 module.exports = Player;

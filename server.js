@@ -12,8 +12,11 @@ app.use(
     }),
 );
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+
+app.use(express.urlencoded({ limit: '20mb', parameterLimit: 100000, extended: true }));
+app.use(express.json({ limit: '20mb' }));
 
 app.get('/pdf/:filename', (req, res) => {
     res.sendFile(path.join(__dirname, 'pdf/' + req.params.filename));

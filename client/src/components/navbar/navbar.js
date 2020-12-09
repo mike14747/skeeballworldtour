@@ -6,7 +6,6 @@ import NavButton from './subcomponents/navButton/navButton';
 
 function NavBar() {
     const settings = useContext(SettingsContext);
-    console.log('inside navbar component, settings:', settings);
     const currentSeasonId = settings.current_season_id;
     const displaySchedule = settings.display_schedule;
 

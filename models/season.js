@@ -45,6 +45,16 @@ const Season = {
             return [false, error];
         }
     },
+    getAllSeasonsForMongo: async () => {
+        try {
+            const queryString = 'SELECT se.season_id, se.season_num, se.season_name, se.year, se.season_games, IF(se.tourny_team_id > 0, se.tourny_team_id, null) AS tourny_team_id, t.team_name, IF(se.tourny_team_id > 0, st.store_city, null) AS store_city, se.comments, DATE_FORMAT(se.reg_ends, "%Y-%m-%d") AS reg_ends, DATE_FORMAT(se.start_date, "%Y-%m-%d") AS start_date, DATE_FORMAT(se.end_date, "%Y-%m-%d") AS end_date, DATE_FORMAT(se.tourny_date, "%Y-%m-%d") AS tourny_date FROM seasons AS se LEFT JOIN teams AS t on se.tourny_team_id=t.team_id LEFT JOIN stores AS st ON t.store_id=st.store_id;';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
 };
 
 module.exports = Season;

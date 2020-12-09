@@ -41,4 +41,13 @@ router.get('/:id/name', async (req, res, next) => {
     }
 });
 
+router.get('/mongo/convert', async (req, res, next) => {
+    try {
+        const [data, error] = await Season.getAllSeasonsForMongo();
+        data ? res.json(data) : next(error);
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
