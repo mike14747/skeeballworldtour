@@ -52,15 +52,34 @@ router.get('/mongo/convert', async (req, res, next) => {
     try {
         const [data, error] = await Player.getAllPlayersForMongo();
         const mapData = async (data) => {
-            // const filtered = data.filter(f => f.player_id < 112);
+            const filtered = data.filter(f => f.player_id === 218);
             const data2 = await Promise.all(data.map(async (p) => {
                 const [careerStats, error1] = await Player.getPlayersCareerStatsForMongo({ player_id: p.player_id });
-                // console.log(careerStats);
-                // const [seasonStats, error2] = await Player.getPlayersSeasonalStatsForMongo({ player_id: p.player_id });
-                // console.log(careerStats);
+                const [seasonStats, error2] = await Player.getPlayersSeasonalStatsForMongo({ player_id: p.player_id });
+                const seasonStatsArr = seasonStats[1].map(s => {
+                    return {
+                        seasonId: s.season_id,
+                        seasonName: s.season_name,
+                        year: s.year,
+                        seasonSames: s.season_games,
+                        gamesPlayed: s.games_played,
+                        totalPoints: s.total_points,
+                        num800plus: s.games800,
+                        num700plus: s.games700,
+                        num600plus: s.games600,
+                        num500plus: s.games500,
+                        num400plus: s.games400,
+                        num300plus: s.games300,
+                        highGame: s.high_game,
+                        numHighGames: s.num_high_games,
+                        lowGame: s.low_game,
+                        numLowGames: s.num_low_games,
+                        highTenGame: s.ten_game,
+                    };
+                });
                 return {
                     ...p,
-                    seasonStatsArr: [],
+                    seasonStats: seasonStatsArr,
                     careerStats: {
                         games: careerStats[1][0] ? careerStats[1][0].games_played : 0,
                         totalPoints: careerStats[1][0] ? parseInt(careerStats[1][0].total_points) : 0,

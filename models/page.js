@@ -24,6 +24,16 @@ const Page = {
             return [null, error];
         }
     },
+    getHomepageNewsForMongo: async () => {
+        try {
+            const queryString = 'SELECT content_heading, page_content, DATE_FORMAT(text_date, "%M %d, %Y") AS text_date1, display_content FROM store_text WHERE store_id=10 ORDER BY text_date ASC';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
 };
 
 module.exports = Page;

@@ -37,6 +37,13 @@ const Standings = {
             return [null, error];
         }
     },
+    getAllStandingsForMongo: async () => {
+        const queryString = 'SELECT st.season_id, se.season_num, se.season_name, se.year, se.season_games, st.store_id, sto.store_city, st.division_id, d.day_name, st.team_id, t.team_name, st.wins, st.losses, st.ties, st.total_points, st.standings_order FROM standings AS st INNER JOIN seasons AS se ON st.season_id=se.season_id INNER JOIN stores AS sto ON st.store_id=sto.store_id INNER JOIN divisions AS d ON st.division_id=d.division_id INNER JOIN teams AS t ON st.team_id=t.team_id ORDER BY st.season_id ASC, st.store_id ASC, st.division_id ASC, st.standings_order ASC;';
+        const queryParams = [];
+        return await pool.query(queryString, queryParams)
+            .then(([rows]) => [rows, null])
+            .catch(error => [null, error]);
+    },
 };
 
 module.exports = Standings;

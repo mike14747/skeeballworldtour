@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Standing = require('../models/standing');
-const { groupStandings } = require('./utils/standingsFunctions');
+const { groupStandings, groupStandingsForMongo } = require('./utils/standingsFunctions');
 
 router.get('/seasons/:seasonid([0-9]+)', async (req, res, next) => {
     const paramsObj = {
@@ -32,6 +32,15 @@ router.get('/stores/:storeid([0-9]+)/divisions/:divisionid([0-9]+)/seasons/:seas
     try {
         const [data, error] = await Standing.getStandingsByStoreDivisionSeasonIds(paramsObj);
         data ? res.json(data) : next(error);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/for-mongo', async (req, res, next) => {
+    try {
+        const [data, error] = await Standing.getAllStandingsForMongo();
+        data ? res.json(groupStandingsForMongo(data)) : next(error);
     } catch (error) {
         next(error);
     }
