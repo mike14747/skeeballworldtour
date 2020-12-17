@@ -52,10 +52,10 @@ router.get('/mongo/convert', async (req, res, next) => {
     try {
         const [data, error] = await Player.getAllPlayersForMongo();
         const mapData = async (data) => {
-            const filtered = data.filter(f => f.player_id === 218);
+            // const filtered = data.filter(f => f.player_id === 218);
             const data2 = await Promise.all(data.map(async (p) => {
-                const [careerStats, error1] = await Player.getPlayersCareerStatsForMongo({ player_id: p.player_id });
-                const [seasonStats, error2] = await Player.getPlayersSeasonalStatsForMongo({ player_id: p.player_id });
+                const [careerStats] = await Player.getPlayersCareerStatsForMongo({ player_id: p.player_id });
+                const [seasonStats] = await Player.getPlayersSeasonalStatsForMongo({ player_id: p.player_id });
                 const seasonStatsArr = seasonStats[1].map(s => {
                     return {
                         seasonId: s.season_id,
