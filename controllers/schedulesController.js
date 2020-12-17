@@ -38,4 +38,8 @@ router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, 
     }
 });
 
+router.get('/mongo-convert', async (req, res, next) => {
+    res.status(200).send('mongo-convert endpoint');
+});
+
 module.exports = router;

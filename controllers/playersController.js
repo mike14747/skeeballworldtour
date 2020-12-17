@@ -61,9 +61,9 @@ router.get('/mongo/convert', async (req, res, next) => {
                         seasonId: s.season_id,
                         seasonName: s.season_name,
                         year: s.year,
-                        seasonSames: s.season_games,
+                        seasonGames: s.season_games,
                         gamesPlayed: s.games_played,
-                        totalPoints: s.total_points,
+                        totalPoints: parseInt(s.total_points),
                         num800plus: s.games800,
                         num700plus: s.games700,
                         num600plus: s.games600,
@@ -74,14 +74,14 @@ router.get('/mongo/convert', async (req, res, next) => {
                         numHighGames: s.num_high_games,
                         lowGame: s.low_game,
                         numLowGames: s.num_low_games,
-                        highTenGame: s.ten_game,
+                        highTenGame: parseInt(s.ten_game),
                     };
                 });
                 return {
                     ...p,
                     seasonStats: seasonStatsArr,
                     careerStats: {
-                        games: careerStats[1][0] ? careerStats[1][0].games_played : 0,
+                        gamesPlayed: careerStats[1][0] ? careerStats[1][0].games_played : 0,
                         totalPoints: careerStats[1][0] ? parseInt(careerStats[1][0].total_points) : 0,
                         num800plus: careerStats[1][0] ? careerStats[1][0].games800 : 0,
                         num700plus: careerStats[1][0] ? careerStats[1][0].games700 : 0,

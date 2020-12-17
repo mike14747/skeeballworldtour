@@ -39,6 +39,16 @@ const Schedule = {
             return [false, error];
         }
     },
+    getSchedulesForMongo: async () => {
+        try {
+            const queryString = 'SELECT se.season_id, se.season_num, se.season_name, se.year, se.season_games, st.store_id, st.store_city, d.division_id, d.day_name, ds.week_id, DATE_FORMAT(ds.week_date, "%Y-%m-%d") AS week_date1, ds.away_team_id, (SELECT t.team_name FROM teams AS t WHERE t.team_id=ds.away_team_id) AS away_team, ds.home_team_id, (SELECT t.team_name FROM teams AS t WHERE t.team_id=ds.home_team_id) AS home_team, ds.alley, ds.start_time FROM (SELECT sc.season_id, sc.store_id, sc.division_id, sc.week_id, sc.week_date, sc.away_team_id AS away_team_id, sc.home_team_id AS home_team_id, sc.alley AS alley, sc.start_time AS start_time FROM schedule AS sc ORDER BY sc.week_id ASC, sc.start_time ASC, sc.alley ASC) AS ds JOIN teams AS t ON (ds.away_team_id=t.team_id) INNER JOIN seasons AS se ON ds.season_id=se.season_id INNER JOIN stores AS st ON ds.store_id=st.store_id INNER JOIN divisions AS d ON ds.division_id=d.division_id ORDER BY se.season_id ASC, st.store_id ASC, d.division_id ASC, ds.week_id ASC, ds.start_time ASC, ds.alley ASC;';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    }
 };
 
 module.exports = Schedule;
