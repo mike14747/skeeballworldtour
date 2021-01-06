@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Schedule = require('../models/schedule');
-const SchedulesFunctions = require('./utils/schedulesFunctions');
+const { formatScheduleArray, convertSchedulesForMongo } = require('./utils/schedulesFunctions');
 
 router.get('/navbar/:id', async (req, res, next) => {
     try {
@@ -32,14 +32,19 @@ router.get('/store/:storeid/division/:divisionid/season/:seasonid', async (req, 
             division_id: req.params.divisionid,
             season_id: req.params.seasonid,
         });
-        data[0] ? res.json(SchedulesFunctions.formatScheduleArray(data[1])) : next(data[1]);
+        data[0] ? res.json(formatScheduleArray(data[1])) : next(data[1]);
     } catch (error) {
         next(error);
     }
 });
 
 router.get('/mongo-convert', async (req, res, next) => {
-    res.status(200).send('mongo-convert endpoint');
+    try {
+        const [data, error] = await Schedule.getSchedulesForMongo();
+        data ? res.json(convertSchedulesForMongo(data)) : next(error);
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;
