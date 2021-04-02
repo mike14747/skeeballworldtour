@@ -6,6 +6,7 @@ import PageHeading from '../../components/pageHeading/pageHeading';
 const Qualifers = () => {
     const settings = useContext(SettingsContext);
 
+    // eslint-disable-next-line
     const [seasonId, setSeasonId] = useState(null);
     const currentSeasonId = settings.current_season_id;
     const querySeasonId = seasonId || currentSeasonId;
