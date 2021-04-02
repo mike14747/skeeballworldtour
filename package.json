@@ -1,7 +1,10 @@
 {
     "name": "skeeballworldtour",
     "version": "1.0.0",
-    "homepage": "https://www.skeeballworldtour.mikegullo.com",
+    "engines": {
+        "node": "12.x"
+    },
+    "homepage": "https://skeeballworldtour.herokuapp.com",
     "description": "",
     "main": "server.js",
     "scripts": {
