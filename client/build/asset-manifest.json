@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6eb8af20.chunk.css",
+    "main.js": "/static/js/main.1f23a837.chunk.js",
+    "main.js.map": "/static/js/main.1f23a837.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.c8596e62.js",
+    "runtime-main.js.map": "/static/js/runtime-main.c8596e62.js.map",
+    "static/js/2.be15ef16.chunk.js": "/static/js/2.be15ef16.chunk.js",
+    "static/js/2.be15ef16.chunk.js.map": "/static/js/2.be15ef16.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.6eb8af20.chunk.css.map": "/static/css/main.6eb8af20.chunk.css.map",
+    "static/js/2.be15ef16.chunk.js.LICENSE.txt": "/static/js/2.be15ef16.chunk.js.LICENSE.txt",
+    "static/media/header.css": "/static/media/head_bg_new.c02625ba.jpg",
+    "static/media/loading.a688974d.gif": "/static/media/loading.a688974d.gif",
+    "static/media/skeeball_logo.4403d9ad.png": "/static/media/skeeball_logo.4403d9ad.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c8596e62.js",
+    "static/js/2.be15ef16.chunk.js",
+    "static/css/main.6eb8af20.chunk.css",
+    "static/js/main.1f23a837.chunk.js"
+  ]
+}
