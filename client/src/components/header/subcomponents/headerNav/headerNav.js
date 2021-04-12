@@ -9,7 +9,7 @@ const HeaderNav = () => {
                 <a href="/champions"><li className="nav-item">Champions</li></a>
                 <a href="/rules"><li className="nav-item">Rules</li></a>
                 <a href="/leaders"><li className="nav-item">Leaders</li></a>
-                <a href="/all-time"><li className="nav-item">All-Time Records</li></a>
+                {/* <a href="/all-time"><li className="nav-item">All-Time Records</li></a> */}
             </ul>
         </div>
     );
