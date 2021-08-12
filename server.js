@@ -6,9 +6,19 @@ const app = express();
 const path = require('path');
 
 const helmet = require('helmet');
+app.use(helmet());
 app.use(
-    helmet({
-        contentSecurityPolicy: false,
+    helmet.contentSecurityPolicy({
+        useDefaults: false,
+        directives: {
+            /* eslint-disable quotes */
+            'default-src': ["'self'"],
+            'script-src': ["'self'", "'unsafe-eval'", "'unsafe-inline'"],
+            'style-src': ["'self'", "'unsafe-inline'"],
+            'img-src': ["'self'", 'data:'],
+            'font-src': ["'self'"],
+            /* eslint-enable quotes */
+        },
     }),
 );
 
