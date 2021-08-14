@@ -26,7 +26,8 @@ const Page = {
     },
     getHomepageNewsForMongo: async () => {
         try {
-            const queryString = 'SELECT content_heading, page_content, DATE_FORMAT(text_date, "%M %d, %Y") AS text_date1, display_content FROM store_text WHERE store_id=10 ORDER BY text_date ASC';
+            // const queryString = 'SELECT content_heading, page_content, DATE_FORMAT(text_date, "%M %d, %Y") AS text_date1, display_content FROM store_text WHERE store_id=10 ORDER BY text_date ASC';
+            const queryString = 'SELECT content_heading AS heading, page_content AS content, DATE_FORMAT(text_date, "%Y-%m-%d") AS date, display_content AS display FROM store_text WHERE store_id=10 ORDER BY text_date ASC';
             const queryParams = [];
             const [result] = await pool.query(queryString, queryParams);
             return [result, null];
