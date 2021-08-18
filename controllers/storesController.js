@@ -10,6 +10,15 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+router.get('/all-for-mongo', async (req, res, next) => {
+    try {
+        const data = await Store.getAllStores();
+        data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/:id', async (req, res, next) => {
     try {
         const data = await Store.getOneActive({

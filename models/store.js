@@ -36,14 +36,14 @@ const Store = {
             return [false, error];
         }
     },
-    getAllStores: async (paramsObj) => {
+    getAllStores: async () => {
         try {
             const queryString = 'SELECT store_id, store_name, store_address, store_city, store_state, store_zip, store_phone, map_url, active FROM stores ORDER BY store_name ASC;';
             const queryParams = [];
             const [result] = await pool.query(queryString, queryParams);
-            return [result, null];
+            return [true, result];
         } catch (error) {
-            return [null, error];
+            return [false, error];
         }
     },
     getStoreById: async (paramsObj) => {
