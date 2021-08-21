@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Team = require('../models/team');
 const Player = require('../models/player');
 const ResultsFunctions = require('./utils/resultsFunctions');
+const TeamsFunctions = require('./utils/teamsFunctions');
 
 router.get('/:teamid/seasons/:seasonid', async (req, res, next) => {
     try {
@@ -92,6 +93,16 @@ router.get('/:teamid/players/seasons/:seasonid', async (req, res, next) => {
             season_id: req.params.seasonid,
         });
         data[0] ? res.json(data[1]) : next(data[1]);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/mongo/convert', async (req, res, next) => {
+    try {
+        const [data, error] = await Team.getTeamsSeasonalStatsForMongo();
+        data ? res.json(TeamsFunctions.groupTeamsForMongo(data)) : next(error);
+        // data ? res.json(data) : next(error);
     } catch (error) {
         next(error);
     }

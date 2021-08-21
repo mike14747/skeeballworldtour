@@ -23,7 +23,7 @@ const Team = {
                 }
             }
             const queryString = 'SET @team_id=?;SET @season_id=?;SELECT tg1.team_id, s.wins, s.losses, s.ties, s.total_points, ROUND((s.total_points/(s.wins+s.losses+s.ties)),1) AS one_game_avg, ROUND((s.total_points/((s.wins+s.losses+s.ties)/10)),1) AS ten_game_avg, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgh FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgh DESC LIMIT 1) AS ten_game_high, (SELECT (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS tgl FROM results WHERE season_id=@season_id && team_id=@team_id GROUP BY week_id ORDER BY tgl ASC LIMIT 1) AS ten_game_low, tg1.one_game_low, tg1.one_game_high FROM standings AS s INNER JOIN (SELECT season_id, team_id, MIN(tg.team_game) AS one_game_low, MAX(tg.team_game) AS one_game_high FROM (' + subQueryString + ') AS tg) AS tg1 ON (s.season_id=tg1.season_id AND s.team_id=tg1.team_id) WHERE s.season_id=@season_id && s.team_id=@team_id GROUP BY tg1.team_id;';
-            // console.log(queryString);
+            console.log(queryString);
             const queryParams = [
                 paramsObj.team_id,
                 paramsObj.season_id,
@@ -146,6 +146,16 @@ const Team = {
     getAllTeams: async () => {
         try {
             const queryString = 'SELECT t.team_id, t.team_name FROM teams AS t ORDER BY t.team_name ASC';
+            const queryParams = [];
+            const [result] = await pool.query(queryString, queryParams);
+            return [result, null];
+        } catch (error) {
+            return [null, error];
+        }
+    },
+    getTeamsSeasonalStatsForMongo: async (paramsObj) => {
+        try {
+            const queryString = 'SELECT t.team_name, t.tourny_show, t.real_team, t.store_id, t.team_id, st.store_city, s.season_id, se.season_name, se.year, s.wins, s.losses, s.ties, s.total_points, ROUND((s.total_points/(s.wins+s.losses+s.ties)),1) AS one_game_avg, ROUND((s.total_points/((s.wins+s.losses+s.ties)/10)),1) AS ten_game_avg, tg3.one_game_low, tg3.one_game_high, tg1.ten_game_low, tg1.ten_game_high FROM teams AS t INNER JOIN stores AS st ON t.store_id=st.store_id INNER JOIN standings AS s ON t.team_id=s.team_id INNER JOIN seasons AS se ON s.season_id=se.season_id INNER JOIN (SELECT tg.season_id, tg.team_id, MIN(tg.ten_game) AS ten_game_low, MAX(tg.ten_game) AS ten_game_high FROM (SELECT season_id, week_id, team_id, (SUM(g1)+SUM(g2)+SUM(g3)+SUM(g4)+SUM(g5)+SUM(g6)+SUM(g7)+SUM(g8)+SUM(g9)+SUM(g10)) AS ten_game FROM results GROUP BY season_id, week_id, team_id ORDER BY team_id ASC, season_id ASC, week_id ASC) AS tg GROUP BY tg.team_id, tg.season_id) AS tg1 ON t.team_id=tg1.team_id && s.season_id=tg1.season_id INNER JOIN (SELECT tg2.team_id, tg2.season_id, MIN(tg2.team_game) AS one_game_low, MAX(tg2.team_game) AS one_game_high FROM (SELECT season_id, team_id, SUM(g1) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g2) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g3) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g4) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g5) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g6) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g7) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g8) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g9) AS team_game FROM results GROUP BY team_id, season_id, week_id UNION ALL SELECT season_id, team_id, SUM(g10) AS team_game FROM results GROUP BY team_id, season_id, week_id) AS tg2 GROUP BY tg2.team_id, tg2.season_id) AS tg3 ON t.team_id=tg3.team_id && s.season_id=tg3.season_id GROUP BY t.team_id, s.season_id ORDER BY t.team_id ASC, s.season_id ASC;';
             const queryParams = [];
             const [result] = await pool.query(queryString, queryParams);
             return [result, null];
