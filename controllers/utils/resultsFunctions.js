@@ -1,78 +1,49 @@
-function formatResults(results) {
-    const resultsArray = results.map((result, index) => {
-        const tempObj = {};
-        tempObj.id = index;
-        tempObj.week_id = result.week_id;
-        tempObj.date = result.week_date1;
-        tempObj.away_team = {
-            team_id: result.away_team_id,
-            team_name: result.at,
-            wins: 0,
-            losses: 0,
-            ties: 0,
-            game_totals: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            game_results: [],
-            team_total: 0,
-            players: [],
+function formatResults(unGroupedResults) {
+    let matchObj, seasonIndex, storeIndex, divisionIndex, weekIndex, teamIndex;
+
+    return unGroupedResults.reduce((acc, cur) => {
+        matchObj = {
+            seasonId: cur.season_id,
+            seasonName: cur.season_name,
+            year: cur.year,
+            storeId: cur.store_id,
+            storeCity: cur.store_city,
+            divisionId: cur.division_id,
+            divisionName: cur.day_name,
+            weekId: cur.week_id,
+            teams: [],
         };
-        tempObj.home_team = {
-            team_id: result.home_team_id,
-            team_name: result.ht,
-            wins: 0,
-            losses: 0,
-            ties: 0,
-            game_totals: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            game_results: [],
-            team_total: 0,
-            players: [],
-        };
-        for (let p = 1; p <= 3; p++) {
-            const awayPlayerObj = {
-                player_id: result['ap' + p + 'id'],
-                name: result['ap' + p],
-                scores: [],
-                total_points: 0,
-            };
-            const homePlayerObj = {
-                player_id: result['hp' + p + 'id'],
-                name: result['hp' + p],
-                scores: [],
-                total_points: 0,
-            };
-            for (let g = 1; g <= 10; g++) {
-                tempObj.away_team.game_totals[g - 1] += Number(result['ap' + p + 'g' + g]);
-                tempObj.away_team.team_total += Number(result['ap' + p + 'g' + g]);
-                tempObj.home_team.game_totals[g - 1] += Number(result['hp' + p + 'g' + g]);
-                tempObj.home_team.team_total += Number(result['hp' + p + 'g' + g]);
-                awayPlayerObj.total_points += Number(result['ap' + p + 'g' + g]);
-                awayPlayerObj.scores.push(Number(result['ap' + p + 'g' + g]));
-                homePlayerObj.total_points += Number(result['hp' + p + 'g' + g]);
-                homePlayerObj.scores.push(Number(result['hp' + p + 'g' + g]));
-            }
-            tempObj.away_team.players.push(awayPlayerObj);
-            tempObj.home_team.players.push(homePlayerObj);
+
+        // find out if the cur season is already in acc
+        seasonIndex = acc.findIndex(a => a.seasonId === cur.season_id);
+        if (seasonIndex === -1) {
+            // since the cur season isn't in the acc, push the matchObj into it
+            acc.push(matchObj);
         }
-        for (let t = 0; t <= 9; t++) {
-            if (tempObj.away_team.game_totals[t] > tempObj.home_team.game_totals[t]) {
-                tempObj.away_team.wins += 1;
-                tempObj.away_team.game_results.push('w');
-                tempObj.home_team.losses += 1;
-                tempObj.home_team.game_results.push('l');
-            } else if (tempObj.away_team.game_totals[t] < tempObj.home_team.game_totals[t]) {
-                tempObj.away_team.losses += 1;
-                tempObj.away_team.game_results.push('l');
-                tempObj.home_team.wins += 1;
-                tempObj.home_team.game_results.push('w');
-            } else {
-                tempObj.away_team.ties += 1;
-                tempObj.away_team.game_results.push('t');
-                tempObj.home_team.ties += 1;
-                tempObj.home_team.game_results.push('t');
-            }
+
+        // find out if the cur store is already in an existing season object
+        storeIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id);
+        if (storeIndex === -1) {
+            // since the cur season in the acc doesn't already include the cur store, push the matchObj to it
+            acc.push(matchObj);
         }
-        return tempObj;
-    });
-    return resultsArray;
+
+        // find out if the cur division is already in an existing season/store object
+        divisionIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id);
+        if (divisionIndex === -1) {
+            // since the cur season/store in the acc doesn't already include the cur division, push the matchObj to it
+            acc.push(matchObj);
+        }
+
+        // find out if the cur week is already in an existing season/store/division object
+        weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
+        if (weekIndex === -1) {
+            // since the cur season/store/division in the acc doesn't already include the cur week, push the matchObj to it
+            acc.push(matchObj);
+        }
+
+        return acc;
+    }, []);
 }
 
 module.exports = {

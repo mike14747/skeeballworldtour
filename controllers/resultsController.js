@@ -27,4 +27,14 @@ router.get('/store/:storeid/division/:divisionid/seasons-list', async (req, res,
     }
 });
 
+router.get('/mongo-convert', async (req, res, next) => {
+    try {
+        const [data, error] = await Result.getAllResults();
+        data ? res.json(ResultsFunctions.formatResults(data)) : next(error);
+        // data ? res.json(data) : next(error);
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;
