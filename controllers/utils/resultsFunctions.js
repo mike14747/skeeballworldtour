@@ -1,8 +1,8 @@
 function formatResults(unGroupedResults) {
-    let matchObj, teamsObj, playerObj, seasonIndex, storeIndex, divisionIndex, weekIndex, teamIndex, playerIndex;
+    let seasonStoreDivisionObj, weekObj, matchObj, teamsObj, playerObj, seasonIndex, storeIndex, divisionIndex, weekIndex, teamIndex, playerIndex;
 
     return unGroupedResults.reduce((acc, cur) => {
-        matchObj = {
+        seasonStoreDivisionObj = {
             seasonId: cur.season_id,
             seasonName: cur.season_name,
             year: cur.year,
@@ -10,7 +10,18 @@ function formatResults(unGroupedResults) {
             storeCity: cur.store_city,
             divisionId: cur.division_id,
             divisionName: cur.day_name,
+            weeks: [],
+        };
+
+        weekObj = {
             weekId: cur.week_id,
+            date: cur.date,
+            matches: [],
+        };
+
+        matchObj = {
+            startTime: cur.start_time,
+            alley: cur.alley,
             teams: [],
         };
 
@@ -31,62 +42,90 @@ function formatResults(unGroupedResults) {
         // find out if the cur season is already in acc
         seasonIndex = acc.findIndex(a => a.seasonId === cur.season_id);
         if (seasonIndex === -1) {
-            // since the cur season isn't in the acc, push the cur player to the teamsObj's players array, then push the teamsObj to the matchObj's teams array, then push the matchObj into it
+            // since the cur season is NOT in the acc:
+            // push the cur player to the teamsObj's players array
+            // push the teamObj to the matchObj's team array
+            // push the matchObj to the weekObj's matches array
+            // push the weekObj to seasonStoreDivisionObj's weeks array
+            // push the seasonStoreDivisionObj into acc
             teamsObj.players.push(playerObj);
             matchObj.teams.push(teamsObj);
-            acc.push(matchObj);
+            weekObj.matches.push(matchObj);
+            seasonStoreDivisionObj.weeks.push(weekObj);
+            acc.push(seasonStoreDivisionObj);
             return acc;
         }
 
-        // find out if the cur store is already in an existing season object
+        // find out if the cur store is in an existing season object
         storeIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id);
         if (storeIndex === -1) {
-            // since the cur season in the acc doesn't already include the cur store, push the cur player to the teamsObj's players array, then push the teamsObj to the matchObj's teams array, then push the matchObj into it
+            // since the cur season/store is NOT in the acc:
+            // push the cur player to the teamsObj's players array
+            // push the teamObj to the matchObj's team array
+            // push the matchObj to the weekObj's matches array
+            // push the weekObj to seasonStoreDivisionObj's weeks array
+            // push the seasonStoreDivisionObj into acc
             teamsObj.players.push(playerObj);
             matchObj.teams.push(teamsObj);
-            acc.push(matchObj);
+            weekObj.matches.push(matchObj);
+            seasonStoreDivisionObj.weeks.push(weekObj);
+            acc.push(seasonStoreDivisionObj);
             return acc;
         }
 
-        // find out if the cur division is already in an existing season/store object
+        // find out if the cur division is in an existing season/store object
         divisionIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id);
         if (divisionIndex === -1) {
-            // since the cur season/store in the acc doesn't already include the cur division, push the cur player to the teamsObj's players array, then push the teamsObj to the matchObj's teams array, push the teamsObj to the matchObj's teams array, then push the matchObj into it
+            // since the cur season/store/division is NOT in the acc:
+            // push the cur player to the teamsObj's players array
+            // push the teamObj to the matchObj's team array
+            // push the matchObj to the weekObj's matches array
+            // push the weekObj to seasonStoreDivisionObj's weeks array
+            // push the seasonStoreDivisionObj into acc
             teamsObj.players.push(playerObj);
             matchObj.teams.push(teamsObj);
-            acc.push(matchObj);
+            weekObj.matches.push(matchObj);
+            seasonStoreDivisionObj.weeks.push(weekObj);
+            acc.push(seasonStoreDivisionObj);
             return acc;
         }
 
-        // find out if the cur week is already in an existing season/store/division object
-        weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
+        // find out if the cur week is already in an existing season/store/division/weeks array
+        divisionIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id);
+        weekIndex = acc[divisionIndex].weeks.findIndex(w => w.weekId === cur.week_id);
         if (weekIndex === -1) {
-            // since the cur season/store/division in the acc doesn't already include the cur week, push the cur player to the teamsObj's players array, then push the teamsObj to the matchObj's teams array, then push the matchObj into it
+            // since the cur season/store/division/week is NOT in the acc:
+            // push the cur player to the teamsObj's players array
+            // push the teamObj to the matchObj's team array
+            // push the matchObj to the weekObj's matches array
+            // push the weekObj to seasonStoreDivisionObj's weeks array
             teamsObj.players.push(playerObj);
             matchObj.teams.push(teamsObj);
-            acc.push(matchObj);
+            weekObj.matches.push(matchObj);
+            seasonStoreDivisionObj.weeks.push(weekObj);
+            acc[divisionIndex].weeks.push(weekObj);
             return acc;
         }
 
-        // at this point, the season/store/division/week/teams array for the cur team will exist, so find out if the cur team is in there
-        weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
-        teamIndex = acc[weekIndex].teams.findIndex(t => t.teamId === cur.team_id);
-        if (teamIndex === -1) {
-            // since the cur season/store/division/week/teams array in the acc doesn't already include the cur team, push the cur player to the teamsObj's players array, then push the teamsObj to the appropriate cur season/store/division/week/teams array in the acc
-            teamsObj.players.push(playerObj);
-            acc[weekIndex].teams.push(teamsObj);
-            return acc;
-        }
+        // // at this point, the season/store/division/week/teams array for the cur team will exist, so find out if the cur team is in there
+        // weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
+        // teamIndex = acc[weekIndex].teams.findIndex(t => t.teamId === cur.team_id);
+        // if (teamIndex === -1) {
+        //     // since the cur season/store/division/week/teams array in the acc doesn't already include the cur team, push the cur player to the teamsObj's players array, then push the teamsObj to the appropriate cur season/store/division/week/teams array in the acc
+        //     teamsObj.players.push(playerObj);
+        //     acc[weekIndex].teams.push(teamsObj);
+        //     return acc;
+        // }
 
-        // at this point, the season/store/division/week/teams/players array for the cur player will exist, so find out if the cur player is in there
-        weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
-        teamIndex = acc[weekIndex].teams.findIndex(t => t.teamId === cur.team_id);
-        playerIndex = acc[weekIndex].teams[teamIndex].players.findIndex(p => p.playerId === cur.player_id);
-        if (playerIndex === -1) {
-            // since the cur player is not yet in the acc, find the appropriate place to add it
-            acc[weekIndex].teams[teamIndex].players.push(playerObj);
-            return acc;
-        }
+        // // at this point, the season/store/division/week/teams/players array for the cur player will exist, so find out if the cur player is in there
+        // weekIndex = acc.findIndex(a => a.seasonId === cur.season_id && a.storeId === cur.store_id && a.divisionId === cur.division_id && a.weekId === cur.week_id);
+        // teamIndex = acc[weekIndex].teams.findIndex(t => t.teamId === cur.team_id);
+        // playerIndex = acc[weekIndex].teams[teamIndex].players.findIndex(p => p.playerId === cur.player_id);
+        // if (playerIndex === -1) {
+        //     // since the cur player is not yet in the acc, find the appropriate place to add it
+        //     acc[weekIndex].teams[teamIndex].players.push(playerObj);
+        //     return acc;
+        // }
 
         return acc;
     }, []);
