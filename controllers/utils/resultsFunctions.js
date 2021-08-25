@@ -95,15 +95,16 @@ function formatResults(unGroupedResults) {
             return acc;
         }
 
-        // find out if the cur player is NOT its already existing season/store/division/weeks/matches/teams/players array
-        playerIndex = acc[seasonStoreDivisionIndex].weeks[weekIndex].matches[matchIndex].teams[teamIndex].players.findIndex(p => p.playerId === cur.player_id);
-        if (playerIndex === -1) {
-            // since the cur team's match in NOT season/store/division/week/matches array in the acc:
-            // add playerObj to the appropriate players array
-            acc[seasonStoreDivisionIndex].weeks[weekIndex].matches[matchIndex].teams[teamIndex].players.push(playerObj);
-            return acc;
-        }
+        // // find out if the cur player is NOT its already existing season/store/division/weeks/matches/teams/players array
+        // playerIndex = acc[seasonStoreDivisionIndex].weeks[weekIndex].matches[matchIndex].teams[teamIndex].players.findIndex(p => p.playerId === cur.player_id);
+        // if (playerIndex === -1) {
+        //     // since the cur team's match in NOT season/store/division/week/matches array in the acc:
+        //     // add playerObj to the appropriate players array
+        //     acc[seasonStoreDivisionIndex].weeks[weekIndex].matches[matchIndex].teams[teamIndex].players.push(playerObj);
+        //     return acc;
+        // }
 
+        acc[seasonStoreDivisionIndex].weeks[weekIndex].matches[matchIndex].teams[teamIndex].players.push(playerObj);
         return acc;
     }, []);
 }
